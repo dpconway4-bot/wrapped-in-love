@@ -1,55 +1,63 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { createClient } from '@supabase/supabase-js';
 
-// Simple in-memory store for journal entries
-// Using a module-level Map so it persists across warm function invocations
-// For a production app, replace with a database like Vercel KV or Supabase
+const supabase = createClient(
+  process.env.SUPABASE_URL || '',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+);
 
-interface JournalEntry {
-  id: number;
-  day: number;
-  content: string;
-  createdAt: string;
-}
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-// We use Vercel KV if available, otherwise fall back to module-level Map
-// This approach works perfectly for a personal devotional app
-const entries = new Map<number, JournalEntry>();
-let nextId = 1;
+  if (req.method === 'OPTIONS') return res.status(200).end();
 
-export default function handler(req: VercelRequest, res: VercelResponse) {
-  // Enable CORS
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
+  // Get user from Authorization header (Supabase JWT)
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  if (req.method === "GET") {
-    const all = Array.from(entries.values());
-    return res.status(200).json(all);
+  const token = authHeader.replace('Bearer ', '');
+  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+  if (authError || !user) {
+    return res.status(401).json({ error: 'Invalid token' });
   }
 
-  if (req.method === "POST") {
+  if (req.method === 'GET') {
+    const { data, error } = await supabase
+      .from('journal_entries')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('day', { ascending: true });
+
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(200).json(data || []);
+  }
+
+  if (req.method === 'POST') {
     const { day, content } = req.body;
-    if (!day || !content) {
-      return res.status(400).json({ error: "day and content are required" });
+
+    if (!day || content === undefined) {
+      return res.status(400).json({ error: 'Missing day or content' });
     }
-    const existing = entries.get(Number(day));
-    if (existing) {
-      existing.content = content;
-      return res.status(200).json(existing);
-    }
-    const entry: JournalEntry = {
-      id: nextId++,
-      day: Number(day),
-      content: String(content),
-      createdAt: new Date().toISOString(),
-    };
-    entries.set(entry.day, entry);
-    return res.status(201).json(entry);
+
+    const { data, error } = await supabase
+      .from('journal_entries')
+      .upsert({
+        user_id: user.id,
+        day: parseInt(day),
+        content,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'user_id,day' })
+      .select()
+      .single();
+
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(200).json(data);
   }
 
-  return res.status(405).json({ error: "Method not allowed" });
+  return res.status(405).json({ error: 'Method not allowed' });
 }

@@ -11,8 +11,9 @@
     }
   ],
   "routes": [
+    { "src": "/api/webhook", "dest": "/api/webhook.ts" },
     { "src": "/api/journal/([^/]+)", "dest": "/api/journal/[day].ts" },
     { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/dist/public/$1" }
+    { "src": "/(.*)", "dest": "/dist/public/index.html" }
   ]
 }

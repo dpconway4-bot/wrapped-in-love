@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import type { JournalEntry } from "@shared/schema";
+import { supabase } from "@/lib/supabase";
 
 interface JournalPanelProps {
   day: number;
   prompt: string;
+}
+
+async function getAuthHeader(): Promise<Record<string, string>> {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token) return {};
+  return { Authorization: `Bearer ${session.access_token}` };
 }
 
 export function JournalPanel({ day, prompt }: JournalPanelProps) {
@@ -13,18 +18,26 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
   const [saved, setSaved] = useState(false);
   const qc = useQueryClient();
 
-  const { data: existing } = useQuery<JournalEntry | null>({
+  const { data: existing } = useQuery<{ day: number; content: string } | null>({
     queryKey: ["/api/journal", day],
-    queryFn: () => apiRequest("GET", `/api/journal/${day}`).then(r => r.json()),
+    queryFn: async () => {
+      const headers = await getAuthHeader();
+      const res = await fetch(`/api/journal/${day}`, { headers });
+      if (!res.ok) return null;
+      return res.json();
+    },
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (content: string) =>
-      apiRequest("POST", "/api/journal", {
-        day,
-        content,
-        createdAt: new Date().toISOString(),
-      }).then(r => r.json()),
+    mutationFn: async (content: string) => {
+      const headers = await getAuthHeader();
+      const res = await fetch("/api/journal", {
+        method: "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ day, content }),
+      });
+      return res.json();
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["/api/journal", day] });
       setSaved(true);

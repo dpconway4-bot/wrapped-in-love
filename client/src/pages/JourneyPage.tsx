@@ -19,7 +19,7 @@ export default function JourneyPage() {
       style={{ background: "var(--color-bg)", maxWidth: "500px", margin: "0 auto", width: "100%" }}
     >
       <header className="flex items-center justify-between px-6 pt-8 pb-4">
-        <Link href="/">
+        <Link href="/home">
           <button
             className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase"
             style={{ color: "var(--color-rose)" }}

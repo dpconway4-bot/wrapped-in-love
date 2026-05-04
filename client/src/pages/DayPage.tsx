@@ -26,7 +26,7 @@ export default function DayPage() {
       <div className="min-h-dvh flex items-center justify-center px-6">
         <div className="text-center">
           <p className="font-display text-xl" style={{ color: "var(--color-cream)" }}>Day not found.</p>
-          <Link href="/"><button className="mt-4 text-sm" style={{ color: "var(--color-gold)" }}>← Home</button></Link>
+          <Link href="/home"><button className="mt-4 text-sm" style={{ color: "var(--color-gold)" }}>← Home</button></Link>
         </div>
       </div>
     );
@@ -47,7 +47,7 @@ export default function DayPage() {
       style={{ background: "var(--color-bg)", maxWidth: "500px", margin: "0 auto", width: "100%" }}
     >
       <header className="flex items-center justify-between px-6 pt-8 pb-4">
-        <Link href="/">
+        <Link href="/home">
           <button
             className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase transition-opacity hover:opacity-70"
             style={{ color: "var(--color-rose)" }}
@@ -194,7 +194,7 @@ export default function DayPage() {
               </button>
             </Link>
           ) : (
-            <Link href="/">
+            <Link href="/home">
               <button className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase" style={{ color: "var(--color-gold)" }} data-testid="btn-home">
                 Home
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -248,7 +248,7 @@ function CarryDay({ dayData, weekNum, characteristic }: {
       style={{ background: "var(--color-bg)", maxWidth: "500px", margin: "0 auto", width: "100%" }}
     >
       <header className="flex items-center justify-between px-6 pt-8 pb-4">
-        <Link href="/">
+        <Link href="/home">
           <button className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase" style={{ color: "var(--color-rose)" }} data-testid="btn-back">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M19 12H5M12 5l-7 7 7 7"/>
@@ -277,7 +277,7 @@ function CarryDay({ dayData, weekNum, characteristic }: {
         <JournalPanel day={dayData.day} prompt={dayData.prompt} />
 
         <div className="flex gap-4 mt-10">
-          <Link href="/">
+          <Link href="/home">
             <button
               className="px-6 py-3 rounded-full text-[11px] tracking-[0.25em] uppercase transition-all"
               style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
