@@ -1,16 +1,11 @@
 node_modules/
-dist/
-.vite/
-
-# SQLite database files — never commit; exposes demo data at rest
-data.db
-data.db-shm
-data.db-wal
-data.db-journal
-
+sqlite.db
 .env
-.env.*
-!.env.example
+.vercel
 
-*.log
-.DS_Store
+# Exclude large audio source files — audio is bundled into dist/public already
+attached_assets/
+
+# Keep dist/public for Vercel (pre-built, includes all audio assets)
+!dist/
+!dist/public/

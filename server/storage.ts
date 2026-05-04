@@ -1,32 +1,49 @@
-import { users } from '@shared/schema';
-import type { User, InsertUser } from '@shared/schema';
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
+import * as schema from "@shared/schema";
 import { eq } from "drizzle-orm";
+import type { InsertJournalEntry, JournalEntry } from "@shared/schema";
 
-const sqlite = new Database("data.db");
-sqlite.pragma("journal_mode = WAL");
+const sqlite = new Database("sqlite.db");
+export const db = drizzle(sqlite, { schema });
 
-export const db = drizzle(sqlite);
+// Create tables if they don't exist
+sqlite.exec(`
+  CREATE TABLE IF NOT EXISTS journal_entries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    day INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    created_at TEXT NOT NULL
+  )
+`);
 
 export interface IStorage {
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getJournalEntries(): JournalEntry[];
+  getJournalEntryByDay(day: number): JournalEntry | undefined;
+  createJournalEntry(entry: InsertJournalEntry): JournalEntry;
+  updateJournalEntry(id: number, content: string): JournalEntry | undefined;
 }
 
-export class DatabaseStorage implements IStorage {
-  async getUser(id: number): Promise<User | undefined> {
-    return db.select().from(users).where(eq(users.id, id)).get();
+export class Storage implements IStorage {
+  getJournalEntries(): JournalEntry[] {
+    return db.select().from(schema.journalEntries).all();
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return db.select().from(users).where(eq(users.username, username)).get();
+  getJournalEntryByDay(day: number): JournalEntry | undefined {
+    return db.select().from(schema.journalEntries)
+      .where(eq(schema.journalEntries.day, day)).get();
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    return db.insert(users).values(insertUser).returning().get();
+  createJournalEntry(entry: InsertJournalEntry): JournalEntry {
+    return db.insert(schema.journalEntries).values(entry).returning().get();
+  }
+
+  updateJournalEntry(id: number, content: string): JournalEntry | undefined {
+    return db.update(schema.journalEntries)
+      .set({ content })
+      .where(eq(schema.journalEntries.id, id))
+      .returning().get();
   }
 }
 
-export const storage = new DatabaseStorage();
+export const storage = new Storage();
