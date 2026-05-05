@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email,
       password,
       options: {
-        emailRedirectTo: 'https://wrappedinlove.app',
+        emailRedirectTo: 'https://wrappedinlove.app/welcome',
       },
     });
     return { error: error?.message ?? null };
