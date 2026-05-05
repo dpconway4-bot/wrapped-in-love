@@ -170,7 +170,7 @@ export default function LoginPage() {
           New here?
         </p>
         <a
-          href="https://buy.stripe.com/cNi4gz4CA1QffiwdOkafS03"
+          href="https://100-days-in-love.pages.dev"
           target="_blank"
           rel="noopener noreferrer"
           style={{
