@@ -171,7 +171,9 @@ export default function LoginPage() {
 
       {/* Purchase CTA */}
       <a
-        href="https://wrappedinlove.app/welcome"
+        href="https://buy.stripe.com/cNi4gz4CA1QffiwdOkafS03"
+        target="_blank"
+        rel="noopener noreferrer"
         style={{
           fontFamily: 'Jost, sans-serif',
           fontSize: '0.85rem',
