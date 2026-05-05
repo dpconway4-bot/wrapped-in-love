@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { LogoWordmark } from "@/components/Logo";
 import { getDayData, getWeekForDay, TOTAL_DAYS } from "@/data/index";
 import { useAuth } from "@/context/AuthContext";
@@ -55,6 +55,7 @@ function computeCurrentDay(createdAt: string | undefined): number {
 
 export default function AnchorPage() {
   const { user, session, signOut } = useAuth();
+  const [, navigate] = useLocation();
   const [todayDay, setTodayDay] = useState<number>(-6);
   const [billingLoading, setBillingLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -188,6 +189,7 @@ export default function AnchorPage() {
                   onClick={async () => {
                     setMenuOpen(false);
                     await signOut();
+                    navigate('/login');
                   }}
                   style={{
                     display: 'block',
