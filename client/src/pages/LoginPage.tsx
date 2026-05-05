@@ -164,26 +164,26 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {/* Divider */}
-      <div style={{ margin: '2rem 0 1.5rem', color: '#CF9699', fontFamily: 'Jost, sans-serif', fontSize: '0.8rem' }}>
-        New here?
+      {/* New user CTA */}
+      <div style={{ margin: '2rem 0 0', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.8rem', color: '#CF9699', marginBottom: '0.5rem' }}>
+          New here?
+        </p>
+        <a
+          href="https://buy.stripe.com/cNi4gz4CA1QffiwdOkafS03"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontFamily: 'Jost, sans-serif',
+            fontSize: '0.85rem',
+            color: '#FAB24D',
+            textDecoration: 'underline',
+            textUnderlineOffset: '3px',
+          }}
+        >
+          Begin your 100-day journey →
+        </a>
       </div>
-
-      {/* Purchase CTA */}
-      <a
-        href="https://buy.stripe.com/cNi4gz4CA1QffiwdOkafS03"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          fontFamily: 'Jost, sans-serif',
-          fontSize: '0.85rem',
-          color: '#FAB24D',
-          textDecoration: 'underline',
-          textUnderlineOffset: '3px',
-        }}
-      >
-        Begin your 100-day journey →
-      </a>
 
       {/* Scripture */}
       <p style={{
