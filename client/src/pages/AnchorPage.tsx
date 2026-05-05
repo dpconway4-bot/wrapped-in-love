@@ -5,6 +5,19 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
+async function openBillingPortal(token: string) {
+  const res = await fetch('/api/billing', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  const data = await res.json();
+  if (data.url) {
+    window.location.href = data.url;
+  } else {
+    alert('Could not open billing portal. Please email hello@wrappedinlove.com for help.');
+  }
+}
+
 function getDayOfWeek() {
   return new Date().toLocaleDateString("en-US", { weekday: "long" });
 }
@@ -41,8 +54,9 @@ function computeCurrentDay(createdAt: string | undefined): number {
 }
 
 export default function AnchorPage() {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [todayDay, setTodayDay] = useState<number>(-6);
+  const [billingLoading, setBillingLoading] = useState(false);
 
   useEffect(() => {
     async function loadStartDay() {
@@ -94,15 +108,31 @@ export default function AnchorPage() {
       {/* Header */}
       <header className="flex items-center justify-between px-6 pt-8 pb-4 opacity-0-initial animate-fade-in">
         <LogoWordmark />
-        <Link href="/journey">
+        <div className="flex items-center gap-2">
+          <Link href="/journey">
+            <button
+              className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
+              style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
+              data-testid="btn-journey"
+            >
+              Journey
+            </button>
+          </Link>
           <button
+            data-testid="btn-manage-subscription"
+            onClick={async () => {
+              if (!session?.access_token) return;
+              setBillingLoading(true);
+              await openBillingPortal(session.access_token);
+              setBillingLoading(false);
+            }}
+            disabled={billingLoading}
             className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
-            style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
-            data-testid="btn-journey"
+            style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)", opacity: billingLoading ? 0.5 : 1 }}
           >
-            Journey
+            {billingLoading ? '...' : 'Account'}
           </button>
-        </Link>
+        </div>
       </header>
 
       {/* Date */}
