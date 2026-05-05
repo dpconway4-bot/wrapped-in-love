@@ -1,15 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "dist/public/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "api/**/*.ts",
-      "use": "@vercel/node@3.2.22"
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "@vercel/node@3.2.22"
     }
-  ],
+  },
   "routes": [
     { "src": "/api/webhook", "dest": "/api/webhook.ts" },
     { "src": "/api/journal/([^/]+)", "dest": "/api/journal/[day].ts" },
