@@ -5,10 +5,17 @@
       "runtime": "@vercel/node@3.2.22"
     }
   },
-  "rewrites": [
-    { "source": "/api/webhook", "destination": "/api/webhook.ts" },
-    { "source": "/api/journal/:day", "destination": "/api/journal/[day].ts" },
-    { "source": "/api/:path*", "destination": "/api/:path*" },
-    { "source": "/((?!api/).*)", "destination": "/public/index.html" }
+  "routes": [
+    { "src": "/api/webhook", "dest": "/api/webhook.ts" },
+    { "src": "/api/journal/([^/]+)", "dest": "/api/journal/[day].ts" },
+    { "src": "/api/(.*)", "dest": "/api/$1.ts" },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
