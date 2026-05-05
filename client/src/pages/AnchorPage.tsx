@@ -1,10 +1,9 @@
 import { Link } from "wouter";
 import { LogoWordmark } from "@/components/Logo";
 import { getDayData, getWeekForDay, TOTAL_DAYS } from "@/data/index";
-
-// In production this would be computed from the user's start date.
-// For the prototype, Day 1 is always today.
-const TODAY_DAY = 1;
+import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 function getDayOfWeek() {
   return new Date().toLocaleDateString("en-US", { weekday: "long" });
@@ -13,14 +12,79 @@ function getDate() {
   return new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" });
 }
 
+// Compute what day the user should be on based on their account creation date.
+// New users (< 1 day since signup) start at intro Day -6.
+// Otherwise, compute elapsed days from start date stored in user metadata.
+function computeCurrentDay(createdAt: string | undefined): number {
+  if (!createdAt) return -6;
+
+  const signupDate = new Date(createdAt);
+  const now = new Date();
+  const msSinceSignup = now.getTime() - signupDate.getTime();
+  const daysSinceSignup = Math.floor(msSinceSignup / (1000 * 60 * 60 * 24));
+
+  // Days -6 to -1 = intro (days 0–5 since signup)
+  // Day 1 starts on day 6 since signup (after intro)
+  if (daysSinceSignup < 6) {
+    return -6 + daysSinceSignup; // -6, -5, -4, -3, -2, -1
+  }
+
+  // Day 1–91 = main journey (days 6–96 since signup)
+  const mainDay = daysSinceSignup - 5; // day 6 since signup = Day 1
+  if (mainDay <= 91) return mainDay;
+
+  // Days 92–100 = conclusion
+  if (mainDay <= 100) return mainDay;
+
+  // Beyond 100 — loop back to Day 1 for restart
+  return ((mainDay - 1) % 100) + 1;
+}
+
 export default function AnchorPage() {
+  const { user } = useAuth();
+  const [todayDay, setTodayDay] = useState<number>(-6);
+
+  useEffect(() => {
+    async function loadStartDay() {
+      if (!user) return;
+
+      // Get the user's created_at from Supabase auth
+      const { data: { user: fullUser } } = await supabase.auth.getUser();
+      const createdAt = fullUser?.created_at;
+      const computed = computeCurrentDay(createdAt);
+      setTodayDay(computed);
+    }
+    loadStartDay();
+  }, [user]);
+
+  const TODAY_DAY = todayDay;
   const todayData = getDayData(TODAY_DAY);
   const currentWeek = getWeekForDay(TODAY_DAY);
-  const journeyProgress = Math.round((TODAY_DAY / TOTAL_DAYS) * 100);
+
+  // For progress bar: intro days count as 0, main journey 1-91, conclusion 92-100
+  const progressDay = TODAY_DAY <= 0 ? 0 : TODAY_DAY;
+  const journeyProgress = Math.round((progressDay / TOTAL_DAYS) * 100);
 
   if (!todayData || !currentWeek) return null;
 
   const weekDays = currentWeek.days;
+  const isIntro = TODAY_DAY <= 0;
+  const isConclusion = TODAY_DAY >= 92;
+
+  // Display label for the section
+  const sectionLabel = isIntro
+    ? "The Growth Spurt"
+    : isConclusion
+    ? "Wrapped In Love"
+    : `Love Is${(currentWeek as any).characteristic ? '' : ''}`;
+
+  const heroTitle = isIntro ? (
+    <>The Growth<br /><span style={{ color: "var(--color-gold)" }}>Spurt.</span></>
+  ) : isConclusion ? (
+    <>Wrapped In<br /><span style={{ color: "var(--color-gold)" }}>Love.</span></>
+  ) : (
+    <>Love Is<br /><span style={{ color: "var(--color-gold)" }}>{(currentWeek as any).characteristic}.</span></>
+  );
 
   return (
     <div
@@ -53,7 +117,11 @@ export default function AnchorPage() {
         {/* Series label */}
         <div className="mb-2 opacity-0-initial animate-fade-up delay-200">
           <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: "var(--color-rose)" }}>
-            100 Days In Love · Day {TODAY_DAY}
+            {isIntro
+              ? `The Growth Spurt · Day ${TODAY_DAY}`
+              : isConclusion
+              ? `Wrapped In Love · Day ${TODAY_DAY}`
+              : `100 Days In Love · Day ${TODAY_DAY}`}
           </p>
         </div>
 
@@ -63,10 +131,7 @@ export default function AnchorPage() {
             className="font-display text-[2.8rem] font-light leading-tight"
             style={{ color: "var(--color-cream)", letterSpacing: "-0.01em" }}
           >
-            Love Is<br />
-            <span style={{ color: "var(--color-gold)" }}>
-              {currentWeek.characteristic}.
-            </span>
+            {heroTitle}
           </h1>
         </div>
 
@@ -139,10 +204,14 @@ export default function AnchorPage() {
         {/* Week dots */}
         <div className="mt-10 opacity-0-initial animate-fade-in delay-600">
           <p className="text-[10px] tracking-[0.3em] uppercase mb-3 text-center" style={{ color: "var(--color-rose)" }}>
-            Week {currentWeek.days[0].day <= TODAY_DAY ? Math.ceil(TODAY_DAY / 7) : 1} · Love Is {currentWeek.characteristic}
+            {isIntro
+              ? "The Growth Spurt · Introduction"
+              : isConclusion
+              ? "Wrapped In Love · Conclusion"
+              : `Week ${Math.ceil(TODAY_DAY / 7)} · Love Is ${(currentWeek as any).characteristic}`}
           </p>
           <div className="flex justify-center gap-2">
-            {weekDays.map(d => (
+            {weekDays.map((d: any) => (
               <Link href={`/day/${d.day}`} key={d.day}>
                 <button
                   data-testid={`dot-day-${d.day}`}
@@ -172,7 +241,7 @@ export default function AnchorPage() {
               100 Days In Love
             </span>
             <span className="text-[10px]" style={{ color: "var(--color-rose)" }}>
-              Day {TODAY_DAY} of {TOTAL_DAYS}
+              {isIntro ? `Intro · Day ${TODAY_DAY}` : `Day ${TODAY_DAY} of ${TOTAL_DAYS}`}
             </span>
           </div>
           <div className="h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(250,178,77,0.12)" }}>

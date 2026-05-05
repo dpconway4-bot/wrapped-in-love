@@ -291,7 +291,7 @@ function CharRow({
   const isLocked   = char.week > currentWeek;
   const isNotType  = char.type === "is not";
   const firstDay   = (char.week - 1) * 7 + 1;
-  const isClickable = isActive || isComplete;
+  const isClickable = true; // All weeks are clickable
 
   const inner = (
     <div
@@ -307,7 +307,7 @@ function CharRow({
           : isComplete
           ? "1px solid rgba(25,59,137,0.4)"
           : "1px solid rgba(255,255,255,0.04)",
-        cursor: isClickable ? "pointer" : "default",
+        cursor: "pointer",
       }}
       data-testid={`char-row-${char.id}`}
     >
