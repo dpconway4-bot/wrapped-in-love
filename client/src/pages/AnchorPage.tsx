@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { LogoWordmark } from "@/components/Logo";
 import { getDayData, getWeekForDay, TOTAL_DAYS } from "@/data/index";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 
 async function openBillingPortal(token: string) {
@@ -54,9 +54,22 @@ function computeCurrentDay(createdAt: string | undefined): number {
 }
 
 export default function AnchorPage() {
-  const { user, session } = useAuth();
+  const { user, session, signOut } = useAuth();
   const [todayDay, setTodayDay] = useState<number>(-6);
   const [billingLoading, setBillingLoading] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     async function loadStartDay() {
@@ -118,20 +131,83 @@ export default function AnchorPage() {
               Journey
             </button>
           </Link>
-          <button
-            data-testid="btn-manage-subscription"
-            onClick={async () => {
-              if (!session?.access_token) return;
-              setBillingLoading(true);
-              await openBillingPortal(session.access_token);
-              setBillingLoading(false);
-            }}
-            disabled={billingLoading}
-            className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
-            style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)", opacity: billingLoading ? 0.5 : 1 }}
-          >
-            {billingLoading ? '...' : 'Account'}
-          </button>
+          <div ref={menuRef} style={{ position: 'relative' }}>
+            <button
+              data-testid="btn-account-menu"
+              onClick={() => setMenuOpen(o => !o)}
+              className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
+              style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
+            >
+              Account
+            </button>
+            {menuOpen && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 8px)',
+                  right: 0,
+                  background: 'var(--color-surface)',
+                  border: '1px solid rgba(250,178,77,0.18)',
+                  borderRadius: '12px',
+                  boxShadow: '0 8px 32px rgba(13,28,67,0.5)',
+                  minWidth: '180px',
+                  zIndex: 50,
+                  overflow: 'hidden',
+                }}
+              >
+                <button
+                  data-testid="btn-manage-subscription"
+                  onClick={async () => {
+                    setMenuOpen(false);
+                    if (!session?.access_token) return;
+                    setBillingLoading(true);
+                    await openBillingPortal(session.access_token);
+                    setBillingLoading(false);
+                  }}
+                  disabled={billingLoading}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '12px 16px',
+                    background: 'none',
+                    border: 'none',
+                    borderBottom: '1px solid rgba(250,178,77,0.1)',
+                    color: 'var(--color-cream)',
+                    fontFamily: 'Jost, sans-serif',
+                    fontSize: '0.8rem',
+                    letterSpacing: '0.08em',
+                    cursor: 'pointer',
+                    opacity: billingLoading ? 0.5 : 1,
+                  }}
+                >
+                  {billingLoading ? 'Loading...' : 'Manage Subscription'}
+                </button>
+                <button
+                  data-testid="btn-sign-out"
+                  onClick={async () => {
+                    setMenuOpen(false);
+                    await signOut();
+                  }}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '12px 16px',
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--color-rose)',
+                    fontFamily: 'Jost, sans-serif',
+                    fontSize: '0.8rem',
+                    letterSpacing: '0.08em',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
