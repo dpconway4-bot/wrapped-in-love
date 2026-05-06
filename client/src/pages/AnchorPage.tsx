@@ -226,7 +226,7 @@ export default function AnchorPage() {
         <div className="mb-2 opacity-0-initial animate-fade-up delay-200">
           <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: "var(--color-rose)" }}>
             {isIntro
-              ? `The Growth Spurt · Day ${TODAY_DAY}`
+              ? `Introduction ${TODAY_DAY + 7}/6`
               : isConclusion
               ? `Wrapped In Love · Day ${TODAY_DAY}`
               : `100 Days In Love · Day ${TODAY_DAY}`}

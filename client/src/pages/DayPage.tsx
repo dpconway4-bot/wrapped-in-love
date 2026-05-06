@@ -67,7 +67,7 @@ export default function DayPage() {
         {/* Day label */}
         <div className="mb-2 opacity-0-initial animate-fade-in">
           <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: accentColor }}>
-            {weekLabel} · {dayData.day > 0 ? `Day ${dayData.day}` : "Before Day 1"} · {dayData.type}
+            {weekLabel} · {dayData.day > 0 ? `Day ${dayData.day}` : `Introduction ${dayData.day + 7}/6`} · {dayData.type}
           </p>
         </div>
 
