@@ -17,6 +17,7 @@ const inputStyle = {
   boxSizing: 'border-box' as const,
 };
 
+// Defined OUTSIDE component so it never remounts on re-render
 function PageWrapper({ children }: { children: React.ReactNode }) {
   return (
     <div
@@ -58,7 +59,6 @@ export default function WelcomePage() {
   const [loading, setLoading] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // ── Step 1: Send OTP ──
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -72,14 +72,11 @@ export default function WelcomePage() {
     }
   };
 
-  // ── Step 2: Handle 6-digit code input ──
   const handleCodeChange = (index: number, value: string) => {
-    // Only allow digits
     const digit = value.replace(/\D/g, '').slice(-1);
     const newCode = [...code];
     newCode[index] = digit;
     setCode(newCode);
-    // Auto-advance focus
     if (digit && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -100,7 +97,6 @@ export default function WelcomePage() {
     }
   };
 
-  // ── Step 2: Verify OTP ──
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = code.join('');
@@ -113,9 +109,8 @@ export default function WelcomePage() {
     const { error } = await verifyOtp(email, token);
     setLoading(false);
     if (error) {
-      setError('That code didn\'t work. Check your email and try again.');
+      setError("That code didn't work. Check your email and try again.");
     } else {
-      // Supabase session is now active — navigate into the app
       navigate('/home');
     }
   };
@@ -126,16 +121,16 @@ export default function WelcomePage() {
     setLoading(true);
     const { error } = await sendOtp(email);
     setLoading(false);
-    if (error) {
-      setError(error);
-    }
+    if (error) setError(error);
     inputRefs.current[0]?.focus();
   };
 
-  // ── Step 1: Email entry ──
-  if (step === 'email') {
-    return (
-      <PageWrapper>
+  // Both steps stay mounted — show/hide with CSS to prevent keyboard dismissal
+  return (
+    <PageWrapper>
+
+      {/* ── Step 1: Email ── */}
+      <div style={{ display: step === 'email' ? 'contents' : 'none' }}>
         <div className="mb-8 text-center max-w-xs">
           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2rem', fontWeight: 300, color: '#ffffff', lineHeight: 1.3, marginBottom: '0.75rem' }}>
             Your journey begins here.
@@ -147,14 +142,14 @@ export default function WelcomePage() {
 
         <form onSubmit={handleSendOtp} className="w-full max-w-sm flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="email" style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: '#CF9699' }}>
+            <label htmlFor="welcome-email" style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: '#CF9699' }}>
               Email
             </label>
             <input
-              id="email"
+              id="welcome-email"
               type="email"
               autoComplete="email"
-              required
+              required={step === 'email'}
               value={email}
               onChange={e => setEmail(e.target.value)}
               style={inputStyle}
@@ -164,7 +159,7 @@ export default function WelcomePage() {
             />
           </div>
 
-          {error && (
+          {error && step === 'email' && (
             <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#CF9699', textAlign: 'center' }}>
               {error}
             </p>
@@ -197,114 +192,112 @@ export default function WelcomePage() {
         <a href="/login" style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#FAB24D', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
           Sign in here →
         </a>
-      </PageWrapper>
-    );
-  }
-
-  // ── Step 2: Code entry ──
-  return (
-    <Wrapper>
-      <div className="mb-8 text-center max-w-xs">
-        <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2rem', fontWeight: 300, color: '#FAB24D', lineHeight: 1.3, marginBottom: '0.75rem' }}>
-          You're almost in.
-        </h1>
-        <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#CF9699', lineHeight: 1.7 }}>
-          We sent a 6-digit code to <strong style={{ color: '#ffffff' }}>{email}</strong>. Enter it below to begin.
-        </p>
       </div>
 
-      <form onSubmit={handleVerify} className="w-full max-w-sm flex flex-col gap-6">
-        {/* 6-digit code boxes */}
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }} onPaste={handleCodePaste}>
-          {code.map((digit, i) => (
-            <input
-              key={i}
-              ref={el => { inputRefs.current[i] = el; }}
-              type="text"
-              inputMode="numeric"
-              maxLength={1}
-              value={digit}
-              onChange={e => handleCodeChange(i, e.target.value)}
-              onKeyDown={e => handleCodeKeyDown(i, e)}
-              style={{
-                width: '48px',
-                height: '58px',
-                background: 'rgba(25, 59, 137, 0.25)',
-                border: digit ? '1px solid rgba(250, 178, 77, 0.7)' : '1px solid rgba(250, 178, 77, 0.25)',
-                borderRadius: '8px',
-                color: '#ffffff',
-                fontFamily: 'Jost, sans-serif',
-                fontSize: '1.5rem',
-                fontWeight: 600,
-                textAlign: 'center',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-              }}
-              onFocus={e => (e.target.style.borderColor = 'rgba(250, 178, 77, 0.8)')}
-              onBlur={e => (e.target.style.borderColor = digit ? 'rgba(250, 178, 77, 0.7)' : 'rgba(250, 178, 77, 0.25)')}
-              data-testid={`otp-input-${i}`}
-            />
-          ))}
+      {/* ── Step 2: Code entry ── */}
+      <div style={{ display: step === 'code' ? 'contents' : 'none' }}>
+        <div className="mb-8 text-center max-w-xs">
+          <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2rem', fontWeight: 300, color: '#FAB24D', lineHeight: 1.3, marginBottom: '0.75rem' }}>
+            You're almost in.
+          </h1>
+          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#CF9699', lineHeight: 1.7 }}>
+            We sent a 6-digit code to <strong style={{ color: '#ffffff' }}>{email}</strong>. Enter it below to begin.
+          </p>
         </div>
 
-        {error && (
-          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#CF9699', textAlign: 'center' }}>
-            {error}
-          </p>
-        )}
+        <form onSubmit={handleVerify} className="w-full max-w-sm flex flex-col gap-6">
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }} onPaste={handleCodePaste}>
+            {code.map((digit, i) => (
+              <input
+                key={i}
+                ref={el => { inputRefs.current[i] = el; }}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                onChange={e => handleCodeChange(i, e.target.value)}
+                onKeyDown={e => handleCodeKeyDown(i, e)}
+                style={{
+                  width: '48px',
+                  height: '58px',
+                  background: 'rgba(25, 59, 137, 0.25)',
+                  border: digit ? '1px solid rgba(250, 178, 77, 0.7)' : '1px solid rgba(250, 178, 77, 0.25)',
+                  borderRadius: '8px',
+                  color: '#ffffff',
+                  fontFamily: 'Jost, sans-serif',
+                  fontSize: '1.5rem',
+                  fontWeight: 600,
+                  textAlign: 'center',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                }}
+                onFocus={e => (e.target.style.borderColor = 'rgba(250, 178, 77, 0.8)')}
+                onBlur={e => (e.target.style.borderColor = digit ? 'rgba(250, 178, 77, 0.7)' : 'rgba(250, 178, 77, 0.25)')}
+                data-testid={`otp-input-${i}`}
+              />
+            ))}
+          </div>
+
+          {error && step === 'code' && (
+            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#CF9699', textAlign: 'center' }}>
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading || code.join('').length < 6}
+            style={{
+              background: (loading || code.join('').length < 6) ? 'rgba(250, 178, 77, 0.5)' : '#FAB24D',
+              color: '#0D1C43',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '0.9rem 1rem',
+              fontFamily: 'Jost, sans-serif',
+              fontWeight: 600,
+              fontSize: '0.95rem',
+              letterSpacing: '0.08em',
+              cursor: (loading || code.join('').length < 6) ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {loading ? 'Verifying...' : 'Begin the Journey'}
+          </button>
+        </form>
 
         <button
-          type="submit"
-          disabled={loading || code.join('').length < 6}
+          onClick={handleResend}
+          disabled={loading}
           style={{
-            background: (loading || code.join('').length < 6) ? 'rgba(250, 178, 77, 0.5)' : '#FAB24D',
-            color: '#0D1C43',
+            marginTop: '1.5rem',
+            background: 'none',
             border: 'none',
-            borderRadius: '8px',
-            padding: '0.9rem 1rem',
             fontFamily: 'Jost, sans-serif',
-            fontWeight: 600,
-            fontSize: '0.95rem',
-            letterSpacing: '0.08em',
-            cursor: (loading || code.join('').length < 6) ? 'not-allowed' : 'pointer',
+            fontSize: '0.8rem',
+            color: '#CF9699',
+            cursor: 'pointer',
+            textDecoration: 'underline',
+            textUnderlineOffset: '3px',
           }}
         >
-          {loading ? 'Verifying...' : 'Begin the Journey'}
+          Didn't get it? Resend code
         </button>
-      </form>
 
-      <button
-        onClick={handleResend}
-        disabled={loading}
-        style={{
-          marginTop: '1.5rem',
-          background: 'none',
-          border: 'none',
-          fontFamily: 'Jost, sans-serif',
-          fontSize: '0.8rem',
-          color: '#CF9699',
-          cursor: 'pointer',
-          textDecoration: 'underline',
-          textUnderlineOffset: '3px',
-        }}
-      >
-        Didn't get it? Resend code
-      </button>
+        <button
+          onClick={() => { setStep('email'); setError(''); setCode(['', '', '', '', '', '']); }}
+          style={{
+            marginTop: '0.75rem',
+            background: 'none',
+            border: 'none',
+            fontFamily: 'Jost, sans-serif',
+            fontSize: '0.8rem',
+            color: 'rgba(207, 150, 153, 0.5)',
+            cursor: 'pointer',
+          }}
+        >
+          ← Use a different email
+        </button>
+      </div>
 
-      <button
-        onClick={() => { setStep('email'); setError(''); setCode(['', '', '', '', '', '']); }}
-        style={{
-          marginTop: '0.75rem',
-          background: 'none',
-          border: 'none',
-          fontFamily: 'Jost, sans-serif',
-          fontSize: '0.8rem',
-          color: 'rgba(207, 150, 153, 0.5)',
-          cursor: 'pointer',
-        }}
-      >
-        ← Use a different email
-      </button>
     </PageWrapper>
   );
 }
