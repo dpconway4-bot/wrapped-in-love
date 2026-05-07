@@ -17,6 +17,36 @@ const inputStyle = {
   boxSizing: 'border-box' as const,
 };
 
+function PageWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="min-h-screen flex flex-col items-center justify-center px-6"
+      style={{ background: 'linear-gradient(180deg, #0D1C43 0%, #0a1530 100%)' }}
+    >
+      <div className="grain-overlay" aria-hidden="true" />
+      <div className="mb-8 flex flex-col items-center gap-3">
+        <Logo />
+        <p className="text-center text-sm tracking-widest uppercase" style={{ color: '#FAB24D', fontFamily: 'Jost, sans-serif', letterSpacing: '0.2em' }}>
+          100 Days In Love
+        </p>
+      </div>
+      {children}
+      <p style={{
+        marginTop: '3rem',
+        fontFamily: 'Cormorant Garamond, serif',
+        fontStyle: 'italic',
+        fontSize: '0.85rem',
+        color: 'rgba(207, 150, 153, 0.5)',
+        textAlign: 'center',
+        maxWidth: '260px',
+        lineHeight: 1.6,
+      }}>
+        "Love is patient. Love is kind." — 1 Corinthians 13:4
+      </p>
+    </div>
+  );
+}
+
 export default function WelcomePage() {
   const { sendOtp, verifyOtp } = useAuth();
   const [, navigate] = useLocation();
@@ -102,39 +132,10 @@ export default function WelcomePage() {
     inputRefs.current[0]?.focus();
   };
 
-  // ── Shared wrapper ──
-  const Wrapper = ({ children }: { children: React.ReactNode }) => (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center px-6"
-      style={{ background: 'linear-gradient(180deg, #0D1C43 0%, #0a1530 100%)' }}
-    >
-      <div className="grain-overlay" aria-hidden="true" />
-      <div className="mb-8 flex flex-col items-center gap-3">
-        <Logo />
-        <p className="text-center text-sm tracking-widest uppercase" style={{ color: '#FAB24D', fontFamily: 'Jost, sans-serif', letterSpacing: '0.2em' }}>
-          100 Days In Love
-        </p>
-      </div>
-      {children}
-      <p style={{
-        marginTop: '3rem',
-        fontFamily: 'Cormorant Garamond, serif',
-        fontStyle: 'italic',
-        fontSize: '0.85rem',
-        color: 'rgba(207, 150, 153, 0.5)',
-        textAlign: 'center',
-        maxWidth: '260px',
-        lineHeight: 1.6,
-      }}>
-        "Love is patient. Love is kind." — 1 Corinthians 13:4
-      </p>
-    </div>
-  );
-
   // ── Step 1: Email entry ──
   if (step === 'email') {
     return (
-      <Wrapper>
+      <PageWrapper>
         <div className="mb-8 text-center max-w-xs">
           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2rem', fontWeight: 300, color: '#ffffff', lineHeight: 1.3, marginBottom: '0.75rem' }}>
             Your journey begins here.
@@ -196,7 +197,7 @@ export default function WelcomePage() {
         <a href="/login" style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#FAB24D', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
           Sign in here →
         </a>
-      </Wrapper>
+      </PageWrapper>
     );
   }
 
@@ -304,6 +305,6 @@ export default function WelcomePage() {
       >
         ← Use a different email
       </button>
-    </Wrapper>
+    </PageWrapper>
   );
 }
