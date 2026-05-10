@@ -185,6 +185,22 @@ export default function LoginPage() {
         </a>
       </div>
 
+      {/* Trouble signing in */}
+      <div style={{ margin: '1rem 0 0', textAlign: 'center' }}>
+        <a
+          href="/welcome"
+          style={{
+            fontFamily: 'Jost, sans-serif',
+            fontSize: '0.8rem',
+            color: 'rgba(207, 150, 153, 0.6)',
+            textDecoration: 'underline',
+            textUnderlineOffset: '3px',
+          }}
+        >
+          Trouble signing in? Get a code sent to your email →
+        </a>
+      </div>
+
       {/* Scripture */}
       <p style={{
         marginTop: '3rem',

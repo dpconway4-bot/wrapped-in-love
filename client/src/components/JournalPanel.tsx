@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 
@@ -16,9 +16,11 @@ async function getAuthHeader(): Promise<Record<string, string>> {
 export function JournalPanel({ day, prompt }: JournalPanelProps) {
   const [text, setText] = useState("");
   const [saved, setSaved] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const qc = useQueryClient();
+  const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const { data: existing } = useQuery<{ day: number; content: string } | null>({
+  const { data: existing, isLoading } = useQuery<{ day: number; content: string } | null>({
     queryKey: ["/api/journal", day],
     queryFn: async () => {
       const headers = await getAuthHeader();
@@ -27,6 +29,16 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
       return res.json();
     },
   });
+
+  // Sync text state when existing entry loads (cross-device restore)
+  useEffect(() => {
+    if (!initialized && existing?.content) {
+      setText(existing.content);
+      setInitialized(true);
+    } else if (!initialized && existing !== undefined) {
+      setInitialized(true);
+    }
+  }, [existing, initialized]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (content: string) => {
@@ -45,7 +57,35 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
     },
   });
 
-  const value = text || existing?.content || "";
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newVal = e.target.value;
+    setText(newVal);
+    setSaved(false);
+    // Auto-save 2 seconds after user stops typing
+    if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+    autoSaveTimer.current = setTimeout(() => {
+      if (newVal.trim()) mutate(newVal);
+    }, 2000);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    e.target.style.borderColor = "rgba(250,178,77,0.12)";
+    // Save immediately on blur if there's content
+    if (text.trim()) {
+      if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+      mutate(text);
+    }
+  };
+
+  const value = text;
+
+  if (isLoading) {
+    return (
+      <div className="mt-8" data-testid="journal-panel">
+        <div className="h-24 rounded-xl animate-pulse" style={{ background: "rgba(25,59,137,0.15)" }} />
+      </div>
+    );
+  }
 
   return (
     <div className="mt-8" data-testid="journal-panel">
@@ -63,7 +103,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
 
       <textarea
         value={value}
-        onChange={e => { setText(e.target.value); setSaved(false); }}
+        onChange={handleChange}
         placeholder="This space is yours…"
         rows={4}
         data-testid="journal-textarea"
@@ -76,7 +116,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
           lineHeight: "1.7",
         }}
         onFocus={e => e.target.style.borderColor = "rgba(250,178,77,0.35)"}
-        onBlur={e => e.target.style.borderColor = "rgba(250,178,77,0.12)"}
+        onBlur={handleBlur}
       />
 
       <div className="flex justify-end mt-3">
@@ -86,7 +126,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
           </span>
         )}
         <button
-          onClick={() => mutate(value)}
+          onClick={() => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); mutate(value); }}
           disabled={!value.trim() || isPending}
           data-testid="btn-save-journal"
           className="px-5 py-2 rounded-full text-xs tracking-[0.15em] uppercase font-medium transition-all"
