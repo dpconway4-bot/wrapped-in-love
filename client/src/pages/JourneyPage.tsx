@@ -1,9 +1,10 @@
 import { Link } from "wouter";
+import { useState } from "react";
 import { LogoWordmark } from "@/components/Logo";
 import { ALL_CHARACTERISTICS, TOTAL_DAYS } from "@/data/index";
 import { useAuth } from "@/context/AuthContext";
 import { useBadges } from "@/hooks/useBadges";
-import { BADGE_DEFS } from "@/data/badges";
+import { BADGE_DEFS, type BadgeDef } from "@/data/badges";
 
 const TODAY_DAY = 1;
 const CURRENT_WEEK = Math.ceil(TODAY_DAY / 7);
@@ -17,6 +18,7 @@ export default function JourneyPage() {
   const { user } = useAuth();
   const { earned } = useBadges(user?.id);
   const journeyProgress = Math.round((TODAY_DAY / TOTAL_DAYS) * 100);
+  const [selectedBadge, setSelectedBadge] = useState<{ def: BadgeDef; isEarned: boolean } | null>(null);
 
   return (
     <div
@@ -242,12 +244,13 @@ export default function JourneyPage() {
                 return (
                   <div
                     key={def.id}
-                    title={isEarned ? `${def.name} — ${def.description}` : 'Not yet earned'}
+                    onClick={() => setSelectedBadge({ def, isEarned })}
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       gap: '6px',
+                      cursor: 'pointer',
                     }}
                   >
                     <div
@@ -292,6 +295,129 @@ export default function JourneyPage() {
             </div>
           )}
         </div>
+
+      {/* Badge detail modal */}
+      {selectedBadge && (
+        <div
+          onClick={() => setSelectedBadge(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 200,
+            background: 'rgba(13,28,67,0.85)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '32px 24px',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '300px',
+              background: 'linear-gradient(135deg, rgba(25,59,137,0.98) 0%, rgba(13,28,67,0.98) 100%)',
+              border: `1px solid ${selectedBadge.isEarned ? 'rgba(250,178,77,0.45)' : 'rgba(255,255,255,0.08)'}`,
+              borderRadius: '20px',
+              padding: '32px 24px',
+              textAlign: 'center',
+              boxShadow: '0 16px 48px rgba(13,28,67,0.7)',
+            }}
+          >
+            {/* Icon */}
+            <div style={{
+              width: '72px',
+              height: '72px',
+              borderRadius: '50%',
+              background: selectedBadge.isEarned ? 'rgba(250,178,77,0.15)' : 'rgba(13,28,67,0.6)',
+              border: selectedBadge.isEarned ? '1.5px solid rgba(250,178,77,0.5)' : '1.5px solid rgba(255,255,255,0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '2rem',
+              margin: '0 auto 16px',
+              opacity: selectedBadge.isEarned ? 1 : 0.35,
+              filter: selectedBadge.isEarned ? 'none' : 'grayscale(1)',
+              boxShadow: selectedBadge.isEarned ? '0 0 24px rgba(250,178,77,0.2)' : 'none',
+            }}>
+              {selectedBadge.def.icon}
+            </div>
+
+            {/* Status label */}
+            <p style={{
+              fontFamily: 'Jost, sans-serif',
+              fontSize: '0.65rem',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: selectedBadge.isEarned ? '#FAB24D' : 'rgba(207,150,153,0.4)',
+              marginBottom: '8px',
+            }}>
+              {selectedBadge.isEarned ? 'Earned' : 'Not Yet Earned'}
+            </p>
+
+            {/* Name */}
+            <h3 style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: '1.5rem',
+              fontWeight: 400,
+              color: '#ffffff',
+              lineHeight: 1.2,
+              marginBottom: '10px',
+            }}>
+              {selectedBadge.def.name}
+            </h3>
+
+            {/* Description */}
+            <p style={{
+              fontFamily: 'Jost, sans-serif',
+              fontSize: '0.82rem',
+              color: 'rgba(207,150,153,0.85)',
+              lineHeight: 1.65,
+              marginBottom: selectedBadge.isEarned ? '0' : '16px',
+            }}>
+              {selectedBadge.def.description}
+            </p>
+
+            {/* How to earn — only shown if not yet earned */}
+            {!selectedBadge.isEarned && (
+              <p style={{
+                fontFamily: 'Jost, sans-serif',
+                fontSize: '0.75rem',
+                color: 'rgba(250,178,77,0.5)',
+                lineHeight: 1.6,
+                fontStyle: 'italic',
+              }}>
+                {selectedBadge.def.earnedAtDay !== undefined
+                  ? selectedBadge.def.earnedAtDay <= 0
+                    ? `Earned when you begin the introduction`
+                    : `Earned when you reach Day ${selectedBadge.def.earnedAtDay}`
+                  : selectedBadge.def.journalCount !== undefined
+                  ? `Earned after ${selectedBadge.def.journalCount} journal ${selectedBadge.def.journalCount === 1 ? 'entry' : 'entries'}`
+                  : ''}
+              </p>
+            )}
+
+            {/* Close */}
+            <button
+              onClick={() => setSelectedBadge(null)}
+              style={{
+                marginTop: '24px',
+                background: 'none',
+                border: '1px solid rgba(250,178,77,0.2)',
+                borderRadius: '20px',
+                padding: '8px 24px',
+                color: 'rgba(207,150,153,0.6)',
+                fontFamily: 'Jost, sans-serif',
+                fontSize: '0.75rem',
+                letterSpacing: '0.1em',
+                cursor: 'pointer',
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
         {/* Full scripture */}
         <div
