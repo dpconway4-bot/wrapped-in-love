@@ -34,21 +34,6 @@ function isDueToday(createdAt: string): boolean {
   return daysSince % 3 === 0;
 }
 
-// What local hour is it right now for a given IANA timezone?
-function getLocalHour(timezone: string): number {
-  try {
-    const parts = new Intl.DateTimeFormat('en-US', {
-      timeZone: timezone,
-      hour:     'numeric',
-      hour12:   false,
-    }).formatToParts(new Date());
-    const h = parts.find(p => p.type === 'hour');
-    return h ? parseInt(h.value, 10) : -1;
-  } catch {
-    return -1;
-  }
-}
-
 // ── Day labels ─────────────────────────────────────────────────────────────
 function getDayLabel(day: number): string {
   if (day <= 0) return `Introduction ${day + 7}/6`;
@@ -152,10 +137,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  // Fetch all users who have notifications enabled from user_preferences
+  // Fetch all users who have notifications enabled
+  // Timezone filtering removed — emails go out once daily at 5:30am ET for all opted-in users
   const { data: prefs, error: prefsError } = await supabase
     .from('user_preferences')
-    .select('user_id, timezone, email')
+    .select('user_id, email')
     .eq('email_notifications', true);
 
   if (prefsError) {
@@ -172,12 +158,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   for (const pref of prefs) {
     try {
-      const timezone = pref.timezone || 'America/Chicago';
-      const localHour = getLocalHour(timezone);
-
-      // Only send at 5am local time (window: 5:00–5:59)
-      if (localHour !== 5) continue;
-
       // Get user's created_at from auth.users
       const { data: userData } = await supabase.auth.admin.getUserById(pref.user_id);
       if (!userData?.user?.created_at) continue;

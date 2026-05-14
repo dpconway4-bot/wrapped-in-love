@@ -95,7 +95,7 @@ export function NotificationSettings({ userId, userEmail, onClose }: Props) {
       <div style={rowStyle}>
         <div>
           <p style={labelStyle}>Email Reminders</p>
-          <p style={subStyle}>Every 3 days · 5am your time</p>
+          <p style={subStyle}>Every 3 days · 5:30am ET</p>
         </div>
         <button
           onClick={() => setEnabled(e => !e)}
@@ -125,41 +125,6 @@ export function NotificationSettings({ userId, userEmail, onClose }: Props) {
           }} />
         </button>
       </div>
-
-      {/* Timezone selector — only shown when enabled */}
-      {enabled && (
-        <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
-          <p style={labelStyle}>Your Timezone</p>
-          <select
-            value={timezone}
-            onChange={e => setTimezone(e.target.value)}
-            style={{
-              width:        '100%',
-              background:   'rgba(25,59,137,0.3)',
-              border:       '1px solid rgba(250,178,77,0.2)',
-              borderRadius: '6px',
-              padding:      '8px 10px',
-              color:        'var(--color-cream)',
-              fontFamily:   'Jost, sans-serif',
-              fontSize:     '0.8rem',
-              outline:      'none',
-              cursor:       'pointer',
-            }}
-          >
-            {TIMEZONES.map(tz => (
-              <option key={tz.value} value={tz.value} style={{ background: '#0D1C43' }}>
-                {tz.label}
-              </option>
-            ))}
-            {/* Show detected timezone if not in list */}
-            {!TIMEZONES.find(tz => tz.value === timezone) && (
-              <option value={timezone} style={{ background: '#0D1C43' }}>
-                {timezone}
-              </option>
-            )}
-          </select>
-        </div>
-      )}
 
       {/* Save button */}
       <div style={{ padding: '12px 16px' }}>
