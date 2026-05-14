@@ -255,40 +255,55 @@ export default function AnchorPage() {
         </div>
       </header>
 
-      {/* Notification settings slide-in panel */}
+      {/* Notification settings — full screen modal */}
       {showNotifSettings && user && (
         <div
+          onClick={(e) => { if (e.target === e.currentTarget) setShowNotifSettings(false); }}
           style={{
-            margin: '0 16px 16px',
-            background: 'var(--color-surface)',
-            border: '1px solid rgba(250,178,77,0.18)',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: '0 4px 24px rgba(13,28,67,0.4)',
-          }}
-        >
-          <div style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 200,
+            background: 'rgba(13,28,67,0.85)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            borderBottom: '1px solid rgba(250,178,77,0.1)',
-          }}>
-            <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-gold)' }}>
-              Email Reminders
-            </span>
-            <button
-              onClick={() => setShowNotifSettings(false)}
-              style={{ background: 'none', border: 'none', color: 'rgba(207,150,153,0.5)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}
-            >
-              ✕
-            </button>
+            justifyContent: 'center',
+            padding: '24px',
+          }}
+        >
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '360px',
+              background: 'var(--color-surface)',
+              border: '1px solid rgba(250,178,77,0.25)',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              boxShadow: '0 8px 40px rgba(13,28,67,0.6)',
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '16px 16px',
+              borderBottom: '1px solid rgba(250,178,77,0.1)',
+            }}>
+              <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-gold)' }}>
+                Email Reminders
+              </span>
+              <button
+                onClick={() => setShowNotifSettings(false)}
+                style={{ background: 'none', border: 'none', color: 'rgba(207,150,153,0.5)', cursor: 'pointer', fontSize: '1.1rem', lineHeight: 1, padding: '4px' }}
+              >
+                ✕
+              </button>
+            </div>
+            <NotificationSettings
+              userId={user.id}
+              userEmail={user.email || ''}
+              onClose={() => setShowNotifSettings(false)}
+            />
           </div>
-          <NotificationSettings
-            userId={user.id}
-            userEmail={user.email || ''}
-            onClose={() => setShowNotifSettings(false)}
-          />
         </div>
       )}
 
