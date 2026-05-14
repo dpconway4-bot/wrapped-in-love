@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { useBadges } from "@/hooks/useBadges";
 import { BadgeToast } from "@/components/BadgeToast";
+import { NotificationSettings } from "@/components/NotificationSettings";
 
 async function openBillingPortal(token: string) {
   const res = await fetch('/api/billing', {
@@ -61,6 +62,7 @@ export default function AnchorPage() {
   const [todayDay, setTodayDay] = useState<number>(-6);
   const [billingLoading, setBillingLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showNotifSettings, setShowNotifSettings] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { newBadge, dismissBadge, checkBadges } = useBadges(user?.id);
 
@@ -203,6 +205,28 @@ export default function AnchorPage() {
                   {billingLoading ? 'Loading...' : 'Manage Subscription'}
                 </button>
                 <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setShowNotifSettings(s => !s);
+                  }}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '12px 16px',
+                    background: 'none',
+                    border: 'none',
+                    borderBottom: '1px solid rgba(250,178,77,0.1)',
+                    color: 'var(--color-cream)',
+                    fontFamily: 'Jost, sans-serif',
+                    fontSize: '0.8rem',
+                    letterSpacing: '0.08em',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Email Reminders
+                </button>
+                <button
                   data-testid="btn-sign-out"
                   onClick={async () => {
                     setMenuOpen(false);
@@ -230,6 +254,43 @@ export default function AnchorPage() {
           </div>
         </div>
       </header>
+
+      {/* Notification settings slide-in panel */}
+      {showNotifSettings && user && (
+        <div
+          style={{
+            margin: '0 16px 16px',
+            background: 'var(--color-surface)',
+            border: '1px solid rgba(250,178,77,0.18)',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            boxShadow: '0 4px 24px rgba(13,28,67,0.4)',
+          }}
+        >
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            borderBottom: '1px solid rgba(250,178,77,0.1)',
+          }}>
+            <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-gold)' }}>
+              Email Reminders
+            </span>
+            <button
+              onClick={() => setShowNotifSettings(false)}
+              style={{ background: 'none', border: 'none', color: 'rgba(207,150,153,0.5)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}
+            >
+              ✕
+            </button>
+          </div>
+          <NotificationSettings
+            userId={user.id}
+            userEmail={user.email || ''}
+            onClose={() => setShowNotifSettings(false)}
+          />
+        </div>
+      )}
 
       {/* Date */}
       <div className="px-6 pt-2 pb-6 opacity-0-initial animate-fade-in delay-100">
