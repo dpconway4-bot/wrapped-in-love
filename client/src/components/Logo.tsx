@@ -40,7 +40,7 @@ export function LogoWordmark({ className = "" }: { className?: string }) {
           className="text-[9px] tracking-[0.3em] uppercase font-light"
           style={{ color: "var(--color-rose)" }}
         >
-          Growth Spurt Ministries
+          Remarkable Impact
         </span>
       </div>
     </div>
