@@ -4,6 +4,8 @@ import { getDayData, getWeekForDay, TOTAL_DAYS } from "@/data/index";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
+import { useBadges } from "@/hooks/useBadges";
+import { BadgeToast } from "@/components/BadgeToast";
 
 async function openBillingPortal(token: string) {
   const res = await fetch('/api/billing', {
@@ -60,6 +62,7 @@ export default function AnchorPage() {
   const [billingLoading, setBillingLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const { newBadge, dismissBadge, checkBadges } = useBadges(user?.id);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -84,6 +87,20 @@ export default function AnchorPage() {
     }
     loadStartDay();
   }, [user]);
+
+  // Check for newly earned badges when day is computed
+  useEffect(() => {
+    if (todayDay === -6 || !user) return;
+
+    // Get journal count for this user
+    supabase
+      .from('journal_entries')
+      .select('day', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .then(({ count }) => {
+        checkBadges({ currentDay: todayDay, journalCount: count ?? 0 });
+      });
+  }, [todayDay, user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const TODAY_DAY = todayDay;
   const todayData = getDayData(TODAY_DAY);
@@ -119,6 +136,7 @@ export default function AnchorPage() {
       className="min-h-dvh flex flex-col"
       style={{ background: "var(--color-bg)", maxWidth: "500px", margin: "0 auto", width: "100%" }}
     >
+      <BadgeToast badge={newBadge} onDismiss={dismissBadge} />
       {/* Header */}
       <header className="flex items-center justify-between px-6 pt-8 pb-4 opacity-0-initial animate-fade-in">
         <LogoWordmark />

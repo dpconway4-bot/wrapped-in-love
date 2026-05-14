@@ -1,6 +1,9 @@
 import { Link } from "wouter";
 import { LogoWordmark } from "@/components/Logo";
 import { ALL_CHARACTERISTICS, TOTAL_DAYS } from "@/data/index";
+import { useAuth } from "@/context/AuthContext";
+import { useBadges } from "@/hooks/useBadges";
+import { BADGE_DEFS } from "@/data/badges";
 
 const TODAY_DAY = 1;
 const CURRENT_WEEK = Math.ceil(TODAY_DAY / 7);
@@ -11,6 +14,8 @@ const PART_2 = ALL_CHARACTERISTICS.filter(c => c.part === 2);
 const PART_3 = ALL_CHARACTERISTICS.filter(c => c.part === 3);
 
 export default function JourneyPage() {
+  const { user } = useAuth();
+  const { earned } = useBadges(user?.id);
   const journeyProgress = Math.round((TODAY_DAY / TOTAL_DAYS) * 100);
 
   return (
@@ -204,6 +209,88 @@ export default function JourneyPage() {
               </svg>
             </div>
           </Link>
+        </div>
+
+        {/* ── Badge Shelf ──────────────────────────────────────────────────── */}
+        <div className="mb-8 opacity-0-initial animate-fade-up delay-400">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px flex-1" style={{ background: 'rgba(250,178,77,0.15)' }} />
+            <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: 'var(--color-rose)' }}>
+              Your Badges
+            </span>
+            <div className="h-px flex-1" style={{ background: 'rgba(250,178,77,0.15)' }} />
+          </div>
+
+          {earned.length === 0 ? (
+            <p
+              className="text-center text-xs"
+              style={{ color: 'rgba(207,150,153,0.4)', fontFamily: 'Jost, sans-serif', fontStyle: 'italic' }}
+            >
+              Your first badge is waiting. Keep going.
+            </p>
+          ) : (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '12px',
+              }}
+            >
+              {BADGE_DEFS.map(def => {
+                const earnedEntry = earned.find(e => e.badgeId === def.id);
+                const isEarned = !!earnedEntry;
+                return (
+                  <div
+                    key={def.id}
+                    title={isEarned ? `${def.name} — ${def.description}` : 'Not yet earned'}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '52px',
+                        height: '52px',
+                        borderRadius: '50%',
+                        background: isEarned
+                          ? 'rgba(250,178,77,0.12)'
+                          : 'rgba(13,28,67,0.6)',
+                        border: isEarned
+                          ? '1px solid rgba(250,178,77,0.4)'
+                          : '1px solid rgba(255,255,255,0.06)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: isEarned ? '1.4rem' : '1.2rem',
+                        opacity: isEarned ? 1 : 0.25,
+                        filter: isEarned ? 'none' : 'grayscale(1)',
+                        transition: 'all 0.3s ease',
+                        boxShadow: isEarned ? '0 0 16px rgba(250,178,77,0.15)' : 'none',
+                      }}
+                    >
+                      {def.icon}
+                    </div>
+                    <p
+                      style={{
+                        fontFamily: 'Jost, sans-serif',
+                        fontSize: '0.6rem',
+                        letterSpacing: '0.05em',
+                        textAlign: 'center',
+                        color: isEarned ? 'var(--color-gold)' : 'rgba(207,150,153,0.25)',
+                        lineHeight: 1.3,
+                        maxWidth: '56px',
+                      }}
+                    >
+                      {def.name}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Full scripture */}
