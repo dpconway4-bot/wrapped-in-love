@@ -39,8 +39,11 @@ export function NotificationSettings({ userId, userEmail, onClose }: Props) {
       .maybeSingle()
       .then(({ data }) => {
         if (data) {
-          setEnabled(data.email_notifications ?? false);
+          setEnabled(data.email_notifications ?? true);
           setTimezone(data.timezone || detectTimezone());
+        } else {
+          // No record yet — default to ON for new users
+          setEnabled(true);
         }
         setLoading(false);
       });

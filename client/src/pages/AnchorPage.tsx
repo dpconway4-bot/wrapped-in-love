@@ -66,16 +66,17 @@ export default function AnchorPage() {
   const menuRef = useRef<HTMLDivElement>(null);
   const { newBadge, dismissBadge, checkBadges } = useBadges(user?.id);
 
-  // Close menu when clicking outside
+  // Close menu when clicking outside — but NOT when the notif modal is open
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
+      if (showNotifSettings) return; // modal is open, don't interfere
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setMenuOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [showNotifSettings]);
 
   useEffect(() => {
     async function loadStartDay() {
