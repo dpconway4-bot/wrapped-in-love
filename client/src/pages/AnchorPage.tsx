@@ -236,16 +236,18 @@ export default function AnchorPage() {
 
                   {/* Sign Out */}
                   <div
-                    onTouchEnd={async (e) => {
+                    onTouchEnd={(e) => {
                       e.preventDefault();
                       setMenuOpen(false);
-                      await signOut();
-                      navigate('/login');
+                      signOut().then(() => {
+                        window.location.href = '/login';
+                      });
                     }}
-                    onClick={async () => {
+                    onClick={() => {
                       setMenuOpen(false);
-                      await signOut();
-                      navigate('/login');
+                      signOut().then(() => {
+                        window.location.href = '/login';
+                      });
                     }}
                     style={{
                       padding: '14px 16px',
