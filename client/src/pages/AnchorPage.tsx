@@ -63,21 +63,9 @@ export default function AnchorPage() {
   const [billingLoading, setBillingLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNotifSettings, setShowNotifSettings] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const { newBadge, dismissBadge, checkBadges } = useBadges(user?.id);
 
-  // Close menu when clicking outside — delayed so button clicks always fire first
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (showNotifSettings) return;
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        // Small delay lets the button's onClick fire before the menu closes
-        setTimeout(() => setMenuOpen(false), 150);
-      }
-    }
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [showNotifSettings]);
+  // No outside-click handler — menu closes via backdrop tap or button action
 
   useEffect(() => {
     async function loadStartDay() {
@@ -154,7 +142,7 @@ export default function AnchorPage() {
               Journey
             </button>
           </Link>
-          <div ref={menuRef} style={{ position: 'relative' }}>
+          <div style={{ position: 'relative' }}>
             <button
               data-testid="btn-account-menu"
               onClick={() => setMenuOpen(o => !o)}
@@ -164,6 +152,16 @@ export default function AnchorPage() {
               Account
             </button>
             {menuOpen && (
+              <>
+                {/* Invisible full-screen backdrop — tap outside to close */}
+                <div
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    position: 'fixed',
+                    inset: 0,
+                    zIndex: 49,
+                  }}
+                />
               <div
                 style={{
                   position: 'absolute',
@@ -175,7 +173,7 @@ export default function AnchorPage() {
                   boxShadow: '0 8px 32px rgba(13,28,67,0.5)',
                   minWidth: '180px',
                   zIndex: 50,
-                  overflow: 'hidden',
+                  overflow: 'visible',
                 }}
               >
                 <button
@@ -252,6 +250,7 @@ export default function AnchorPage() {
                   Sign Out
                 </button>
               </div>
+              </>
             )}
           </div>
         </div>
