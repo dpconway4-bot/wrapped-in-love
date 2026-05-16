@@ -153,103 +153,115 @@ export default function AnchorPage() {
             </button>
             {menuOpen && (
               <>
-                {/* Invisible full-screen backdrop — tap outside to close */}
+                {/* Backdrop */}
                 <div
+                  onTouchStart={() => setMenuOpen(false)}
                   onClick={() => setMenuOpen(false)}
-                  style={{
-                    position: 'fixed',
-                    inset: 0,
-                    zIndex: 49,
-                  }}
+                  style={{ position: 'fixed', inset: 0, zIndex: 48 }}
                 />
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 'calc(100% + 8px)',
-                  right: 0,
-                  background: 'var(--color-surface)',
-                  border: '1px solid rgba(250,178,77,0.18)',
-                  borderRadius: '12px',
-                  boxShadow: '0 8px 32px rgba(13,28,67,0.5)',
-                  minWidth: '180px',
-                  zIndex: 50,
-                  overflow: 'visible',
-                }}
-              >
-                <button
-                  data-testid="btn-manage-subscription"
-                  onClick={async () => {
-                    setMenuOpen(false);
-                    if (!session?.access_token) return;
-                    setBillingLoading(true);
-                    await openBillingPortal(session.access_token);
-                    setBillingLoading(false);
-                  }}
-                  disabled={billingLoading}
+                {/* Menu panel */}
+                <div
                   style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '12px 16px',
-                    background: 'none',
-                    border: 'none',
-                    borderBottom: '1px solid rgba(250,178,77,0.1)',
-                    color: 'var(--color-cream)',
-                    fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.8rem',
-                    letterSpacing: '0.08em',
-                    cursor: 'pointer',
-                    opacity: billingLoading ? 0.5 : 1,
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    right: 0,
+                    background: 'var(--color-surface)',
+                    border: '1px solid rgba(250,178,77,0.18)',
+                    borderRadius: '12px',
+                    boxShadow: '0 8px 32px rgba(13,28,67,0.5)',
+                    minWidth: '190px',
+                    zIndex: 100,
+                    overflow: 'hidden',
                   }}
                 >
-                  {billingLoading ? 'Loading...' : 'Manage Subscription'}
-                </button>
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setShowNotifSettings(s => !s);
-                  }}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '12px 16px',
-                    background: 'none',
-                    border: 'none',
-                    borderBottom: '1px solid rgba(250,178,77,0.1)',
-                    color: 'var(--color-cream)',
-                    fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.8rem',
-                    letterSpacing: '0.08em',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Email Reminders
-                </button>
-                <button
-                  data-testid="btn-sign-out"
-                  onClick={async () => {
-                    setMenuOpen(false);
-                    await signOut();
-                    navigate('/login');
-                  }}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '12px 16px',
-                    background: 'none',
-                    border: 'none',
-                    color: 'var(--color-rose)',
-                    fontFamily: 'Jost, sans-serif',
-                    fontSize: '0.8rem',
-                    letterSpacing: '0.08em',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Sign Out
-                </button>
-              </div>
+                  {/* Manage Subscription */}
+                  <div
+                    onTouchEnd={async (e) => {
+                      e.preventDefault();
+                      setMenuOpen(false);
+                      if (!session?.access_token) return;
+                      setBillingLoading(true);
+                      await openBillingPortal(session.access_token);
+                      setBillingLoading(false);
+                    }}
+                    onClick={async () => {
+                      setMenuOpen(false);
+                      if (!session?.access_token) return;
+                      setBillingLoading(true);
+                      await openBillingPortal(session.access_token);
+                      setBillingLoading(false);
+                    }}
+                    style={{
+                      padding: '14px 16px',
+                      borderBottom: '1px solid rgba(250,178,77,0.1)',
+                      color: 'var(--color-cream)',
+                      fontFamily: 'Jost, sans-serif',
+                      fontSize: '0.85rem',
+                      letterSpacing: '0.05em',
+                      cursor: 'pointer',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      WebkitTapHighlightColor: 'transparent',
+                    }}
+                  >
+                    {billingLoading ? 'Loading...' : 'Manage Subscription'}
+                  </div>
+
+                  {/* Email Reminders */}
+                  <div
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      setMenuOpen(false);
+                      setShowNotifSettings(s => !s);
+                    }}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setShowNotifSettings(s => !s);
+                    }}
+                    style={{
+                      padding: '14px 16px',
+                      borderBottom: '1px solid rgba(250,178,77,0.1)',
+                      color: 'var(--color-cream)',
+                      fontFamily: 'Jost, sans-serif',
+                      fontSize: '0.85rem',
+                      letterSpacing: '0.05em',
+                      cursor: 'pointer',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      WebkitTapHighlightColor: 'transparent',
+                    }}
+                  >
+                    Email Reminders
+                  </div>
+
+                  {/* Sign Out */}
+                  <div
+                    onTouchEnd={async (e) => {
+                      e.preventDefault();
+                      setMenuOpen(false);
+                      await signOut();
+                      navigate('/login');
+                    }}
+                    onClick={async () => {
+                      setMenuOpen(false);
+                      await signOut();
+                      navigate('/login');
+                    }}
+                    style={{
+                      padding: '14px 16px',
+                      color: 'var(--color-rose)',
+                      fontFamily: 'Jost, sans-serif',
+                      fontSize: '0.85rem',
+                      letterSpacing: '0.05em',
+                      cursor: 'pointer',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      WebkitTapHighlightColor: 'transparent',
+                    }}
+                  >
+                    Sign Out
+                  </div>
+                </div>
               </>
             )}
           </div>
