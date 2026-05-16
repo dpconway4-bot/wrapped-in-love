@@ -66,16 +66,17 @@ export default function AnchorPage() {
   const menuRef = useRef<HTMLDivElement>(null);
   const { newBadge, dismissBadge, checkBadges } = useBadges(user?.id);
 
-  // Close menu when clicking outside — but NOT when the notif modal is open
+  // Close menu when clicking outside — delayed so button clicks always fire first
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (showNotifSettings) return; // modal is open, don't interfere
+      if (showNotifSettings) return;
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
+        // Small delay lets the button's onClick fire before the menu closes
+        setTimeout(() => setMenuOpen(false), 150);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, [showNotifSettings]);
 
   useEffect(() => {
