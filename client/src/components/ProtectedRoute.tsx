@@ -3,7 +3,10 @@ import { useLocation } from 'wouter';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 
-const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/cNi4gz4CA1QffiwdOkafS03';
+const TRIAL_PAYMENT_LINK = 'https://buy.stripe.com/eVq14nfhe3Yn8U85hOafS04';
+const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/eVq14nfhe3Yn8U85hOafS04';
+
+type PurchaseStatus = 'active' | 'trialing' | 'past_due' | 'canceled' | null;
 
 function LoadingScreen() {
   return (
@@ -94,7 +97,7 @@ function PaywallScreen({ email }: { email: string }) {
         maxWidth: '280px',
         marginBottom: '2.5rem',
       }}>
-        Complete your purchase to unlock full access to 100 Days In Love.
+        Start your free 7-day trial today — no charge until day 8.
       </p>
 
       <a
@@ -116,7 +119,7 @@ function PaywallScreen({ email }: { email: string }) {
           marginBottom: '1.25rem',
         }}
       >
-        Start My Journey — $14.97/mo
+        Start Free Trial — 7 Days Free
       </a>
 
       <p style={{
@@ -144,11 +147,137 @@ function PaywallScreen({ email }: { email: string }) {
   );
 }
 
+function CanceledScreen({ email }: { email: string }) {
+  return (
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '2rem 1.5rem',
+      background: 'linear-gradient(180deg, #0D1C43 0%, #0a1530 100%)',
+      textAlign: 'center',
+    }}>
+      <div style={{
+        width: '56px',
+        height: '56px',
+        borderRadius: '50%',
+        border: '1.5px solid rgba(250, 178, 77, 0.4)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '1.5rem',
+      }}>
+        <span style={{ fontSize: '1.4rem' }}>♡</span>
+      </div>
+
+      <p style={{
+        fontFamily: 'Jost, sans-serif',
+        fontSize: '0.75rem',
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        color: '#FAB24D',
+        marginBottom: '1rem',
+      }}>
+        100 Days In Love
+      </p>
+
+      <h1 style={{
+        fontFamily: 'Cormorant Garamond, serif',
+        fontSize: '2rem',
+        fontWeight: 300,
+        color: '#ffffff',
+        lineHeight: 1.3,
+        marginBottom: '1rem',
+        maxWidth: '300px',
+      }}>
+        We'd love to have you back.
+      </h1>
+
+      <p style={{
+        fontFamily: 'Jost, sans-serif',
+        fontSize: '0.9rem',
+        color: '#CF9699',
+        lineHeight: 1.7,
+        maxWidth: '280px',
+        marginBottom: '2.5rem',
+      }}>
+        Your subscription for <strong style={{ color: '#ffffff' }}>{email}</strong> has ended. Resubscribe to continue your journey.
+      </p>
+
+      <a
+        href={TRIAL_PAYMENT_LINK}
+        style={{
+          display: 'block',
+          width: '100%',
+          maxWidth: '320px',
+          background: '#FAB24D',
+          color: '#0D1C43',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '0.9rem 1rem',
+          fontFamily: 'Jost, sans-serif',
+          fontWeight: 600,
+          fontSize: '0.95rem',
+          letterSpacing: '0.08em',
+          textDecoration: 'none',
+          marginBottom: '1.25rem',
+        }}
+      >
+        Resubscribe — $14.97/mo
+      </a>
+
+      <p style={{
+        marginTop: '3rem',
+        fontFamily: 'Cormorant Garamond, serif',
+        fontStyle: 'italic',
+        fontSize: '0.85rem',
+        color: 'rgba(207, 150, 153, 0.4)',
+        maxWidth: '260px',
+        lineHeight: 1.6,
+      }}>
+        "Love never gives up, never loses faith, is always hopeful."
+      </p>
+    </div>
+  );
+}
+
+// Banner shown when trial ends in 2 days or fewer
+function TrialBanner({ daysLeft }: { daysLeft: number }) {
+  const msg = daysLeft <= 0
+    ? 'Your free trial ends today. You\'ll be charged $14.97 tonight.'
+    : daysLeft === 1
+    ? 'Your free trial ends tomorrow. You\'ll be charged $14.97.'
+    : `Your free trial ends in ${daysLeft} days.`;
+
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 999,
+      background: '#FAB24D',
+      color: '#0D1C43',
+      fontFamily: 'Jost, sans-serif',
+      fontSize: '0.8rem',
+      fontWeight: 600,
+      letterSpacing: '0.04em',
+      textAlign: 'center',
+      padding: '8px 16px',
+    }}>
+      {msg}
+    </div>
+  );
+}
+
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const [, navigate] = useLocation();
   const [purchaseChecked, setPurchaseChecked] = useState(false);
-  const [hasPurchased, setHasPurchased] = useState(false);
+  const [status, setStatus] = useState<PurchaseStatus>(null);
+  const [trialEndsAt, setTrialEndsAt] = useState<string | null>(null);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -163,18 +292,44 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
     supabase
       .from('verified_purchasers')
-      .select('email')
+      .select('email, status, trial_ends_at')
       .eq('email', user.email.toLowerCase())
       .maybeSingle()
       .then(({ data }) => {
-        setHasPurchased(!!data);
+        if (data) {
+          setStatus((data.status as PurchaseStatus) ?? 'active');
+          setTrialEndsAt(data.trial_ends_at ?? null);
+        } else {
+          setStatus(null);
+        }
         setPurchaseChecked(true);
       });
   }, [user?.email]);
 
   if (loading || !user) return <LoadingScreen />;
   if (!purchaseChecked) return <LoadingScreen />;
-  if (!hasPurchased) return <PaywallScreen email={user.email} />;
 
-  return <>{children}</>;
+  // No record at all → paywall
+  if (status === null) return <PaywallScreen email={user.email} />;
+
+  // Canceled → resubscribe screen
+  if (status === 'canceled') return <CanceledScreen email={user.email} />;
+
+  // Calculate trial days remaining for banner
+  let trialDaysLeft: number | null = null;
+  if (status === 'trialing' && trialEndsAt) {
+    const msLeft = new Date(trialEndsAt).getTime() - Date.now();
+    trialDaysLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
+  }
+
+  const showBanner = trialDaysLeft !== null && trialDaysLeft <= 2;
+
+  return (
+    <>
+      {showBanner && <TrialBanner daysLeft={trialDaysLeft!} />}
+      <div style={showBanner ? { paddingTop: '36px' } : undefined}>
+        {children}
+      </div>
+    </>
+  );
 }
