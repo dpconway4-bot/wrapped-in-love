@@ -7,7 +7,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
-const CRON_SECRET   = process.env.CRON_SECRET || '';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || '',
@@ -132,8 +131,9 @@ function buildEmail({
 // ── Handler ────────────────────────────────────────────────────────────────
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Verify cron secret so only our scheduled task can call this
+  const CRON_SECRET = process.env.CRON_SECRET || '';
   const auth = req.headers['authorization'];
-  if (auth !== `Bearer ${CRON_SECRET}`) {
+  if (!CRON_SECRET || auth !== `Bearer ${CRON_SECRET}`) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
