@@ -95,6 +95,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } else {
         console.log(`Verified purchaser recorded: ${customerEmail} (status: ${status})`);
       }
+
+      // ── Write to trial_tracker table if this is a trial signup ──────────────
+      if (trialEndsAt) {
+        const customerName = session.customer_details?.name || '';
+        const nameParts = customerName.trim().split(' ');
+        const firstName = nameParts[0] || '';
+        const lastName = nameParts.slice(1).join(' ') || '';
+
+        const { error: trackerError } = await supabase
+          .from('trial_tracker')
+          .upsert({
+            email: customerEmail,
+            first_name: firstName,
+            last_name: lastName,
+            start_date: new Date().toISOString().split('T')[0],
+            trial_ends_at: trialEndsAt,
+            source: 'Stripe Checkout',
+            tracker_status: 'active',
+            days_active: 0,
+            last_active: new Date().toISOString().split('T')[0],
+            notes: '',
+          }, { onConflict: 'email' });
+
+        if (trackerError) {
+          console.error('Error writing to trial_tracker:', trackerError);
+        } else {
+          console.log(`Trial tracker entry created for: ${customerEmail}`);
+        }
+      }
     }
   }
 
@@ -102,6 +131,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Fires when trial converts to paid, or subscription status changes.
   if (event.type === 'customer.subscription.updated') {
     const sub = event.data.object as Stripe.Subscription;
+    const previousStatus = (event.data.previous_attributes as any)?.status;
     const customerId = sub.customer as string;
     const email = await getEmailFromCustomer(customerId);
 
@@ -118,6 +148,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.error('Error updating subscription status:', error);
       } else {
         console.log(`Subscription updated for ${email}: ${status}`);
+      }
+
+      // Sync to trial_tracker — mark converted when trial ends and sub goes active
+      if (sub.status === 'active' && previousStatus === 'trialing') {
+        await supabase
+          .from('trial_tracker')
+          .update({ tracker_status: 'converted', converted_date: new Date().toISOString().split('T')[0] })
+          .eq('email', email);
       }
     }
   }
@@ -139,6 +177,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.error('Error marking subscription canceled:', error);
       } else {
         console.log(`Subscription canceled for ${email}`);
+        // Sync cancellation to trial_tracker
+        await supabase
+          .from('trial_tracker')
+          .update({ tracker_status: 'cancelled' })
+          .eq('email', email);
       }
     }
   }
