@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 const TRIAL_PAYMENT_LINK = 'https://buy.stripe.com/eVq14nfhe3Yn8U85hOafS04';
 const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/eVq14nfhe3Yn8U85hOafS04';
 
-type PurchaseStatus = 'active' | 'trialing' | 'past_due' | 'canceled' | null;
+type PurchaseStatus = 'active' | 'trialing' | 'past_due' | 'canceled' | 'trial_expired' | null;
 
 function LoadingScreen() {
   return (
@@ -312,8 +312,8 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   // No record at all → paywall
   if (status === null) return <PaywallScreen email={user.email} />;
 
-  // Canceled → resubscribe screen
-  if (status === 'canceled') return <CanceledScreen email={user.email} />;
+  // Canceled or trial expired → resubscribe screen
+  if (status === 'canceled' || status === 'trial_expired') return <CanceledScreen email={user.email} />;
 
   // Calculate trial days remaining for banner
   let trialDaysLeft: number | null = null;

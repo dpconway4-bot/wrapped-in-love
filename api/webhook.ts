@@ -161,27 +161,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // ── customer.subscription.deleted ─────────────────────────────────────────
-  // Fires when a subscription is fully cancelled/expired.
+  // Fires when a subscription is fully cancelled OR when a trial expires.
+  // IMPORTANT: Only mark canceled if the user was an active paying subscriber.
+  // If the trial expired without converting, mark as 'trial_expired' instead
+  // so they see the resubscribe screen but we know the difference.
   if (event.type === 'customer.subscription.deleted') {
     const sub = event.data.object as Stripe.Subscription;
     const customerId = sub.customer as string;
     const email = await getEmailFromCustomer(customerId);
 
     if (email) {
+      // Check if this was a trial that expired (never converted to paid)
+      // sub.trial_end being set + cancellation_details reason = 'payment_failed' or null
+      // means it was a trial expiry, not an active subscriber cancelling
+      const wasTrialExpiry = !!sub.trial_end && sub.cancel_at_period_end === false
+        && (sub.cancellation_details?.reason === null || sub.cancellation_details?.reason === undefined);
+
+      const newStatus = wasTrialExpiry ? 'trial_expired' : 'canceled';
+
       const { error } = await supabase
         .from('verified_purchasers')
-        .update({ status: 'canceled' })
+        .update({ status: newStatus })
         .eq('email', email);
 
       if (error) {
-        console.error('Error marking subscription canceled:', error);
+        console.error('Error updating subscription status:', error);
       } else {
-        console.log(`Subscription canceled for ${email}`);
-        // Sync cancellation to trial_tracker
-        await supabase
-          .from('trial_tracker')
-          .update({ tracker_status: 'cancelled' })
-          .eq('email', email);
+        console.log(`Subscription ended for ${email}: ${newStatus}`);
+        // Only sync hard cancellations to trial_tracker, not trial expiries
+        if (newStatus === 'canceled') {
+          await supabase
+            .from('trial_tracker')
+            .update({ tracker_status: 'cancelled' })
+            .eq('email', email);
+        }
       }
     }
   }
