@@ -7,6 +7,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import LoginPage from "@/pages/LoginPage";
 import WelcomePage from "@/pages/WelcomePage";
 import AnchorPage from "@/pages/AnchorPage";
+import OnboardingPage, { shouldShowOnboarding } from "@/pages/OnboardingPage";
 import DayPage from "@/pages/DayPage";
 import JourneyPage from "@/pages/JourneyPage";
 import NotFound from "@/pages/not-found";
@@ -19,7 +20,12 @@ function RootRedirect() {
   useEffect(() => {
     if (!loading) {
       if (user) {
-        navigate("/home");
+        // First-time users see the Getting Started page once
+        if (shouldShowOnboarding()) {
+          navigate("/onboarding");
+        } else {
+          navigate("/home");
+        }
       } else {
         navigate("/login");
       }
@@ -36,6 +42,9 @@ function AppRoutes() {
       <Route path="/" component={RootRedirect} />
       <Route path="/login" component={LoginPage} />
       <Route path="/welcome" component={WelcomePage} />
+      <Route path="/onboarding">
+        <ProtectedRoute><OnboardingPage /></ProtectedRoute>
+      </Route>
 
       {/* Protected routes */}
       <Route path="/home">
