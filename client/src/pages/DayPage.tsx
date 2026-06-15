@@ -1,4 +1,5 @@
-import { Link, useParams } from "wouter";
+import { Link, useParams, useLocation } from "wouter";
+import { advanceIntroPage, markIntroComplete, isIntroComplete, INTRO_END } from "@/lib/introProgress";
 import { LogoWordmark } from "@/components/Logo";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { JournalPanel } from "@/components/JournalPanel";
@@ -16,10 +17,16 @@ const DAY_ACCENTS: Record<string, string> = {
 
 export default function DayPage() {
   const params  = useParams<{ day: string }>();
+  const [, navigate] = useLocation();
   const dayNum  = parseInt(params.day || "1");
   const dayData = getDayData(dayNum);
   const week    = getWeekForDay(dayNum);
   const weekNum = getWeekNumber(dayNum);
+
+  // Track intro progress when viewing intro pages
+  if (dayNum <= -1 && dayNum >= -6) {
+    advanceIntroPage(dayNum);
+  }
 
   if (!dayData || !week) {
     return (
@@ -35,9 +42,24 @@ export default function DayPage() {
   if (dayData.type === "The Carry") return <CarryDay dayData={dayData} weekNum={weekNum} characteristic={week.characteristic} />;
 
   const accentColor = DAY_ACCENTS[dayData.type] || "var(--color-cream)";
-  // Navigation: intro days are negative, conclusion days are 92–100, core days are 1–91
-  const nextDay     = dayNum + 1 <= TOTAL_DAYS ? dayNum + 1 : null;
+  // Navigation: intro days are free-flow; main journey is calendar-gated on AnchorPage
+  const isIntroDay  = dayNum >= -6 && dayNum <= -1;
+  // For intro: always allow next. For main: allow next only within content range.
+  const rawNext     = dayNum + 1;
+  const nextDay: number | null = rawNext <= TOTAL_DAYS ? rawNext : null;
   const prevDay     = dayNum > -6 ? dayNum - 1 : null;
+
+  function handleNext() {
+    if (isIntroDay && dayNum === INTRO_END) {
+      // Last intro page — mark complete, go to home (Day 1 will unlock)
+      markIntroComplete();
+      navigate('/home');
+      return;
+    }
+    if (nextDay !== null) {
+      navigate(`/day/${nextDay}`);
+    }
+  }
   // Label: show "Intro", "Week N", or "Conclusion"
   const weekLabel   = weekNum === 0 ? "Intro" : weekNum === 14 ? "Conclusion" : `Week ${weekNum}`;
 
@@ -180,19 +202,18 @@ export default function DayPage() {
             </Link>
           ) : <div />}
 
-          {nextDay ? (
-            <Link href={`/day/${nextDay}`}>
-              <button
-                className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase"
-                style={{ color: "var(--color-gold)" }}
-                data-testid="btn-next-day"
-              >
-                Day {nextDay}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </Link>
+          {nextDay !== null || isIntroDay ? (
+            <button
+              onClick={handleNext}
+              className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase"
+              style={{ color: "var(--color-gold)", background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+              data-testid="btn-next-day"
+            >
+              {isIntroDay && dayNum === INTRO_END ? 'Begin Journey' : nextDay !== null ? `Day ${nextDay}` : 'Begin Journey'}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
           ) : (
             <Link href="/home">
               <button className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase" style={{ color: "var(--color-gold)" }} data-testid="btn-home">

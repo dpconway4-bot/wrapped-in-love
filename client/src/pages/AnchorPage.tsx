@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { computeCurrentDayWithIntro } from "@/lib/introProgress";
 import { LogoWordmark } from "@/components/Logo";
 import { getDayData, getWeekForDay, TOTAL_DAYS } from "@/data/index";
 import { useAuth } from "@/context/AuthContext";
@@ -28,33 +29,7 @@ function getDate() {
   return new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" });
 }
 
-// Compute what day the user should be on based on their account creation date.
-// New users (< 1 day since signup) start at intro Day -6.
-// Otherwise, compute elapsed days from start date stored in user metadata.
-function computeCurrentDay(createdAt: string | undefined): number {
-  if (!createdAt) return -6;
-
-  const signupDate = new Date(createdAt);
-  const now = new Date();
-  const msSinceSignup = now.getTime() - signupDate.getTime();
-  const daysSinceSignup = Math.floor(msSinceSignup / (1000 * 60 * 60 * 24));
-
-  // Days -6 to -1 = intro (days 0–5 since signup)
-  // Day 1 starts on day 6 since signup (after intro)
-  if (daysSinceSignup < 6) {
-    return -6 + daysSinceSignup; // -6, -5, -4, -3, -2, -1
-  }
-
-  // Day 1–91 = main journey (days 6–96 since signup)
-  const mainDay = daysSinceSignup - 5; // day 6 since signup = Day 1
-  if (mainDay <= 91) return mainDay;
-
-  // Days 92–100 = conclusion
-  if (mainDay <= 100) return mainDay;
-
-  // Beyond 100 — loop back to Day 1 for restart
-  return ((mainDay - 1) % 100) + 1;
-}
+// computeCurrentDay is now handled by computeCurrentDayWithIntro in introProgress.ts
 
 export default function AnchorPage() {
   const { user, session, signOut } = useAuth();
@@ -74,7 +49,7 @@ export default function AnchorPage() {
       // Get the user's created_at from Supabase auth
       const { data: { user: fullUser } } = await supabase.auth.getUser();
       const createdAt = fullUser?.created_at;
-      const computed = computeCurrentDay(createdAt);
+      const computed = computeCurrentDayWithIntro(createdAt);
       setTodayDay(computed);
     }
     loadStartDay();
