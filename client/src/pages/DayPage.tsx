@@ -1,5 +1,7 @@
 import { Link, useParams, useLocation } from "wouter";
 import { advanceIntroPage, markIntroComplete, isIntroComplete, INTRO_END } from "@/lib/introProgress";
+import { advanceDay } from "@/lib/userProgress";
+import { useAuth } from "@/context/AuthContext";
 import { LogoWordmark } from "@/components/Logo";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { JournalPanel } from "@/components/JournalPanel";
@@ -18,6 +20,7 @@ const DAY_ACCENTS: Record<string, string> = {
 export default function DayPage() {
   const params  = useParams<{ day: string }>();
   const [, navigate] = useLocation();
+  const { user } = useAuth();
   const dayNum  = parseInt(params.day || "1");
   const dayData = getDayData(dayNum);
   const week    = getWeekForDay(dayNum);
@@ -49,7 +52,7 @@ export default function DayPage() {
   const nextDay: number | null = rawNext <= TOTAL_DAYS ? rawNext : null;
   const prevDay     = dayNum > -6 ? dayNum - 1 : null;
 
-  function handleNext() {
+  async function handleNext() {
     if (isIntroDay && dayNum === INTRO_END) {
       // Last intro page — mark complete, go to home (Day 1 will unlock)
       markIntroComplete();
@@ -57,6 +60,10 @@ export default function DayPage() {
       return;
     }
     if (nextDay !== null) {
+      // Advance progress for main journey days
+      if (!isIntroDay && user?.email) {
+        await advanceDay(dayNum, user.email);
+      }
       navigate(`/day/${nextDay}`);
     }
   }

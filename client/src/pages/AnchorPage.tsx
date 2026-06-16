@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { computeCurrentDayWithIntro } from "@/lib/introProgress";
+import { loadProgressFromSupabase } from "@/lib/userProgress";
 import { LogoWordmark } from "@/components/Logo";
 import { getDayData, getWeekForDay, TOTAL_DAYS } from "@/data/index";
 import { useAuth } from "@/context/AuthContext";
@@ -44,12 +45,11 @@ export default function AnchorPage() {
 
   useEffect(() => {
     async function loadStartDay() {
-      if (!user) return;
+      if (!user?.email) return;
 
-      // Get the user's created_at from Supabase auth
-      const { data: { user: fullUser } } = await supabase.auth.getUser();
-      const createdAt = fullUser?.created_at;
-      const computed = computeCurrentDayWithIntro(createdAt);
+      // Load progress-based day from Supabase (falls back to localStorage)
+      const progressDay = await loadProgressFromSupabase(user.email);
+      const computed = computeCurrentDayWithIntro(progressDay);
       setTodayDay(computed);
     }
     loadStartDay();

@@ -50,25 +50,13 @@ export function markIntroComplete(): void {
 /**
  * Returns what day the user should be on in the anchor screen.
  * - If intro not complete: return their current intro page progress
- * - If intro complete: compute calendar-based Day 1+ from signup date,
- *   but use signup of intro completion (not account creation) for timing
+ * - If intro complete: return the stored progress-based day (set externally by AnchorPage)
  */
-export function computeCurrentDayWithIntro(createdAt: string | undefined): number {
+export function computeCurrentDayWithIntro(progressDay: number): number {
   if (isIntroComplete()) {
-    // Intro done — advance into main journey based on calendar from signup
-    if (!createdAt) return 1;
-
-    const signupDate = new Date(createdAt);
-    const now = new Date();
-    const daysSinceSignup = Math.floor((now.getTime() - signupDate.getTime()) / (1000 * 60 * 60 * 24));
-
-    // After intro (6 days), start Day 1. Each calendar day = 1 content day.
-    const mainDay = Math.max(1, daysSinceSignup - 5);
-    if (mainDay <= 91) return mainDay;
-    if (mainDay <= 100) return mainDay;
-    return ((mainDay - 1) % 100) + 1;
+    // Intro done — use whatever day was loaded from Supabase/localStorage
+    return progressDay;
   }
-
   // Intro not complete — return current intro page
   return getIntroPage();
 }
