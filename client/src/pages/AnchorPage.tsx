@@ -160,7 +160,6 @@ export default function AnchorPage() {
                 />
                 {/* Menu panel */}
                 <div
-                  onTouchStart={(e) => e.stopPropagation()}
                   style={{
                     position: 'absolute',
                     top: 'calc(100% + 8px)',
@@ -239,15 +238,12 @@ export default function AnchorPage() {
 
                   {/* Restart Journey */}
                   <div
-                    onTouchStart={(e) => e.stopPropagation()}
                     onTouchEnd={(e) => {
                       e.preventDefault();
-                      e.stopPropagation();
                       setMenuOpen(false);
-                      setTimeout(() => setShowRestartModal(true), 50);
+                      setShowRestartModal(true);
                     }}
-                    onClick={(e) => {
-                      e.stopPropagation();
+                    onClick={() => {
                       setMenuOpen(false);
                       setShowRestartModal(true);
                     }}
