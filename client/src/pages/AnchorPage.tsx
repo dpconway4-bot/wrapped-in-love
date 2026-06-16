@@ -171,9 +171,6 @@ export default function AnchorPage() {
                     minWidth: '190px',
                     zIndex: 100,
                     overflow: 'hidden',
-                    touchAction: 'manipulation',
-                    userSelect: 'none',
-                    WebkitUserSelect: 'none',
                   }}
                 >
                   {/* Manage Subscription */}
@@ -240,12 +237,12 @@ export default function AnchorPage() {
                   <div
                     onTouchEnd={(e) => {
                       e.preventDefault();
-                      setMenuOpen(false);
                       setShowRestartModal(true);
+                      setMenuOpen(false);
                     }}
                     onClick={() => {
-                      setMenuOpen(false);
                       setShowRestartModal(true);
+                      setMenuOpen(false);
                     }}
                     style={{
                       padding: '14px 16px',
@@ -258,7 +255,6 @@ export default function AnchorPage() {
                       userSelect: 'none',
                       WebkitUserSelect: 'none',
                       WebkitTapHighlightColor: 'transparent',
-                      touchAction: 'manipulation',
                     }}
                   >
                     Restart Journey
