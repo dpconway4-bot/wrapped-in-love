@@ -16,7 +16,7 @@ export const intro = {
       hasAudio: false,
       audioFile: null,
       scripture: {
-        reference: "1 Corinthians 13:11",
+        reference: "1 Corinthians 13:11 (NLT)",
         text: "When I was a child, I spoke and thought and reasoned as a child. But when I grew up, I put away childish things.",
       },
       openingLine: "You are about to go through a growth spurt.",
@@ -66,8 +66,8 @@ export const intro = {
       hasAudio: false,
       audioFile: null,
       scripture: {
-        reference: "1 Corinthians 13:11",
-        text: "When I grew up, I put away childish things.",
+        reference: "1 Corinthians 13:11 (NLT)",
+        text: "But when I grew up, I put away childish things.",
       },
       openingLine: null,
       body: [
