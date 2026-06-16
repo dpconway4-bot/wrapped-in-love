@@ -50,21 +50,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'POST') {
     const { day, content } = req.body;
 
-    if (!day || content === undefined) {
+    // Use null check instead of falsy — day can be negative (intro days -6 to -1)
+    if (day === undefined || day === null || content === undefined) {
       return res.status(400).json({ error: 'Missing day or content' });
     }
 
-    const { data, error } = await supabase
+    const dayInt = parseInt(day);
+
+    // Check if an entry already exists for this user/day/journey
+    const { data: existing } = await supabase
       .from('journal_entries')
-      .upsert({
-        user_id: user.id,
-        day: parseInt(day),
-        journey_number: journeyNumber,
-        content,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,day,journey_number' })
-      .select()
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('day', dayInt)
+      .eq('journey_number', journeyNumber)
       .single();
+
+    let data, error;
+
+    if (existing?.id) {
+      // Update existing entry
+      ({ data, error } = await supabase
+        .from('journal_entries')
+        .update({ content, updated_at: new Date().toISOString() })
+        .eq('id', existing.id)
+        .select()
+        .single());
+    } else {
+      // Insert new entry
+      ({ data, error } = await supabase
+        .from('journal_entries')
+        .insert({
+          user_id: user.id,
+          day: dayInt,
+          journey_number: journeyNumber,
+          content,
+          updated_at: new Date().toISOString(),
+        })
+        .select()
+        .single());
+    }
 
     if (error) return res.status(500).json({ error: error.message });
     return res.status(200).json(data);

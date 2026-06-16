@@ -16,6 +16,7 @@ async function getAuthHeader(): Promise<Record<string, string>> {
 export function JournalPanel({ day, prompt }: JournalPanelProps) {
   const [text, setText] = useState("");
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const qc = useQueryClient();
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -48,12 +49,21 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
         headers: { ...headers, "Content-Type": "application/json" },
         body: JSON.stringify({ day, content }),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Save failed (${res.status})`);
+      }
       return res.json();
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["/api/journal", day] });
       setSaved(true);
+      setSaveError(false);
       setTimeout(() => setSaved(false), 2500);
+    },
+    onError: () => {
+      setSaveError(true);
+      setTimeout(() => setSaveError(false), 3000);
     },
   });
 
@@ -123,6 +133,11 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
         {saved && (
           <span className="text-xs mr-3 self-center" style={{ color: "var(--color-gold)" }}>
             Saved ✓
+          </span>
+        )}
+        {saveError && (
+          <span className="text-xs mr-3 self-center" style={{ color: "#CF9699" }}>
+            Not saved — try again
           </span>
         )}
         <button
