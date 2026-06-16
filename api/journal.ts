@@ -26,12 +26,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Invalid token' });
   }
 
+  // Get current journey_number for this user
+  const { data: purchaser } = await supabase
+    .from('verified_purchasers')
+    .select('journey_number')
+    .eq('email', user.email)
+    .single();
+  const journeyNumber = purchaser?.journey_number ?? 1;
+
   if (req.method === 'GET') {
+    // Return all entries grouped by journey for the journal page
     const { data, error } = await supabase
       .from('journal_entries')
       .select('*')
       .eq('user_id', user.id)
-      .order('day', { ascending: true });
+      .order('journey_number', { ascending: false })
+      .order('day', { ascending: false });
 
     if (error) return res.status(500).json({ error: error.message });
     return res.status(200).json(data || []);
@@ -49,9 +59,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .upsert({
         user_id: user.id,
         day: parseInt(day),
+        journey_number: journeyNumber,
         content,
         updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,day' })
+      }, { onConflict: 'user_id,day,journey_number' })
       .select()
       .single();
 

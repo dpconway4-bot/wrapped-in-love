@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabase";
 import { useBadges } from "@/hooks/useBadges";
 import { BadgeToast } from "@/components/BadgeToast";
 import { NotificationSettings } from "@/components/NotificationSettings";
+import { RestartModal } from "@/components/RestartModal";
 
 async function openBillingPortal(token: string) {
   const res = await fetch('/api/billing', {
@@ -39,6 +40,7 @@ export default function AnchorPage() {
   const [billingLoading, setBillingLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNotifSettings, setShowNotifSettings] = useState(false);
+  const [showRestartModal, setShowRestartModal] = useState(false);
   const { newBadge, dismissBadge, checkBadges } = useBadges(user?.id);
 
   // No outside-click handler — menu closes via backdrop tap or button action
@@ -218,6 +220,33 @@ export default function AnchorPage() {
                     Email Reminders
                   </div>
 
+                  {/* Restart Journey */}
+                  <div
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      setMenuOpen(false);
+                      setShowRestartModal(true);
+                    }}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setShowRestartModal(true);
+                    }}
+                    style={{
+                      padding: '14px 16px',
+                      borderBottom: '1px solid rgba(250,178,77,0.1)',
+                      color: 'var(--color-gold)',
+                      fontFamily: 'Jost, sans-serif',
+                      fontSize: '0.85rem',
+                      letterSpacing: '0.05em',
+                      cursor: 'pointer',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      WebkitTapHighlightColor: 'transparent',
+                    }}
+                  >
+                    Restart Journey
+                  </div>
+
                   {/* Sign Out */}
                   <div
                     onTouchEnd={(e) => {
@@ -253,6 +282,17 @@ export default function AnchorPage() {
           </div>
         </div>
       </header>
+
+      {/* Restart Journey modal */}
+      {showRestartModal && (
+        <RestartModal
+          onClose={() => setShowRestartModal(false)}
+          onRestarted={() => {
+            setShowRestartModal(false);
+            window.location.href = '/home';
+          }}
+        />
+      )}
 
       {/* Notification settings — full screen modal */}
       {showNotifSettings && user && (

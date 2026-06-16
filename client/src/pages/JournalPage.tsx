@@ -4,12 +4,14 @@ import { LogoWordmark } from "@/components/Logo";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { getDayData } from "@/data/index";
+import { loadProgressFromSupabase } from "@/lib/userProgress";
 
 interface JournalEntry {
   id: string;
   day: number;
   content: string;
   updated_at: string;
+  journey_number?: number;
 }
 
 async function getAuthHeader(): Promise<Record<string, string>> {
@@ -48,18 +50,30 @@ function formatDate(iso: string): string {
 export default function JournalPage() {
   const { user } = useAuth();
   const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const [currentJourney, setCurrentJourney] = useState<number>(1);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [archiveOpen, setArchiveOpen] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     async function load() {
-      if (!user) return;
-      const headers = await getAuthHeader();
+      if (!user?.email) return;
+      const [headers, journeyDay] = await Promise.all([
+        getAuthHeader(),
+        loadProgressFromSupabase(user.email),
+      ]);
+      // Get current journey_number from Supabase
+      const { data: purchaser } = await supabase
+        .from('verified_purchasers')
+        .select('journey_number')
+        .eq('email', user.email)
+        .single();
+      const journey = purchaser?.journey_number ?? 1;
+      setCurrentJourney(journey);
+
       const res = await fetch("/api/journal", { headers });
       if (!res.ok) { setLoading(false); return; }
       const data: JournalEntry[] = await res.json();
-      // Sort: most recent first (by day descending)
-      data.sort((a, b) => b.day - a.day);
       setEntries(data.filter(e => e.content?.trim()));
       setLoading(false);
     }
@@ -159,9 +173,28 @@ export default function JournalPage() {
         )}
 
         {/* Entries */}
-        {!loading && entries.length > 0 && (
-          <div className="space-y-3 opacity-0-initial animate-fade-up delay-200">
-            {entries.map((entry) => {
+        {!loading && entries.length > 0 && (() => {
+          const currentEntries = entries.filter(e => (e.journey_number ?? 1) === currentJourney);
+          const archivedEntries = entries.filter(e => (e.journey_number ?? 1) < currentJourney);
+          // Group archived by journey number
+          const archiveGroups: Record<number, JournalEntry[]> = {};
+          archivedEntries.forEach(e => {
+            const j = e.journey_number ?? 1;
+            if (!archiveGroups[j]) archiveGroups[j] = [];
+            archiveGroups[j].push(e);
+          });
+          const archiveJourneys = Object.keys(archiveGroups).map(Number).sort((a, b) => b - a);
+
+          return (
+            <>
+              {/* Current journey entries */}
+              {currentEntries.length === 0 && archivedEntries.length > 0 && (
+                <p className="text-sm text-center mb-6" style={{ color: 'rgba(207,150,153,0.5)', fontStyle: 'italic' }}>
+                  No entries yet in this journey. Your past reflections are archived below.
+                </p>
+              )}
+              <div className="space-y-3 opacity-0-initial animate-fade-up delay-200">
+            {currentEntries.map((entry) => {
               const isOpen = expanded.has(entry.id);
               const isLong = entry.content.length > PREVIEW_LENGTH;
               const displayText = isOpen || !isLong
@@ -263,8 +296,84 @@ export default function JournalPage() {
                 </div>
               );
             })}
-          </div>
-        )}
+              </div>
+
+              {/* Archive sections */}
+              {archiveJourneys.map(journeyNum => (
+                <div key={journeyNum} className="mt-8">
+                  {/* Archive header */}
+                  <button
+                    onClick={() => setArchiveOpen(prev => ({ ...prev, [journeyNum]: !prev[journeyNum] }))}
+                    className="w-full flex items-center gap-3 mb-4"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                  >
+                    <div className="h-px flex-1" style={{ background: 'rgba(207,150,153,0.15)' }} />
+                    <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: 'rgba(207,150,153,0.45)' }}>
+                      Journey {journeyNum} · {archiveGroups[journeyNum].length} {archiveGroups[journeyNum].length === 1 ? 'entry' : 'entries'}
+                    </span>
+                    <svg
+                      width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                      style={{ color: 'rgba(207,150,153,0.35)', transform: archiveOpen[journeyNum] ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+                    >
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                    <div className="h-px flex-1" style={{ background: 'rgba(207,150,153,0.15)' }} />
+                  </button>
+
+                  {archiveOpen[journeyNum] && (
+                    <div className="space-y-3">
+                      {archiveGroups[journeyNum].map(entry => {
+                        const isOpen = expanded.has(entry.id);
+                        const isLong = entry.content.length > PREVIEW_LENGTH;
+                        const displayText = isOpen || !isLong ? entry.content : entry.content.slice(0, PREVIEW_LENGTH).trimEnd() + '…';
+                        return (
+                          <div
+                            key={entry.id}
+                            className="rounded-2xl p-5"
+                            style={{
+                              background: 'rgba(13,28,67,0.4)',
+                              border: '1px solid rgba(207,150,153,0.1)',
+                              opacity: 0.8,
+                            }}
+                          >
+                            <div className="flex items-start justify-between gap-3 mb-3">
+                              <div className="flex-1 min-w-0">
+                                <span className="text-[9px] tracking-[0.25em] uppercase" style={{ color: 'rgba(207,150,153,0.5)' }}>
+                                  {getDayLabel(entry.day)}
+                                </span>
+                                <p className="font-display text-sm font-light" style={{ color: 'rgba(245,239,230,0.5)' }}>
+                                  {getCharacteristic(entry.day)}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="h-px mb-3" style={{ background: 'rgba(207,150,153,0.06)' }} />
+                            <p className="text-sm leading-relaxed mb-2" style={{ color: 'rgba(245,239,230,0.55)', lineHeight: '1.75', fontFamily: 'var(--font-body)', whiteSpace: 'pre-wrap' }}>
+                              {displayText}
+                            </p>
+                            <div className="flex items-center justify-between mt-2">
+                              <span className="text-[10px]" style={{ color: 'rgba(207,150,153,0.3)' }}>
+                                {formatDate(entry.updated_at)}
+                              </span>
+                              {isLong && (
+                                <button
+                                  onClick={() => toggleExpand(entry.id)}
+                                  className="text-[10px] tracking-[0.1em] uppercase"
+                                  style={{ color: 'rgba(250,178,77,0.35)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                                >
+                                  {isOpen ? 'Show less' : 'Read more'}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </>
+          );
+        })()}
 
       </main>
     </div>

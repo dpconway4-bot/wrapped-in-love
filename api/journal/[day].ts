@@ -27,12 +27,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const day = parseInt(req.query.day as string);
 
+  // Get current journey_number for this user
+  const { data: purchaser } = await supabase
+    .from('verified_purchasers')
+    .select('journey_number')
+    .eq('email', user.email)
+    .single();
+  const journeyNumber = purchaser?.journey_number ?? 1;
+
   if (req.method === 'GET') {
     const { data, error } = await supabase
       .from('journal_entries')
       .select('*')
       .eq('user_id', user.id)
       .eq('day', day)
+      .eq('journey_number', journeyNumber)
       .single();
 
     if (error && error.code !== 'PGRST116') {
