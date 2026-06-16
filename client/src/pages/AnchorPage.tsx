@@ -433,7 +433,7 @@ export default function AnchorPage() {
               100 Days In Love
             </span>
             <span className="text-[10px]" style={{ color: "var(--color-rose)" }}>
-              {isIntro ? `Intro · Day ${TODAY_DAY}` : `Day ${TODAY_DAY} of ${TOTAL_DAYS}`}
+              {isIntro ? `Intro · ${TODAY_DAY + 7}/6` : `Day ${TODAY_DAY} of ${TOTAL_DAYS}`}
             </span>
           </div>
           <div className="h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(250,178,77,0.12)" }}>
