@@ -4,25 +4,10 @@ import { loadProgressFromSupabase } from "@/lib/userProgress";
 import { LogoWordmark } from "@/components/Logo";
 import { getDayData, getWeekForDay, TOTAL_DAYS } from "@/data/index";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useBadges } from "@/hooks/useBadges";
 import { BadgeToast } from "@/components/BadgeToast";
-import { NotificationSettings } from "@/components/NotificationSettings";
-import { RestartModal } from "@/components/RestartModal";
-
-async function openBillingPortal(token: string) {
-  const res = await fetch('/api/billing', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${token}` },
-  });
-  const data = await res.json();
-  if (data.url) {
-    window.location.href = data.url;
-  } else {
-    alert('Could not open billing portal. Please email hello@wrappedinlove.com for help.');
-  }
-}
 
 function getDayOfWeek() {
   return new Date().toLocaleDateString("en-US", { weekday: "long" });
@@ -34,29 +19,11 @@ function getDate() {
 // computeCurrentDay is now handled by computeCurrentDayWithIntro in introProgress.ts
 
 export default function AnchorPage() {
-  const { user, session, signOut } = useAuth();
+  const { user } = useAuth();
   const [, navigate] = useLocation();
   const [todayDay, setTodayDay] = useState<number>(-6);
-  const [billingLoading, setBillingLoading] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [showNotifSettings, setShowNotifSettings] = useState(false);
-  const [showRestartModal, setShowRestartModal] = useState(false);
   const { newBadge, dismissBadge, checkBadges } = useBadges(user?.id);
 
-  // Disable text selection on body when menu is open (prevents Safari long-press bleeding through)
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.userSelect = 'none';
-      (document.body.style as any).webkitUserSelect = 'none';
-    } else {
-      document.body.style.userSelect = '';
-      (document.body.style as any).webkitUserSelect = '';
-    }
-    return () => {
-      document.body.style.userSelect = '';
-      (document.body.style as any).webkitUserSelect = '';
-    };
-  }, [menuOpen]);
 
   useEffect(() => {
     async function loadStartDay() {
@@ -141,223 +108,19 @@ export default function AnchorPage() {
               Journal
             </button>
           </Link>
-          <div style={{ position: 'relative' }}>
+          <Link href="/account">
             <button
               data-testid="btn-account-menu"
-              onClick={() => setMenuOpen(o => !o)}
               className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
               style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
             >
               Account
             </button>
-            {menuOpen && (
-              <>
-                {/* Backdrop */}
-                <div
-                  onTouchStart={() => setMenuOpen(false)}
-                  onClick={() => setMenuOpen(false)}
-                  style={{ position: 'fixed', inset: 0, zIndex: 48 }}
-                />
-                {/* Menu panel */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 'calc(100% + 8px)',
-                    right: 0,
-                    background: 'var(--color-surface)',
-                    border: '1px solid rgba(250,178,77,0.18)',
-                    borderRadius: '12px',
-                    boxShadow: '0 8px 32px rgba(13,28,67,0.5)',
-                    minWidth: '190px',
-                    zIndex: 100,
-                    overflow: 'hidden',
-                  }}
-                >
-                  {/* Manage Subscription */}
-                  <div
-                    onTouchEnd={async (e) => {
-                      e.preventDefault();
-                      setMenuOpen(false);
-                      if (!session?.access_token) return;
-                      setBillingLoading(true);
-                      await openBillingPortal(session.access_token);
-                      setBillingLoading(false);
-                    }}
-                    onClick={async () => {
-                      setMenuOpen(false);
-                      if (!session?.access_token) return;
-                      setBillingLoading(true);
-                      await openBillingPortal(session.access_token);
-                      setBillingLoading(false);
-                    }}
-                    style={{
-                      padding: '14px 16px',
-                      borderBottom: '1px solid rgba(250,178,77,0.1)',
-                      color: 'var(--color-cream)',
-                      fontFamily: 'Jost, sans-serif',
-                      fontSize: '0.85rem',
-                      letterSpacing: '0.05em',
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none',
-                      WebkitTapHighlightColor: 'transparent',
-                    }}
-                  >
-                    {billingLoading ? 'Loading...' : 'Manage Subscription'}
-                  </div>
-
-                  {/* Email Reminders */}
-                  <div
-                    onTouchEnd={(e) => {
-                      e.preventDefault();
-                      setMenuOpen(false);
-                      setShowNotifSettings(s => !s);
-                    }}
-                    onClick={() => {
-                      setMenuOpen(false);
-                      setShowNotifSettings(s => !s);
-                    }}
-                    style={{
-                      padding: '14px 16px',
-                      borderBottom: '1px solid rgba(250,178,77,0.1)',
-                      color: 'var(--color-cream)',
-                      fontFamily: 'Jost, sans-serif',
-                      fontSize: '0.85rem',
-                      letterSpacing: '0.05em',
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none',
-                      WebkitTapHighlightColor: 'transparent',
-                    }}
-                  >
-                    Email Reminders
-                  </div>
-
-                  {/* Restart Journey */}
-                  <div
-                    onTouchEnd={(e) => {
-                      e.preventDefault();
-                      setShowRestartModal(true);
-                      setMenuOpen(false);
-                    }}
-                    onClick={() => {
-                      setShowRestartModal(true);
-                      setMenuOpen(false);
-                    }}
-                    style={{
-                      padding: '14px 16px',
-                      borderBottom: '1px solid rgba(250,178,77,0.1)',
-                      color: 'var(--color-gold)',
-                      fontFamily: 'Jost, sans-serif',
-                      fontSize: '0.85rem',
-                      letterSpacing: '0.05em',
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none',
-                      WebkitTapHighlightColor: 'transparent',
-                    }}
-                  >
-                    Restart Journey
-                  </div>
-
-                  {/* Sign Out */}
-                  <div
-                    onTouchEnd={(e) => {
-                      e.preventDefault();
-                      setMenuOpen(false);
-                      signOut().then(() => {
-                        window.location.href = '/login';
-                      });
-                    }}
-                    onClick={() => {
-                      setMenuOpen(false);
-                      signOut().then(() => {
-                        window.location.href = '/login';
-                      });
-                    }}
-                    style={{
-                      padding: '14px 16px',
-                      color: 'var(--color-rose)',
-                      fontFamily: 'Jost, sans-serif',
-                      fontSize: '0.85rem',
-                      letterSpacing: '0.05em',
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none',
-                      WebkitTapHighlightColor: 'transparent',
-                    }}
-                  >
-                    Sign Out
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+          </Link>
         </div>
       </header>
 
-      {/* Restart Journey modal */}
-      {showRestartModal && (
-        <RestartModal
-          onClose={() => setShowRestartModal(false)}
-          onRestarted={() => {
-            setShowRestartModal(false);
-            window.location.href = '/home';
-          }}
-        />
-      )}
 
-      {/* Notification settings — full screen modal */}
-      {showNotifSettings && user && (
-        <div
-          onClick={(e) => { if (e.target === e.currentTarget) setShowNotifSettings(false); }}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 200,
-            background: 'rgba(13,28,67,0.85)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '24px',
-          }}
-        >
-          <div
-            style={{
-              width: '100%',
-              maxWidth: '360px',
-              background: 'var(--color-surface)',
-              border: '1px solid rgba(250,178,77,0.25)',
-              borderRadius: '16px',
-              overflow: 'hidden',
-              boxShadow: '0 8px 40px rgba(13,28,67,0.6)',
-            }}
-          >
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '16px 16px',
-              borderBottom: '1px solid rgba(250,178,77,0.1)',
-            }}>
-              <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-gold)' }}>
-                Email Reminders
-              </span>
-              <button
-                onClick={() => setShowNotifSettings(false)}
-                style={{ background: 'none', border: 'none', color: 'rgba(207,150,153,0.5)', cursor: 'pointer', fontSize: '1.1rem', lineHeight: 1, padding: '4px' }}
-              >
-                ✕
-              </button>
-            </div>
-            <NotificationSettings
-              userId={user.id}
-              userEmail={user.email || ''}
-              onClose={() => setShowNotifSettings(false)}
-            />
-          </div>
-        </div>
-      )}
 
       {/* Date */}
       <div className="px-6 pt-2 pb-6 opacity-0-initial animate-fade-in delay-100">
