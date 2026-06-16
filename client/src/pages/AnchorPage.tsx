@@ -222,6 +222,7 @@ export default function AnchorPage() {
 
                   {/* Restart Journey */}
                   <div
+                    onTouchStart={(e) => e.preventDefault()}
                     onTouchEnd={(e) => {
                       e.preventDefault();
                       setMenuOpen(false);
