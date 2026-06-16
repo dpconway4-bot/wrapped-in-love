@@ -117,6 +117,15 @@ export default function AnchorPage() {
               Journey
             </button>
           </Link>
+          <Link href="/journal">
+            <button
+              className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
+              style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
+              data-testid="btn-journal"
+            >
+              Journal
+            </button>
+          </Link>
           <div style={{ position: 'relative' }}>
             <button
               data-testid="btn-account-menu"

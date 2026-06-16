@@ -10,6 +10,7 @@ import AnchorPage from "@/pages/AnchorPage";
 import OnboardingPage, { shouldShowOnboarding } from "@/pages/OnboardingPage";
 import DayPage from "@/pages/DayPage";
 import JourneyPage from "@/pages/JourneyPage";
+import JournalPage from "@/pages/JournalPage";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 
@@ -55,6 +56,9 @@ function AppRoutes() {
       </Route>
       <Route path="/journey">
         <ProtectedRoute><JourneyPage /></ProtectedRoute>
+      </Route>
+      <Route path="/journal">
+        <ProtectedRoute><JournalPage /></ProtectedRoute>
       </Route>
 
       <Route component={NotFound} />
