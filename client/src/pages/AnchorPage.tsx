@@ -147,6 +147,7 @@ export default function AnchorPage() {
                 />
                 {/* Menu panel */}
                 <div
+                  onTouchStart={(e) => e.stopPropagation()}
                   style={{
                     position: 'absolute',
                     top: 'calc(100% + 8px)',
@@ -158,6 +159,9 @@ export default function AnchorPage() {
                     minWidth: '190px',
                     zIndex: 100,
                     overflow: 'hidden',
+                    touchAction: 'manipulation',
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
                   }}
                 >
                   {/* Manage Subscription */}
@@ -222,13 +226,15 @@ export default function AnchorPage() {
 
                   {/* Restart Journey */}
                   <div
-                    onTouchStart={(e) => e.preventDefault()}
+                    onTouchStart={(e) => e.stopPropagation()}
                     onTouchEnd={(e) => {
                       e.preventDefault();
+                      e.stopPropagation();
                       setMenuOpen(false);
-                      setShowRestartModal(true);
+                      setTimeout(() => setShowRestartModal(true), 50);
                     }}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setMenuOpen(false);
                       setShowRestartModal(true);
                     }}
@@ -243,6 +249,7 @@ export default function AnchorPage() {
                       userSelect: 'none',
                       WebkitUserSelect: 'none',
                       WebkitTapHighlightColor: 'transparent',
+                      touchAction: 'manipulation',
                     }}
                   >
                     Restart Journey
