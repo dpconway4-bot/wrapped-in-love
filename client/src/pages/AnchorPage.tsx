@@ -43,7 +43,20 @@ export default function AnchorPage() {
   const [showRestartModal, setShowRestartModal] = useState(false);
   const { newBadge, dismissBadge, checkBadges } = useBadges(user?.id);
 
-  // No outside-click handler — menu closes via backdrop tap or button action
+  // Disable text selection on body when menu is open (prevents Safari long-press bleeding through)
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.userSelect = 'none';
+      (document.body.style as any).webkitUserSelect = 'none';
+    } else {
+      document.body.style.userSelect = '';
+      (document.body.style as any).webkitUserSelect = '';
+    }
+    return () => {
+      document.body.style.userSelect = '';
+      (document.body.style as any).webkitUserSelect = '';
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     async function loadStartDay() {
