@@ -1,13 +1,12 @@
 import { Link } from "wouter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LogoWordmark } from "@/components/Logo";
 import { ALL_CHARACTERISTICS, TOTAL_DAYS } from "@/data/index";
 import { useAuth } from "@/context/AuthContext";
 import { useBadges } from "@/hooks/useBadges";
 import { BADGE_DEFS, type BadgeDef } from "@/data/badges";
-
-const TODAY_DAY = 1;
-const CURRENT_WEEK = Math.ceil(TODAY_DAY / 7);
+import { loadProgressFromSupabase } from "@/lib/userProgress";
+import { isIntroComplete, getIntroPage } from "@/lib/introProgress";
 
 // The three-part scripture arc
 const PART_1 = ALL_CHARACTERISTICS.filter(c => c.part === 1);
@@ -17,6 +16,24 @@ const PART_3 = ALL_CHARACTERISTICS.filter(c => c.part === 3);
 export default function JourneyPage() {
   const { user } = useAuth();
   const { earned } = useBadges(user?.id);
+  const [todayDay, setTodayDay] = useState<number>(1);
+
+  useEffect(() => {
+    async function loadDay() {
+      if (!user?.email) return;
+      if (!isIntroComplete()) {
+        // Still in intro — use intro page number (negative), treat as day 0 for journey
+        setTodayDay(0);
+        return;
+      }
+      const day = await loadProgressFromSupabase(user.email);
+      setTodayDay(day);
+    }
+    loadDay();
+  }, [user]);
+
+  const TODAY_DAY = todayDay;
+  const CURRENT_WEEK = Math.max(1, Math.ceil(TODAY_DAY / 7));
   const journeyProgress = Math.round((TODAY_DAY / TOTAL_DAYS) * 100);
   const [selectedBadge, setSelectedBadge] = useState<{ def: BadgeDef; isEarned: boolean } | null>(null);
 
@@ -504,7 +521,7 @@ function CharRow({
   const isLocked   = char.week > currentWeek;
   const isNotType  = char.type === "is not";
   const firstDay   = (char.week - 1) * 7 + 1;
-  const isClickable = true; // All weeks are clickable
+  const isClickable = !isLocked; // Only unlocked weeks are clickable
 
   const inner = (
     <div
@@ -520,7 +537,7 @@ function CharRow({
           : isComplete
           ? "1px solid rgba(25,59,137,0.4)"
           : "1px solid rgba(255,255,255,0.04)",
-        cursor: "pointer",
+        cursor: isLocked ? "default" : "pointer",
       }}
       data-testid={`char-row-${char.id}`}
     >
