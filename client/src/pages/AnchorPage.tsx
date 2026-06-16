@@ -105,7 +105,7 @@ export default function AnchorPage() {
               style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
               data-testid="btn-journal"
             >
-              Journal
+              My Journal
             </button>
           </Link>
           <Link href="/account">
