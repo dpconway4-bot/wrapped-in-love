@@ -27,7 +27,7 @@ export const intro = {
         "That's the growth spurt. Not age. Not time. A shift in how you see, think, and move — particularly in the relationships that are closest to you.",
         "This study is about those relationships. Not strangers. Not distant people you can walk away from. The ones right in front of you: your spouse, your child, your parent, your sibling, your coworker, your closest friend. The people God has placed in your life for the long haul — the ones who know how to get under your skin and the ones who have the most power to wound you.",
         "God is not calling you to love them from a distance. He's calling you to love them close — in the conflict, in the season of difficulty, in the moments when they are the hardest version of themselves.",
-        "1 Corinthians 13:4–7 gives you a map for what that love looks like. Thirteen characteristics. Each one a practice. Each one a test. Together, a portrait of the love God intends for us to carry into the rooms that matter most.",
+        "1 Corinthians 13:4–7 gives you a map for what that love looks like. Fourteen characteristics. Each one a practice. Each one a test. Together, a portrait of the love God intends for us to carry into the rooms that matter most.",
         "For the next 100 days, you are going to go through that map — one characteristic at a time. Not as theory. As practice. With the real people in your real life. God will show Himself to you in ways you have not imagined. You will gain clarity about the relationship struggles you face. And you will discover practical ways to handle them with the love God intends.",
         "This is your growth spurt. Let it grow you.",
       ],

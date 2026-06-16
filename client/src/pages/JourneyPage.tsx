@@ -73,7 +73,7 @@ export default function JourneyPage() {
         </div>
         <div className="mb-7 opacity-0-initial animate-fade-in delay-100">
           <p className="text-sm" style={{ color: "var(--color-rose)" }}>
-            13 characteristics. 100 days. One truth. Begin anywhere.
+            14 characteristics. 100 days. One truth. Begin anywhere.
           </p>
         </div>
 

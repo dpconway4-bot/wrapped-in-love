@@ -26,7 +26,7 @@ export const conclusion = {
         "You kept going through Keeps No Record, Does Not Rejoice in Injustice — the weeks that asked you to release what justice wants to hold.",
         "You carried Never Gives Up, Never Loses Faith, Always Hopeful into the people and situations that tested every one of those words.",
         "And you endured.",
-        "Thirteen characteristics. Ninety-one days of content. And a version of you on Day 92 that is not quite the same as the one who started.",
+        "Fourteen characteristics. Ninety-one days of content. And a version of you on Day 92 that is not quite the same as the one who started.",
         "Paul ends this chapter with a final word — not about love in theory, but about love in the order of eternity: faith, hope, and love. And the greatest of these is love.",
         "Not because faith doesn't matter. Not because hope is secondary. But because love is the thing that God himself is. And when everything else is stripped away — when faith is sight and hope is fulfilled — love is what remains.",
         "You have been studying the greatest thing. And now — it is time to live it.",
