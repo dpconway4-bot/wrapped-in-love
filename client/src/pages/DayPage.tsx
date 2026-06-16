@@ -1,4 +1,5 @@
 import { Link, useParams, useLocation } from "wouter";
+import { useEffect } from "react";
 import { advanceIntroPage, markIntroComplete, isIntroComplete, INTRO_END } from "@/lib/introProgress";
 import { advanceDay } from "@/lib/userProgress";
 import { useAuth } from "@/context/AuthContext";
@@ -25,6 +26,11 @@ export default function DayPage() {
   const dayData = getDayData(dayNum);
   const week    = getWeekForDay(dayNum);
   const weekNum = getWeekNumber(dayNum);
+
+  // Scroll to top whenever the day changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [dayNum]);
 
   // Track intro progress when viewing intro pages
   if (dayNum <= -1 && dayNum >= -6) {
@@ -53,6 +59,7 @@ export default function DayPage() {
   const prevDay     = dayNum > -6 ? dayNum - 1 : null;
 
   async function handleNext() {
+    window.scrollTo({ top: 0, behavior: 'instant' });
     if (isIntroDay && dayNum === INTRO_END) {
       // Last intro page — mark complete, go to home (Day 1 will unlock)
       markIntroComplete();
