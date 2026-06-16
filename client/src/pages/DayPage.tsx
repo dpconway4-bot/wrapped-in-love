@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { LogoWordmark } from "@/components/Logo";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { JournalPanel } from "@/components/JournalPanel";
+import { IntentionReview } from "@/components/IntentionReview";
 import { getDayData, getWeekForDay, getWeekNumber, allDays, TOTAL_DAYS } from "@/data/index";
 
 const DAY_ACCENTS: Record<string, string> = {
@@ -166,7 +167,11 @@ export default function DayPage() {
         )}
 
         {/* Body */}
-        {dayData.body.length > 0 && (
+        {dayNum === -2 ? (
+          <div className="mb-8 opacity-0-initial animate-fade-up delay-400">
+            <IntentionReview />
+          </div>
+        ) : dayData.body.length > 0 && (
           <div className="space-y-4 mb-8 opacity-0-initial animate-fade-up delay-400">
             {dayData.body.map((para, i) => (
               <p

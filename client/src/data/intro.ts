@@ -103,7 +103,7 @@ export const intro = {
         "God meets you there. That's where the growth spurt happens.",
       ],
       closingLine: "The room you keep trying to manage is the room God is trying to use.",
-      prompt: "Where is your classroom right now — the specific relationship or situation where God is trying to grow your capacity to love? Are you resisting it or leaning into it?",
+      prompt: "What are you asking God to do in you over the next 100 days? Not the outcome you want in the relationship — what do you want Him to do in you? More patience. More kindness. Less defensiveness. A softer heart. Write it down.",
     },
     {
       day: -2,
@@ -117,17 +117,9 @@ export const intro = {
         text: "Guard your heart above all else, for it determines the course of your life.",
       },
       openingLine: null,
-      body: [
-        "Before you begin the 100 days, set your intention. Not a resolution. An orientation — a direction you are choosing to face.",
-        "Take a few minutes today and write down three things:",
-        "First: the one relationship you are bringing into this study. The person — or the people — whose face comes to mind when you think about where love gets hard for you. You don't have to tell anyone. Just name them to yourself and to God.",
-        "Second: one honest thing about yourself in that relationship. Not about what they've done. About you. What pattern, what tendency, what defense mechanism do you bring into this relationship that you want God to work on over the next 100 days?",
-        "Third: what you are asking God for. Not the outcome you want in the relationship — yet. Just what you are asking God to do in you. More patience. More kindness. Less defensiveness. A softer heart. The courage to stay.",
-        "That's your starting point. You don't need more than that. God will do the rest as you show up, day by day, characteristic by characteristic.",
-        "Tomorrow, Day 1 begins.",
-      ],
+      body: [],
       closingLine: "You don't need to have it all figured out. You just need to begin.",
-      prompt: "Write it down: the person, the pattern, and the prayer. Then seal it — and let the 100 days begin.",
+      prompt: "Anything else you want to bring before God before Day 1 begins? This is your space.",
     },
     {
       day: -1,
