@@ -31,6 +31,14 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
     },
   });
 
+  // Reset state when navigating to a different day
+  useEffect(() => {
+    setText("");
+    setInitialized(false);
+    setSaved(false);
+    setSaveError(false);
+  }, [day]);
+
   // Sync text state when existing entry loads (cross-device restore)
   useEffect(() => {
     if (!initialized && existing?.content) {
