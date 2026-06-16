@@ -9,7 +9,7 @@ async function getAuthHeader(): Promise<Record<string, string>> {
 
 async function fetchEntry(day: number): Promise<string> {
   const headers = await getAuthHeader();
-  const res = await fetch(`/api/journal/${day}`, { headers });
+  const res = await fetch(`/api/journal?day=${day}`, { headers });
   if (!res.ok) return "";
   const data = await res.json();
   return data?.content || "";
@@ -100,15 +100,15 @@ function IntentionStep({ number, label, content, isLoading }: StepProps) {
 
 export function IntentionReview() {
   const { data: entry1, isLoading: l1 } = useQuery({
-    queryKey: ["/api/journal", -6],
+    queryKey: ["/api/journal?day", -6],
     queryFn: () => fetchEntry(-6),
   });
   const { data: entry2, isLoading: l2 } = useQuery({
-    queryKey: ["/api/journal", -4],
+    queryKey: ["/api/journal?day", -4],
     queryFn: () => fetchEntry(-4),
   });
   const { data: entry3, isLoading: l3 } = useQuery({
-    queryKey: ["/api/journal", -3],
+    queryKey: ["/api/journal?day", -3],
     queryFn: () => fetchEntry(-3),
   });
 

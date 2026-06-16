@@ -35,6 +35,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const journeyNumber = purchaser?.journey_number ?? 1;
 
   if (req.method === 'GET') {
+    // If ?day= param provided, return single entry for that day
+    if (req.query.day !== undefined) {
+      const dayInt = parseInt(req.query.day as string);
+      const { data, error } = await supabase
+        .from('journal_entries')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('day', dayInt)
+        .eq('journey_number', journeyNumber)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        return res.status(500).json({ error: error.message });
+      }
+      return res.status(200).json(data || { day: dayInt, content: '' });
+    }
+
     // Return all entries grouped by journey for the journal page
     const { data, error } = await supabase
       .from('journal_entries')
