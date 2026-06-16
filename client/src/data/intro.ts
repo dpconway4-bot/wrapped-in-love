@@ -129,7 +129,7 @@ export const intro = {
       hasAudio: false,
       audioFile: null,
       scripture: {
-        reference: "Philippians 1:9–10",
+        reference: "Philippians 1:9–10 (NLT)",
         text: "I pray that your love will overflow more and more, and that you will keep on growing in knowledge and understanding. For I want you to understand what really matters.",
       },
       openingLine: null,
@@ -141,10 +141,10 @@ export const intro = {
         "Do in me what I cannot do on my own. Renew my mind. Soften what has hardened. Strengthen what has grown weary. Show me what I cannot see about myself — and give me the courage to change it.",
         "I want the next 100 days to mean something. Not just information — transformation.",
         "Take me through this growth spurt, Lord. I'm ready.",
-        "Amen.",
+        "In Jesus Name, Amen.",
       ],
       closingLine: "Lord, grow me. That's the whole prayer.",
-      prompt: "What is the one specific thing you are asking God to grow in you over the next 100 days? Speak it out loud before you begin.",
+      prompt: "Record one positive thing about this relationship. Let that momentum carry you into Day 1.",
     },
   ],
 };
