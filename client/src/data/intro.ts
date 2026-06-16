@@ -22,7 +22,7 @@ export const intro = {
       openingLine: "You are about to go through a growth spurt.",
       body: [
         "In 1 Corinthians 13:11 the apostle Paul wrote: when I was a child, I spoke and thought and reasoned as a child. But when I grew up, I put away childish things. (NLT)",
-        "This verse follows the characteristics of love written in verses 4–7. In the context of his growth, Paul is talking about love.",
+        "This verse follows the characteristics of love written in verses 4–7 (Love is patient, Love is kind, Love is not jealous, or boastful, or proud, or rude…) After listing these characteristics, Paul acknowledges that at some point he grew up in his understanding and application of love.",
         "He's saying there's a version of me that experienced love as a child experiences things — partially, imperfectly, in pieces. But something happened. I grew. I put away the incomplete version and started operating from a deeper understanding.",
         "That's the growth spurt. Not age. Not time. A shift in how you see, think, and move — particularly in the relationships that are closest to you.",
         "This study is about those relationships. Not strangers. Not distant people you can walk away from. The ones right in front of you: your spouse, your child, your parent, your sibling, your coworker, your closest friend. The people God has placed in your life for the long haul — the ones who know how to get under your skin and the ones who have the most power to wound you.",
