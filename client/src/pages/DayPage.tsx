@@ -89,7 +89,7 @@ export default function DayPage() {
         {/* Day label */}
         <div className="mb-2 opacity-0-initial animate-fade-in">
           <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: accentColor }}>
-            {weekLabel} · {dayData.day > 0 ? `Day ${dayData.day}` : `Introduction Page ${dayData.day + 7} of 6`} · {dayData.type}
+            {weekLabel} · {dayData.day > 0 ? `Day ${dayData.day}` : `${dayData.day + 7}/6`} · {dayData.type}
           </p>
         </div>
 
@@ -197,7 +197,7 @@ export default function DayPage() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M19 12H5M12 5l-7 7 7 7"/>
                 </svg>
-                Day {prevDay}
+                {prevDay !== null && prevDay <= -1 ? `${prevDay + 7}/6` : `Day ${prevDay}`}
               </button>
             </Link>
           ) : <div />}
@@ -209,7 +209,7 @@ export default function DayPage() {
               style={{ color: "var(--color-gold)", background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
               data-testid="btn-next-day"
             >
-              {isIntroDay && dayNum === INTRO_END ? 'Begin Journey' : nextDay !== null ? `Day ${nextDay}` : 'Begin Journey'}
+              {isIntroDay && dayNum === INTRO_END ? 'Begin Journey' : nextDay !== null ? (nextDay <= -1 ? `${nextDay + 7}/6` : `Day ${nextDay}`) : 'Begin Journey'}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
