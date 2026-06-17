@@ -46,7 +46,7 @@ export default function AccountPage() {
   };
 
   const chevron = (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: 'rgba(207,150,153,0.4)', flexShrink: 0 }}>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: 'rgba(201,123,107,0.4)', flexShrink: 0 }}>
       <path d="M9 18l6-6-6-6"/>
     </svg>
   );
@@ -110,7 +110,7 @@ export default function AccountPage() {
 
           {/* Restart Journey */}
           <button
-            style={{ ...menuItemStyle, color: 'var(--color-gold)', border: '1px solid rgba(250,178,77,0.2)' }}
+            style={{ ...menuItemStyle, color: 'var(--color-gold)', border: '1px solid rgba(214,154,45,0.2)' }}
             onClick={() => setShowRestartModal(true)}
           >
             <span>Restart Journey</span>
@@ -119,7 +119,7 @@ export default function AccountPage() {
 
           {/* Sign Out */}
           <button
-            style={{ ...menuItemStyle, color: 'var(--color-rose)', border: '1px solid rgba(207,150,153,0.15)', marginTop: '24px' }}
+            style={{ ...menuItemStyle, color: 'var(--color-rose)', border: '1px solid rgba(201,123,107,0.15)', marginTop: '24px' }}
             onClick={() => {
               signOut().then(() => {
                 window.location.href = '/login';
@@ -134,7 +134,7 @@ export default function AccountPage() {
 
         {/* User info */}
         {user?.email && (
-          <p className="text-center text-[11px] mt-10" style={{ color: 'rgba(207,150,153,0.3)' }}>
+          <p className="text-center text-[11px] mt-10" style={{ color: 'rgba(201,123,107,0.3)' }}>
             {user.email}
           </p>
         )}

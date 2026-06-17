@@ -5,7 +5,7 @@ import { Logo } from '@/components/Logo';
 
 const inputStyle = {
   background: 'rgba(25, 59, 137, 0.25)',
-  border: '1px solid rgba(250, 178, 77, 0.25)',
+  border: '1px solid rgba(214, 154, 45, 0.25)',
   borderRadius: '8px',
   padding: '0.85rem 1rem',
   color: '#ffffff',
@@ -22,12 +22,12 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-6"
-      style={{ background: 'linear-gradient(180deg, #0D1C43 0%, #0a1530 100%)' }}
+      style={{ background: 'linear-gradient(180deg, #0B1F3A 0%, #091828 100%)' }}
     >
       <div className="grain-overlay" aria-hidden="true" />
       <div className="mb-8 flex flex-col items-center gap-3">
         <Logo />
-        <p className="text-center text-sm tracking-widest uppercase" style={{ color: '#FAB24D', fontFamily: 'Jost, sans-serif', letterSpacing: '0.2em' }}>
+        <p className="text-center text-sm tracking-widest uppercase" style={{ color: '#D69A2D', fontFamily: 'Jost, sans-serif', letterSpacing: '0.2em' }}>
           100 Days In Love
         </p>
       </div>
@@ -37,7 +37,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         fontFamily: 'Cormorant Garamond, serif',
         fontStyle: 'italic',
         fontSize: '0.85rem',
-        color: 'rgba(207, 150, 153, 0.5)',
+        color: 'rgba(201, 123, 107, 0.5)',
         textAlign: 'center',
         maxWidth: '260px',
         lineHeight: 1.6,
@@ -135,14 +135,14 @@ export default function WelcomePage() {
           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2rem', fontWeight: 300, color: '#ffffff', lineHeight: 1.3, marginBottom: '0.75rem' }}>
             Your journey begins here.
           </h1>
-          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#CF9699', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#C97B6B', lineHeight: 1.7 }}>
             Enter your email and we'll send you a 6-digit code to get started. No password needed.
           </p>
         </div>
 
         <form onSubmit={handleSendOtp} className="w-full max-w-sm flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="welcome-email" style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: '#CF9699' }}>
+            <label htmlFor="welcome-email" style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: '#C97B6B' }}>
               Email
             </label>
             <input
@@ -153,14 +153,14 @@ export default function WelcomePage() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               style={inputStyle}
-              onFocus={e => (e.target.style.borderColor = 'rgba(250, 178, 77, 0.6)')}
-              onBlur={e => (e.target.style.borderColor = 'rgba(250, 178, 77, 0.25)')}
+              onFocus={e => (e.target.style.borderColor = 'rgba(214, 154, 45, 0.6)')}
+              onBlur={e => (e.target.style.borderColor = 'rgba(214, 154, 45, 0.25)')}
               placeholder="you@example.com"
             />
           </div>
 
           {error && step === 'email' && (
-            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#CF9699', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#C97B6B', textAlign: 'center' }}>
               {error}
             </p>
           )}
@@ -170,8 +170,8 @@ export default function WelcomePage() {
             disabled={loading}
             style={{
               marginTop: '0.5rem',
-              background: loading ? 'rgba(250, 178, 77, 0.5)' : '#FAB24D',
-              color: '#0D1C43',
+              background: loading ? 'rgba(214, 154, 45, 0.5)' : '#D69A2D',
+              color: '#0B1F3A',
               border: 'none',
               borderRadius: '8px',
               padding: '0.9rem 1rem',
@@ -186,10 +186,10 @@ export default function WelcomePage() {
           </button>
         </form>
 
-        <div style={{ margin: '1.5rem 0 0.5rem', color: '#CF9699', fontFamily: 'Jost, sans-serif', fontSize: '0.8rem' }}>
+        <div style={{ margin: '1.5rem 0 0.5rem', color: '#C97B6B', fontFamily: 'Jost, sans-serif', fontSize: '0.8rem' }}>
           Already have an account?
         </div>
-        <a href="/login" style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#FAB24D', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+        <a href="/login" style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#D69A2D', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
           Sign in here →
         </a>
       </div>
@@ -197,10 +197,10 @@ export default function WelcomePage() {
       {/* ── Step 2: Code entry ── */}
       <div style={{ display: step === 'code' ? 'contents' : 'none' }}>
         <div className="mb-8 text-center max-w-xs">
-          <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2rem', fontWeight: 300, color: '#FAB24D', lineHeight: 1.3, marginBottom: '0.75rem' }}>
+          <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2rem', fontWeight: 300, color: '#D69A2D', lineHeight: 1.3, marginBottom: '0.75rem' }}>
             You're almost in.
           </h1>
-          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#CF9699', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#C97B6B', lineHeight: 1.7 }}>
             We sent a 6-digit code to <strong style={{ color: '#ffffff' }}>{email}</strong>. Enter it below to begin.
           </p>
         </div>
@@ -221,7 +221,7 @@ export default function WelcomePage() {
                   width: '48px',
                   height: '58px',
                   background: 'rgba(25, 59, 137, 0.25)',
-                  border: digit ? '1px solid rgba(250, 178, 77, 0.7)' : '1px solid rgba(250, 178, 77, 0.25)',
+                  border: digit ? '1px solid rgba(214, 154, 45, 0.7)' : '1px solid rgba(214, 154, 45, 0.25)',
                   borderRadius: '8px',
                   color: '#ffffff',
                   fontFamily: 'Jost, sans-serif',
@@ -231,15 +231,15 @@ export default function WelcomePage() {
                   outline: 'none',
                   transition: 'border-color 0.2s',
                 }}
-                onFocus={e => (e.target.style.borderColor = 'rgba(250, 178, 77, 0.8)')}
-                onBlur={e => (e.target.style.borderColor = digit ? 'rgba(250, 178, 77, 0.7)' : 'rgba(250, 178, 77, 0.25)')}
+                onFocus={e => (e.target.style.borderColor = 'rgba(214, 154, 45, 0.8)')}
+                onBlur={e => (e.target.style.borderColor = digit ? 'rgba(214, 154, 45, 0.7)' : 'rgba(214, 154, 45, 0.25)')}
                 data-testid={`otp-input-${i}`}
               />
             ))}
           </div>
 
           {error && step === 'code' && (
-            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#CF9699', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#C97B6B', textAlign: 'center' }}>
               {error}
             </p>
           )}
@@ -248,8 +248,8 @@ export default function WelcomePage() {
             type="submit"
             disabled={loading || code.join('').length < 6}
             style={{
-              background: (loading || code.join('').length < 6) ? 'rgba(250, 178, 77, 0.5)' : '#FAB24D',
-              color: '#0D1C43',
+              background: (loading || code.join('').length < 6) ? 'rgba(214, 154, 45, 0.5)' : '#D69A2D',
+              color: '#0B1F3A',
               border: 'none',
               borderRadius: '8px',
               padding: '0.9rem 1rem',
@@ -273,7 +273,7 @@ export default function WelcomePage() {
             border: 'none',
             fontFamily: 'Jost, sans-serif',
             fontSize: '0.8rem',
-            color: '#CF9699',
+            color: '#C97B6B',
             cursor: 'pointer',
             textDecoration: 'underline',
             textUnderlineOffset: '3px',
@@ -290,7 +290,7 @@ export default function WelcomePage() {
             border: 'none',
             fontFamily: 'Jost, sans-serif',
             fontSize: '0.8rem',
-            color: 'rgba(207, 150, 153, 0.5)',
+            color: 'rgba(201, 123, 107, 0.5)',
             cursor: 'pointer',
           }}
         >

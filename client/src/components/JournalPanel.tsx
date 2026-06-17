@@ -86,7 +86,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-    e.target.style.borderColor = "rgba(250,178,77,0.12)";
+    e.target.style.borderColor = "rgba(214,154,45,0.12)";
     // Save immediately on blur if there's content
     if (text.trim()) {
       if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
@@ -107,11 +107,11 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
   return (
     <div className="mt-8" data-testid="journal-panel">
       <div className="flex items-center gap-2 mb-3">
-        <div className="h-px flex-1" style={{ background: "rgba(250,178,77,0.15)" }} />
+        <div className="h-px flex-1" style={{ background: "rgba(214,154,45,0.15)" }} />
         <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: "var(--color-rose)" }}>
           Write Something Down
         </span>
-        <div className="h-px flex-1" style={{ background: "rgba(250,178,77,0.15)" }} />
+        <div className="h-px flex-1" style={{ background: "rgba(214,154,45,0.15)" }} />
       </div>
 
       <p className="font-display text-base font-light italic mb-4 text-center" style={{ color: "var(--color-rose)" }}>
@@ -127,12 +127,12 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
         className="w-full rounded-xl p-4 text-sm resize-none transition-all focus:outline-none"
         style={{
           background: "rgba(25,59,137,0.2)",
-          border: "1px solid rgba(250,178,77,0.12)",
+          border: "1px solid rgba(214,154,45,0.12)",
           color: "var(--color-cream)",
           fontFamily: "var(--font-body)",
           lineHeight: "1.7",
         }}
-        onFocus={e => e.target.style.borderColor = "rgba(250,178,77,0.35)"}
+        onFocus={e => e.target.style.borderColor = "rgba(214,154,45,0.35)"}
         onBlur={handleBlur}
       />
 
@@ -143,7 +143,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
           </span>
         )}
         {saveError && (
-          <span className="text-xs mr-3 self-center" style={{ color: "#CF9699" }}>
+          <span className="text-xs mr-3 self-center" style={{ color: "#C97B6B" }}>
             {saveError}
           </span>
         )}
@@ -153,9 +153,9 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
           data-testid="btn-save-journal"
           className="px-5 py-2 rounded-full text-xs tracking-[0.15em] uppercase font-medium transition-all"
           style={{
-            background: value.trim() ? "rgba(250,178,77,0.15)" : "rgba(250,178,77,0.05)",
-            color: value.trim() ? "var(--color-gold)" : "rgba(250,178,77,0.3)",
-            border: "1px solid rgba(250,178,77,0.2)",
+            background: value.trim() ? "rgba(214,154,45,0.15)" : "rgba(214,154,45,0.05)",
+            color: value.trim() ? "var(--color-gold)" : "rgba(214,154,45,0.3)",
+            border: "1px solid rgba(214,154,45,0.2)",
           }}
         >
           {isPending ? "Saving…" : "Save"}

@@ -98,7 +98,7 @@ export function AudioPlayer({ audioFile = "love-is-patient", title = "Love Is Pa
       className="w-full rounded-2xl p-6"
       style={{
         background: "var(--color-surface)",
-        border: "1px solid rgba(250,178,77,0.2)",
+        border: "1px solid rgba(214,154,45,0.2)",
         boxShadow: "0 4px 24px rgba(13,28,67,0.5)",
       }}
       data-testid="audio-player"
@@ -129,8 +129,8 @@ export function AudioPlayer({ audioFile = "love-is-patient", title = "Love Is Pa
               style={{
                 height: `${h}%`,
                 background: isPast
-                  ? `rgba(250,178,77,${0.55 + (h / 100) * 0.45})`
-                  : `rgba(207,150,153,0.18)`,
+                  ? `rgba(214,154,45,${0.55 + (h / 100) * 0.45})`
+                  : `rgba(201,123,107,0.18)`,
               }}
             />
           );
@@ -148,7 +148,7 @@ export function AudioPlayer({ audioFile = "love-is-patient", title = "Love Is Pa
           className="audio-progress"
           data-testid="audio-seek"
           style={{
-            background: `linear-gradient(to right, var(--color-gold) ${progress}%, rgba(250,178,77,0.18) ${progress}%)`
+            background: `linear-gradient(to right, var(--color-gold) ${progress}%, rgba(214,154,45,0.18) ${progress}%)`
           }}
           aria-label="Seek audio"
         />
@@ -180,9 +180,9 @@ export function AudioPlayer({ audioFile = "love-is-patient", title = "Love Is Pa
           disabled={!isLoaded}
           className="w-16 h-16 rounded-full flex items-center justify-center transition-all active:scale-95"
           style={{
-            background: isLoaded ? "var(--color-gold)" : "rgba(250,178,77,0.3)",
+            background: isLoaded ? "var(--color-gold)" : "rgba(214,154,45,0.3)",
             color: "var(--color-navy)",
-            boxShadow: isLoaded ? "0 0 40px rgba(250,178,77,0.3)" : "none",
+            boxShadow: isLoaded ? "0 0 40px rgba(214,154,45,0.3)" : "none",
           }}
           aria-label={isPlaying ? "Pause" : "Play"}
           data-testid="btn-play-pause"

@@ -4,11 +4,12 @@
 
 /* ─── WRAPPED IN LOVE BRAND PALETTE ─────────────────────────────────────── */
 /*
-  Deep Navy   #0D1C43  — Trust, authority        → primary background
-  Royal Blue  #193B89  — Stability, faith         → surface / cards
-  Gold        #FAB24D  — Hope, warmth             → accent, CTAs, highlights
-  Deep Red    #760000  — Love, covenant           → emotional emphasis
-  Soft Rose   #CF9699  — Compassion, care         → secondary text, warmth
+  Covenant Navy  #0B1F3A  — Trust, authority        → primary background
+  Card Surface   #152B4E  — Stability, faith         → surface / cards
+  Anointed Gold  #D69A2D  — Hope, warmth             → accent, CTAs, highlights
+  Deep Red       #760000  — Love, covenant           → emotional emphasis
+  Warm Rose      #C97B6B  — Compassion, care         → secondary text, warmth
+  Manna Cream    #FAF5EC  — Primary body text
 */
 
 @layer base {
@@ -45,22 +46,22 @@
     --radius: 0.75rem;
 
     /* ── Brand tokens ── */
-    --color-navy:       #0D1C43;
-    --color-royal:      #193B89;
-    --color-gold:       #FAB24D;
-    --color-gold-dim:   #c4862a;
-    --color-gold-glow:  rgba(250,178,77,0.18);
+    --color-navy:       #0B1F3A;  /* Covenant Navy */
+    --color-royal:      #152B4E;  /* card surface tint of Covenant Navy */
+    --color-gold:       #D69A2D;  /* Anointed Gold */
+    --color-gold-dim:   #b07e22;
+    --color-gold-glow:  rgba(214,154,45,0.18);
     --color-red:        #760000;
     --color-red-dim:    rgba(118,0,0,0.6);
-    --color-rose:       #CF9699;
-    --color-rose-dim:   rgba(207,150,153,0.6);
+    --color-rose:       #C97B6B;  /* Warm Rose */
+    --color-rose-dim:   rgba(201,123,107,0.6);
 
     /* Readable text layers */
-    --color-cream:      #F5EFE6;
-    --color-cream-dim:  #CF9699;  /* Rose as secondary text — compassion, care */
-    --color-surface:    #193B89;  /* Royal Blue cards */
-    --color-surface-lift: #1e4499;
-    --color-bg:         #0D1C43;
+    --color-cream:      #FAF5EC;  /* Manna Cream */
+    --color-cream-dim:  #C97B6B;  /* Warm Rose as secondary text */
+    --color-surface:    #152B4E;  /* card surface */
+    --color-surface-lift: #1a3560;
+    --color-bg:         #0B1F3A;  /* Covenant Navy */
 
     /* Fonts */
     --font-display: 'Cormorant Garamond', Georgia, serif;

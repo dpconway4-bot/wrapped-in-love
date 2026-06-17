@@ -122,7 +122,7 @@ export default function DayPage() {
         {/* Divider */}
         <div
           className="h-px mb-8 opacity-0-initial animate-fade-in delay-200"
-          style={{ background: `linear-gradient(to right, ${accentColor === "var(--color-cream)" ? "rgba(245,239,230,0.3)" : accentColor}, rgba(250,178,77,0.2), transparent)` }}
+          style={{ background: `linear-gradient(to right, ${accentColor === "var(--color-cream)" ? "rgba(245,239,230,0.3)" : accentColor}, rgba(214,154,45,0.2), transparent)` }}
         />
 
         {/* Audio player */}
@@ -141,7 +141,7 @@ export default function DayPage() {
           className="rounded-2xl p-5 mb-8 opacity-0-initial animate-fade-up delay-300"
           style={{
             background: "var(--color-surface)",
-            border: "1px solid rgba(250,178,77,0.2)",
+            border: "1px solid rgba(214,154,45,0.2)",
             boxShadow: "0 4px 24px rgba(13,28,67,0.4)",
           }}
           data-testid="day-scripture"
@@ -304,7 +304,7 @@ function CarryDay({ dayData, weekNum, characteristic }: {
           {weekLabel} · {dayData.day > 0 ? `Day ${dayData.day}` : "Before Day 1"} · The Carry
         </p>
 
-        <div className="h-px w-16 mb-12" style={{ background: "linear-gradient(to right, transparent, rgba(250,178,77,0.6), transparent)" }} />
+        <div className="h-px w-16 mb-12" style={{ background: "linear-gradient(to right, transparent, rgba(214,154,45,0.6), transparent)" }} />
 
         <p className="text-sm tracking-[0.15em] uppercase mb-8" style={{ color: "var(--color-rose)" }}>
           Simple enough to memorize.<br />Deep enough to mean something.
@@ -312,7 +312,7 @@ function CarryDay({ dayData, weekNum, characteristic }: {
 
         <CarryQuote line={dayData.closingLine} />
 
-        <div className="h-px w-16 mb-10" style={{ background: "linear-gradient(to right, transparent, rgba(250,178,77,0.6), transparent)" }} />
+        <div className="h-px w-16 mb-10" style={{ background: "linear-gradient(to right, transparent, rgba(214,154,45,0.6), transparent)" }} />
 
         <JournalPanel day={dayData.day} prompt={dayData.prompt} />
 
@@ -320,7 +320,7 @@ function CarryDay({ dayData, weekNum, characteristic }: {
           <Link href="/home">
             <button
               className="px-6 py-3 rounded-full text-[11px] tracking-[0.25em] uppercase transition-all"
-              style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
+              style={{ color: "var(--color-rose)", border: "1px solid rgba(201,123,107,0.3)" }}
               data-testid="btn-home-carry"
             >
               Home
@@ -330,7 +330,7 @@ function CarryDay({ dayData, weekNum, characteristic }: {
             <Link href={`/day/${nextDay}`}>
               <button
                 className="px-6 py-3 rounded-full text-[11px] tracking-[0.25em] uppercase transition-all"
-                style={{ color: "var(--color-gold)", border: "1px solid rgba(250,178,77,0.35)" }}
+                style={{ color: "var(--color-gold)", border: "1px solid rgba(214,154,45,0.35)" }}
                 data-testid="btn-next-week"
               >
                 {weekNum === 13 ? "Conclusion →" : `Week ${weekNum + 1} →`}

@@ -49,10 +49,10 @@ export function BadgeToast({ badge, onDismiss }: BadgeToastProps) {
       <div
         style={{
           background: 'linear-gradient(135deg, rgba(25,59,137,0.97) 0%, rgba(13,28,67,0.97) 100%)',
-          border: '1px solid rgba(250,178,77,0.45)',
+          border: '1px solid rgba(214,154,45,0.45)',
           borderRadius: '16px',
           padding: '16px 20px',
-          boxShadow: '0 8px 32px rgba(13,28,67,0.7), 0 0 0 1px rgba(250,178,77,0.08)',
+          boxShadow: '0 8px 32px rgba(13,28,67,0.7), 0 0 0 1px rgba(214,154,45,0.08)',
           display: 'flex',
           alignItems: 'center',
           gap: '14px',
@@ -64,8 +64,8 @@ export function BadgeToast({ badge, onDismiss }: BadgeToastProps) {
             width: '44px',
             height: '44px',
             borderRadius: '50%',
-            background: 'rgba(250,178,77,0.12)',
-            border: '1px solid rgba(250,178,77,0.3)',
+            background: 'rgba(214,154,45,0.12)',
+            border: '1px solid rgba(214,154,45,0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -84,7 +84,7 @@ export function BadgeToast({ badge, onDismiss }: BadgeToastProps) {
               fontSize: '0.65rem',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
-              color: '#FAB24D',
+              color: '#D69A2D',
               marginBottom: '3px',
             }}
           >
@@ -106,7 +106,7 @@ export function BadgeToast({ badge, onDismiss }: BadgeToastProps) {
             style={{
               fontFamily: 'Jost, sans-serif',
               fontSize: '0.75rem',
-              color: 'rgba(207,150,153,0.85)',
+              color: 'rgba(201,123,107,0.85)',
               lineHeight: 1.4,
               whiteSpace: 'nowrap',
               overflow: 'hidden',

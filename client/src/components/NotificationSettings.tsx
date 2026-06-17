@@ -69,7 +69,7 @@ export function NotificationSettings({ userId, userEmail, onClose }: Props) {
     alignItems:    'center',
     justifyContent:'space-between',
     padding:       '14px 16px',
-    borderBottom:  '1px solid rgba(250,178,77,0.08)',
+    borderBottom:  '1px solid rgba(214,154,45,0.08)',
   };
 
   const labelStyle: React.CSSProperties = {
@@ -82,13 +82,13 @@ export function NotificationSettings({ userId, userEmail, onClose }: Props) {
   const subStyle: React.CSSProperties = {
     fontFamily:  'Jost, sans-serif',
     fontSize:    '0.7rem',
-    color:       'rgba(207,150,153,0.55)',
+    color:       'rgba(201,123,107,0.55)',
     marginTop:   '2px',
   };
 
   if (loading) return (
     <div style={{ padding: '20px 16px', textAlign: 'center' }}>
-      <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', color: 'rgba(207,150,153,0.5)' }}>Loading…</span>
+      <span style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.75rem', color: 'rgba(201,123,107,0.5)' }}>Loading…</span>
     </div>
   );
 
@@ -108,7 +108,7 @@ export function NotificationSettings({ userId, userEmail, onClose }: Props) {
             borderRadius: '12px',
             border:       'none',
             cursor:       'pointer',
-            background:   enabled ? '#FAB24D' : 'rgba(255,255,255,0.1)',
+            background:   enabled ? '#D69A2D' : 'rgba(255,255,255,0.1)',
             position:     'relative',
             transition:   'background 0.2s',
             flexShrink:   0,
@@ -136,11 +136,11 @@ export function NotificationSettings({ userId, userEmail, onClose }: Props) {
           disabled={saving}
           style={{
             width:        '100%',
-            background:   saved ? 'rgba(250,178,77,0.3)' : 'rgba(250,178,77,0.15)',
-            border:       '1px solid rgba(250,178,77,0.3)',
+            background:   saved ? 'rgba(214,154,45,0.3)' : 'rgba(214,154,45,0.15)',
+            border:       '1px solid rgba(214,154,45,0.3)',
             borderRadius: '8px',
             padding:      '10px',
-            color:        saved ? '#FAB24D' : 'var(--color-gold)',
+            color:        saved ? '#D69A2D' : 'var(--color-gold)',
             fontFamily:   'Jost, sans-serif',
             fontSize:     '0.8rem',
             letterSpacing:'0.1em',

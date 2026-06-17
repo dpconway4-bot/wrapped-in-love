@@ -82,7 +82,7 @@ export default function JourneyPage() {
           className="rounded-2xl p-5 mb-8 opacity-0-initial animate-fade-up delay-200"
           style={{
             background: "var(--color-surface)",
-            border: "1px solid rgba(250,178,77,0.18)",
+            border: "1px solid rgba(214,154,45,0.18)",
             boxShadow: "0 4px 24px rgba(13,28,67,0.4)",
           }}
           data-testid="overall-progress"
@@ -93,7 +93,7 @@ export default function JourneyPage() {
               Day {TODAY_DAY} of {TOTAL_DAYS}
             </span>
           </div>
-          <div className="h-[3px] rounded-full overflow-hidden mb-3" style={{ background: "rgba(250,178,77,0.12)" }}>
+          <div className="h-[3px] rounded-full overflow-hidden mb-3" style={{ background: "rgba(214,154,45,0.12)" }}>
             <div
               className="h-full rounded-full"
               style={{
@@ -113,7 +113,7 @@ export default function JourneyPage() {
             label="The Introduction"
             verse="Before Day 1"
             color="var(--color-rose)"
-            borderColor="rgba(207,150,153,0.25)"
+            borderColor="rgba(201,123,107,0.25)"
             tag="The Growth Spurt"
           />
           <p className="font-display text-xs italic mb-4" style={{ color: "rgba(245,239,230,0.45)", paddingLeft: "2px" }}>
@@ -132,7 +132,7 @@ export default function JourneyPage() {
               <span className="text-[10px] w-5 text-center flex-shrink-0" style={{ color: "var(--color-rose)" }}>0</span>
               <div className="flex-1">
                 <p className="text-sm" style={{ color: "rgba(245,239,230,0.6)" }}>The Growth Spurt</p>
-                <p className="text-[10px] mt-0.5" style={{ color: "rgba(207,150,153,0.5)" }}>5 days · Before you begin</p>
+                <p className="text-[10px] mt-0.5" style={{ color: "rgba(201,123,107,0.5)" }}>5 days · Before you begin</p>
               </div>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "var(--color-gold)" }}>
                 <polyline points="20,6 9,17 4,12"/>
@@ -147,7 +147,7 @@ export default function JourneyPage() {
             label="Love Is"
             verse="v. 4"
             color="var(--color-gold)"
-            borderColor="rgba(250,178,77,0.3)"
+            borderColor="rgba(214,154,45,0.3)"
           />
           <p className="font-display text-xs italic mb-4" style={{ color: "rgba(245,239,230,0.45)", paddingLeft: "2px" }}>
             "Love is patient and kind."
@@ -183,7 +183,7 @@ export default function JourneyPage() {
             label="Love Is"
             verse="v. 7"
             color="var(--color-gold)"
-            borderColor="rgba(250,178,77,0.3)"
+            borderColor="rgba(214,154,45,0.3)"
             tag="The Return"
           />
           <p className="font-display text-xs italic mb-4" style={{ color: "rgba(245,239,230,0.45)", paddingLeft: "2px" }}>
@@ -202,7 +202,7 @@ export default function JourneyPage() {
             label="The Conclusion"
             verse="Days 92–100"
             color="var(--color-gold)"
-            borderColor="rgba(250,178,77,0.3)"
+            borderColor="rgba(214,154,45,0.3)"
             tag="Wrapped Up"
           />
           <p className="font-display text-xs italic mb-4" style={{ color: "rgba(245,239,230,0.45)", paddingLeft: "2px" }}>
@@ -221,7 +221,7 @@ export default function JourneyPage() {
               <span className="text-[10px] w-5 text-center flex-shrink-0" style={{ color: "var(--color-rose)" }}>14</span>
               <div className="flex-1">
                 <p className="text-sm" style={{ color: "rgba(245,239,230,0.6)" }}>Wrapped In Love</p>
-                <p className="text-[10px] mt-0.5" style={{ color: "rgba(207,150,153,0.5)" }}>9 days · Days 92–100</p>
+                <p className="text-[10px] mt-0.5" style={{ color: "rgba(201,123,107,0.5)" }}>9 days · Days 92–100</p>
               </div>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "var(--color-gold)" }}>
                 <polyline points="20,6 9,17 4,12"/>
@@ -233,17 +233,17 @@ export default function JourneyPage() {
         {/* ── Badge Shelf ──────────────────────────────────────────────────── */}
         <div className="mb-8 opacity-0-initial animate-fade-up delay-400">
           <div className="flex items-center gap-3 mb-4">
-            <div className="h-px flex-1" style={{ background: 'rgba(250,178,77,0.15)' }} />
+            <div className="h-px flex-1" style={{ background: 'rgba(214,154,45,0.15)' }} />
             <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: 'var(--color-rose)' }}>
               Your Badges
             </span>
-            <div className="h-px flex-1" style={{ background: 'rgba(250,178,77,0.15)' }} />
+            <div className="h-px flex-1" style={{ background: 'rgba(214,154,45,0.15)' }} />
           </div>
 
           {earned.length === 0 ? (
             <p
               className="text-center text-xs"
-              style={{ color: 'rgba(207,150,153,0.4)', fontFamily: 'Jost, sans-serif', fontStyle: 'italic' }}
+              style={{ color: 'rgba(201,123,107,0.4)', fontFamily: 'Jost, sans-serif', fontStyle: 'italic' }}
             >
               Your first badge is waiting. Keep going.
             </p>
@@ -276,10 +276,10 @@ export default function JourneyPage() {
                         height: '52px',
                         borderRadius: '50%',
                         background: isEarned
-                          ? 'rgba(250,178,77,0.12)'
+                          ? 'rgba(214,154,45,0.12)'
                           : 'rgba(13,28,67,0.6)',
                         border: isEarned
-                          ? '1px solid rgba(250,178,77,0.4)'
+                          ? '1px solid rgba(214,154,45,0.4)'
                           : '1px solid rgba(255,255,255,0.06)',
                         display: 'flex',
                         alignItems: 'center',
@@ -288,7 +288,7 @@ export default function JourneyPage() {
                         opacity: isEarned ? 1 : 0.25,
                         filter: isEarned ? 'none' : 'grayscale(1)',
                         transition: 'all 0.3s ease',
-                        boxShadow: isEarned ? '0 0 16px rgba(250,178,77,0.15)' : 'none',
+                        boxShadow: isEarned ? '0 0 16px rgba(214,154,45,0.15)' : 'none',
                       }}
                     >
                       {def.icon}
@@ -299,7 +299,7 @@ export default function JourneyPage() {
                         fontSize: '0.6rem',
                         letterSpacing: '0.05em',
                         textAlign: 'center',
-                        color: isEarned ? 'var(--color-gold)' : 'rgba(207,150,153,0.25)',
+                        color: isEarned ? 'var(--color-gold)' : 'rgba(201,123,107,0.25)',
                         lineHeight: 1.3,
                         maxWidth: '56px',
                       }}
@@ -334,7 +334,7 @@ export default function JourneyPage() {
               width: '100%',
               maxWidth: '300px',
               background: 'linear-gradient(135deg, rgba(25,59,137,0.98) 0%, rgba(13,28,67,0.98) 100%)',
-              border: `1px solid ${selectedBadge.isEarned ? 'rgba(250,178,77,0.45)' : 'rgba(255,255,255,0.08)'}`,
+              border: `1px solid ${selectedBadge.isEarned ? 'rgba(214,154,45,0.45)' : 'rgba(255,255,255,0.08)'}`,
               borderRadius: '20px',
               padding: '32px 24px',
               textAlign: 'center',
@@ -346,8 +346,8 @@ export default function JourneyPage() {
               width: '72px',
               height: '72px',
               borderRadius: '50%',
-              background: selectedBadge.isEarned ? 'rgba(250,178,77,0.15)' : 'rgba(13,28,67,0.6)',
-              border: selectedBadge.isEarned ? '1.5px solid rgba(250,178,77,0.5)' : '1.5px solid rgba(255,255,255,0.1)',
+              background: selectedBadge.isEarned ? 'rgba(214,154,45,0.15)' : 'rgba(13,28,67,0.6)',
+              border: selectedBadge.isEarned ? '1.5px solid rgba(214,154,45,0.5)' : '1.5px solid rgba(255,255,255,0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -355,7 +355,7 @@ export default function JourneyPage() {
               margin: '0 auto 16px',
               opacity: selectedBadge.isEarned ? 1 : 0.35,
               filter: selectedBadge.isEarned ? 'none' : 'grayscale(1)',
-              boxShadow: selectedBadge.isEarned ? '0 0 24px rgba(250,178,77,0.2)' : 'none',
+              boxShadow: selectedBadge.isEarned ? '0 0 24px rgba(214,154,45,0.2)' : 'none',
             }}>
               {selectedBadge.def.icon}
             </div>
@@ -366,7 +366,7 @@ export default function JourneyPage() {
               fontSize: '0.65rem',
               letterSpacing: '0.25em',
               textTransform: 'uppercase',
-              color: selectedBadge.isEarned ? '#FAB24D' : 'rgba(207,150,153,0.4)',
+              color: selectedBadge.isEarned ? '#D69A2D' : 'rgba(201,123,107,0.4)',
               marginBottom: '8px',
             }}>
               {selectedBadge.isEarned ? 'Earned' : 'Not Yet Earned'}
@@ -388,7 +388,7 @@ export default function JourneyPage() {
             <p style={{
               fontFamily: 'Jost, sans-serif',
               fontSize: '0.82rem',
-              color: 'rgba(207,150,153,0.85)',
+              color: 'rgba(201,123,107,0.85)',
               lineHeight: 1.65,
               marginBottom: selectedBadge.isEarned ? '0' : '16px',
             }}>
@@ -400,7 +400,7 @@ export default function JourneyPage() {
               <p style={{
                 fontFamily: 'Jost, sans-serif',
                 fontSize: '0.75rem',
-                color: 'rgba(250,178,77,0.5)',
+                color: 'rgba(214,154,45,0.5)',
                 lineHeight: 1.6,
                 fontStyle: 'italic',
               }}>
@@ -420,10 +420,10 @@ export default function JourneyPage() {
               style={{
                 marginTop: '24px',
                 background: 'none',
-                border: '1px solid rgba(250,178,77,0.2)',
+                border: '1px solid rgba(214,154,45,0.2)',
                 borderRadius: '20px',
                 padding: '8px 24px',
-                color: 'rgba(207,150,153,0.6)',
+                color: 'rgba(201,123,107,0.6)',
                 fontFamily: 'Jost, sans-serif',
                 fontSize: '0.75rem',
                 letterSpacing: '0.1em',
@@ -496,7 +496,7 @@ function SectionHeader({
         {tag && (
           <span
             className="text-[8px] tracking-[0.2em] uppercase px-1.5 py-0.5 rounded-full"
-            style={{ background: "rgba(250,178,77,0.12)", color: "var(--color-gold)", border: "1px solid rgba(250,178,77,0.2)" }}
+            style={{ background: "rgba(214,154,45,0.12)", color: "var(--color-gold)", border: "1px solid rgba(214,154,45,0.2)" }}
           >
             {tag}
           </span>
@@ -528,12 +528,12 @@ function CharRow({
       className="flex items-center gap-4 rounded-xl px-4 py-3 transition-all"
       style={{
         background: isActive
-          ? "rgba(250,178,77,0.1)"
+          ? "rgba(214,154,45,0.1)"
           : isComplete
           ? "rgba(25,59,137,0.25)"
           : "rgba(13,28,67,0.5)",
         border: isActive
-          ? "1px solid rgba(250,178,77,0.3)"
+          ? "1px solid rgba(214,154,45,0.3)"
           : isComplete
           ? "1px solid rgba(25,59,137,0.4)"
           : "1px solid rgba(255,255,255,0.04)",
@@ -548,18 +548,18 @@ function CharRow({
           background: isComplete
             ? "var(--color-gold)"
             : isActive
-            ? "rgba(250,178,77,0.9)"
+            ? "rgba(214,154,45,0.9)"
             : isNotType
             ? "rgba(118,0,0,0.4)"
-            : "rgba(250,178,77,0.18)",
-          boxShadow: isActive ? "0 0 8px rgba(250,178,77,0.5)" : "none",
+            : "rgba(214,154,45,0.18)",
+          boxShadow: isActive ? "0 0 8px rgba(214,154,45,0.5)" : "none",
         }}
       />
 
       {/* Week number */}
       <span
         className="text-[10px] w-5 text-center flex-shrink-0"
-        style={{ color: isLocked ? "rgba(207,150,153,0.25)" : "var(--color-rose)" }}
+        style={{ color: isLocked ? "rgba(201,123,107,0.25)" : "var(--color-rose)" }}
       >
         {char.week}
       </span>
@@ -586,7 +586,7 @@ function CharRow({
         {isActive && (
           <span
             className="text-[9px] tracking-[0.2em] uppercase px-2 py-1 rounded-full"
-            style={{ background: "rgba(250,178,77,0.18)", color: "var(--color-gold)" }}
+            style={{ background: "rgba(214,154,45,0.18)", color: "var(--color-gold)" }}
           >
             Now
           </span>
@@ -597,7 +597,7 @@ function CharRow({
           </svg>
         )}
         {isLocked && (
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: "rgba(207,150,153,0.22)" }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: "rgba(201,123,107,0.22)" }}>
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>

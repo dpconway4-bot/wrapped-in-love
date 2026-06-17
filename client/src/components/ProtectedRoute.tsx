@@ -15,12 +15,12 @@ function LoadingScreen() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#0D1C43',
+      background: '#0B1F3A',
     }}>
       <div style={{
         fontFamily: 'Cormorant Garamond, serif',
         fontSize: '1.25rem',
-        color: 'rgba(250, 178, 77, 0.6)',
+        color: 'rgba(214, 154, 45, 0.6)',
         fontStyle: 'italic',
       }}>
         Loading your journey...
@@ -38,7 +38,7 @@ function PaywallScreen({ email }: { email: string }) {
       alignItems: 'center',
       justifyContent: 'center',
       padding: '2rem 1.5rem',
-      background: 'linear-gradient(180deg, #0D1C43 0%, #0a1530 100%)',
+      background: 'linear-gradient(180deg, #0B1F3A 0%, #091828 100%)',
       textAlign: 'center',
     }}>
       {/* Heart icon */}
@@ -46,7 +46,7 @@ function PaywallScreen({ email }: { email: string }) {
         width: '56px',
         height: '56px',
         borderRadius: '50%',
-        border: '1.5px solid rgba(250, 178, 77, 0.4)',
+        border: '1.5px solid rgba(214, 154, 45, 0.4)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -60,7 +60,7 @@ function PaywallScreen({ email }: { email: string }) {
         fontSize: '0.75rem',
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
-        color: '#FAB24D',
+        color: '#D69A2D',
         marginBottom: '1rem',
       }}>
         100 Days In Love
@@ -81,7 +81,7 @@ function PaywallScreen({ email }: { email: string }) {
       <p style={{
         fontFamily: 'Jost, sans-serif',
         fontSize: '0.9rem',
-        color: '#CF9699',
+        color: '#C97B6B',
         lineHeight: 1.7,
         maxWidth: '280px',
         marginBottom: '0.5rem',
@@ -92,7 +92,7 @@ function PaywallScreen({ email }: { email: string }) {
       <p style={{
         fontFamily: 'Jost, sans-serif',
         fontSize: '0.9rem',
-        color: '#CF9699',
+        color: '#C97B6B',
         lineHeight: 1.7,
         maxWidth: '280px',
         marginBottom: '2.5rem',
@@ -106,8 +106,8 @@ function PaywallScreen({ email }: { email: string }) {
           display: 'block',
           width: '100%',
           maxWidth: '320px',
-          background: '#FAB24D',
-          color: '#0D1C43',
+          background: '#D69A2D',
+          color: '#0B1F3A',
           border: 'none',
           borderRadius: '8px',
           padding: '0.9rem 1rem',
@@ -125,7 +125,7 @@ function PaywallScreen({ email }: { email: string }) {
       <p style={{
         fontFamily: 'Jost, sans-serif',
         fontSize: '0.75rem',
-        color: 'rgba(207, 150, 153, 0.5)',
+        color: 'rgba(201, 123, 107, 0.5)',
         lineHeight: 1.6,
         maxWidth: '260px',
       }}>
@@ -137,7 +137,7 @@ function PaywallScreen({ email }: { email: string }) {
         fontFamily: 'Cormorant Garamond, serif',
         fontStyle: 'italic',
         fontSize: '0.85rem',
-        color: 'rgba(207, 150, 153, 0.4)',
+        color: 'rgba(201, 123, 107, 0.4)',
         maxWidth: '260px',
         lineHeight: 1.6,
       }}>
@@ -156,14 +156,14 @@ function CanceledScreen({ email }: { email: string }) {
       alignItems: 'center',
       justifyContent: 'center',
       padding: '2rem 1.5rem',
-      background: 'linear-gradient(180deg, #0D1C43 0%, #0a1530 100%)',
+      background: 'linear-gradient(180deg, #0B1F3A 0%, #091828 100%)',
       textAlign: 'center',
     }}>
       <div style={{
         width: '56px',
         height: '56px',
         borderRadius: '50%',
-        border: '1.5px solid rgba(250, 178, 77, 0.4)',
+        border: '1.5px solid rgba(214, 154, 45, 0.4)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -177,7 +177,7 @@ function CanceledScreen({ email }: { email: string }) {
         fontSize: '0.75rem',
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
-        color: '#FAB24D',
+        color: '#D69A2D',
         marginBottom: '1rem',
       }}>
         100 Days In Love
@@ -198,7 +198,7 @@ function CanceledScreen({ email }: { email: string }) {
       <p style={{
         fontFamily: 'Jost, sans-serif',
         fontSize: '0.9rem',
-        color: '#CF9699',
+        color: '#C97B6B',
         lineHeight: 1.7,
         maxWidth: '280px',
         marginBottom: '2.5rem',
@@ -212,8 +212,8 @@ function CanceledScreen({ email }: { email: string }) {
           display: 'block',
           width: '100%',
           maxWidth: '320px',
-          background: '#FAB24D',
-          color: '#0D1C43',
+          background: '#D69A2D',
+          color: '#0B1F3A',
           border: 'none',
           borderRadius: '8px',
           padding: '0.9rem 1rem',
@@ -233,7 +233,7 @@ function CanceledScreen({ email }: { email: string }) {
         fontFamily: 'Cormorant Garamond, serif',
         fontStyle: 'italic',
         fontSize: '0.85rem',
-        color: 'rgba(207, 150, 153, 0.4)',
+        color: 'rgba(201, 123, 107, 0.4)',
         maxWidth: '260px',
         lineHeight: 1.6,
       }}>
@@ -258,8 +258,8 @@ function TrialBanner({ daysLeft }: { daysLeft: number }) {
       left: 0,
       right: 0,
       zIndex: 999,
-      background: '#FAB24D',
-      color: '#0D1C43',
+      background: '#D69A2D',
+      color: '#0B1F3A',
       fontFamily: 'Jost, sans-serif',
       fontSize: '0.8rem',
       fontWeight: 600,

@@ -5,7 +5,7 @@ import { Logo } from '@/components/Logo';
 
 const inputStyle = {
   background: 'rgba(25, 59, 137, 0.25)',
-  border: '1px solid rgba(250, 178, 77, 0.25)',
+  border: '1px solid rgba(214, 154, 45, 0.25)',
   borderRadius: '8px',
   padding: '0.85rem 1rem',
   color: '#ffffff',
@@ -22,12 +22,12 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-6"
-      style={{ background: 'linear-gradient(180deg, #0D1C43 0%, #0a1530 100%)' }}
+      style={{ background: 'linear-gradient(180deg, #0B1F3A 0%, #091828 100%)' }}
     >
       <div className="grain-overlay" aria-hidden="true" />
       <div className="mb-8 flex flex-col items-center gap-3">
         <Logo />
-        <p className="text-center text-sm tracking-widest uppercase" style={{ color: '#FAB24D', fontFamily: 'Jost, sans-serif', letterSpacing: '0.2em' }}>
+        <p className="text-center text-sm tracking-widest uppercase" style={{ color: '#D69A2D', fontFamily: 'Jost, sans-serif', letterSpacing: '0.2em' }}>
           100 Days In Love
         </p>
       </div>
@@ -37,7 +37,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         fontFamily: 'Cormorant Garamond, serif',
         fontStyle: 'italic',
         fontSize: '0.85rem',
-        color: 'rgba(207, 150, 153, 0.5)',
+        color: 'rgba(201, 123, 107, 0.5)',
         textAlign: 'center',
         maxWidth: '260px',
         lineHeight: 1.6,
@@ -142,7 +142,7 @@ export default function LoginPage() {
           }}>
             Welcome back.
           </h1>
-          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#CF9699', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#C97B6B', lineHeight: 1.7 }}>
             Your journey is waiting. Enter your email and we'll send you a code to sign in.
           </p>
         </div>
@@ -154,7 +154,7 @@ export default function LoginPage() {
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.12em',
-              color: '#CF9699',
+              color: '#C97B6B',
             }}>
               Email
             </label>
@@ -166,14 +166,14 @@ export default function LoginPage() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               style={inputStyle}
-              onFocus={e => (e.target.style.borderColor = 'rgba(250, 178, 77, 0.6)')}
-              onBlur={e => (e.target.style.borderColor = 'rgba(250, 178, 77, 0.25)')}
+              onFocus={e => (e.target.style.borderColor = 'rgba(214, 154, 45, 0.6)')}
+              onBlur={e => (e.target.style.borderColor = 'rgba(214, 154, 45, 0.25)')}
               placeholder="you@example.com"
             />
           </div>
 
           {error && step === 'email' && (
-            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#CF9699', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#C97B6B', textAlign: 'center' }}>
               {error}
             </p>
           )}
@@ -183,8 +183,8 @@ export default function LoginPage() {
             disabled={loading}
             style={{
               marginTop: '0.5rem',
-              background: loading ? 'rgba(250, 178, 77, 0.5)' : '#FAB24D',
-              color: '#0D1C43',
+              background: loading ? 'rgba(214, 154, 45, 0.5)' : '#D69A2D',
+              color: '#0B1F3A',
               border: 'none',
               borderRadius: '8px',
               padding: '0.9rem 1rem',
@@ -201,7 +201,7 @@ export default function LoginPage() {
 
         {/* New user CTA */}
         <div style={{ margin: '2rem 0 0', textAlign: 'center' }}>
-          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.8rem', color: '#CF9699', marginBottom: '0.5rem' }}>
+          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.8rem', color: '#C97B6B', marginBottom: '0.5rem' }}>
             New here?
           </p>
           <a
@@ -211,7 +211,7 @@ export default function LoginPage() {
             style={{
               fontFamily: 'Jost, sans-serif',
               fontSize: '0.85rem',
-              color: '#FAB24D',
+              color: '#D69A2D',
               textDecoration: 'underline',
               textUnderlineOffset: '3px',
             }}
@@ -228,13 +228,13 @@ export default function LoginPage() {
             fontFamily: 'Cormorant Garamond, serif',
             fontSize: '2rem',
             fontWeight: 300,
-            color: '#FAB24D',
+            color: '#D69A2D',
             lineHeight: 1.3,
             marginBottom: '0.75rem',
           }}>
             You're almost in.
           </h1>
-          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#CF9699', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.9rem', color: '#C97B6B', lineHeight: 1.7 }}>
             We sent a 6-digit code to <strong style={{ color: '#ffffff' }}>{email}</strong>. Enter it below.
           </p>
         </div>
@@ -255,7 +255,7 @@ export default function LoginPage() {
                   width: '48px',
                   height: '58px',
                   background: 'rgba(25, 59, 137, 0.25)',
-                  border: digit ? '1px solid rgba(250, 178, 77, 0.7)' : '1px solid rgba(250, 178, 77, 0.25)',
+                  border: digit ? '1px solid rgba(214, 154, 45, 0.7)' : '1px solid rgba(214, 154, 45, 0.25)',
                   borderRadius: '8px',
                   color: '#ffffff',
                   fontFamily: 'Jost, sans-serif',
@@ -265,14 +265,14 @@ export default function LoginPage() {
                   outline: 'none',
                   transition: 'border-color 0.2s',
                 }}
-                onFocus={e => (e.target.style.borderColor = 'rgba(250, 178, 77, 0.8)')}
-                onBlur={e => (e.target.style.borderColor = digit ? 'rgba(250, 178, 77, 0.7)' : 'rgba(250, 178, 77, 0.25)')}
+                onFocus={e => (e.target.style.borderColor = 'rgba(214, 154, 45, 0.8)')}
+                onBlur={e => (e.target.style.borderColor = digit ? 'rgba(214, 154, 45, 0.7)' : 'rgba(214, 154, 45, 0.25)')}
               />
             ))}
           </div>
 
           {error && step === 'code' && (
-            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#CF9699', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'Jost, sans-serif', fontSize: '0.85rem', color: '#C97B6B', textAlign: 'center' }}>
               {error}
             </p>
           )}
@@ -281,8 +281,8 @@ export default function LoginPage() {
             type="submit"
             disabled={loading || code.join('').length < 6}
             style={{
-              background: (loading || code.join('').length < 6) ? 'rgba(250, 178, 77, 0.5)' : '#FAB24D',
-              color: '#0D1C43',
+              background: (loading || code.join('').length < 6) ? 'rgba(214, 154, 45, 0.5)' : '#D69A2D',
+              color: '#0B1F3A',
               border: 'none',
               borderRadius: '8px',
               padding: '0.9rem 1rem',
@@ -306,7 +306,7 @@ export default function LoginPage() {
             border: 'none',
             fontFamily: 'Jost, sans-serif',
             fontSize: '0.8rem',
-            color: '#CF9699',
+            color: '#C97B6B',
             cursor: 'pointer',
             textDecoration: 'underline',
             textUnderlineOffset: '3px',
@@ -323,7 +323,7 @@ export default function LoginPage() {
             border: 'none',
             fontFamily: 'Jost, sans-serif',
             fontSize: '0.8rem',
-            color: 'rgba(207, 150, 153, 0.5)',
+            color: 'rgba(201, 123, 107, 0.5)',
             cursor: 'pointer',
           }}
         >

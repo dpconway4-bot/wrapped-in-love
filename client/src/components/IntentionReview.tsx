@@ -13,7 +13,7 @@ function IntentionStep({ number, label, content, isLoading }: StepProps) {
     <div
       style={{
         borderRadius: "14px",
-        border: "1px solid rgba(250,178,77,0.15)",
+        border: "1px solid rgba(214,154,45,0.15)",
         background: "rgba(25,59,137,0.15)",
         padding: "18px 20px",
         marginBottom: "16px",
@@ -32,7 +32,7 @@ function IntentionStep({ number, label, content, isLoading }: StepProps) {
         >
           Step {number}
         </span>
-        <div style={{ height: "1px", flex: 1, background: "rgba(250,178,77,0.1)" }} />
+        <div style={{ height: "1px", flex: 1, background: "rgba(214,154,45,0.1)" }} />
       </div>
       <p
         style={{
@@ -52,7 +52,7 @@ function IntentionStep({ number, label, content, isLoading }: StepProps) {
           style={{
             height: "20px",
             borderRadius: "6px",
-            background: "rgba(250,178,77,0.06)",
+            background: "rgba(214,154,45,0.06)",
             animation: "pulse 1.5s ease-in-out infinite",
           }}
         />
@@ -73,7 +73,7 @@ function IntentionStep({ number, label, content, isLoading }: StepProps) {
           style={{
             fontFamily: "Jost, sans-serif",
             fontSize: "0.82rem",
-            color: "rgba(207,150,153,0.45)",
+            color: "rgba(201,123,107,0.45)",
             fontStyle: "italic",
           }}
         >
@@ -116,7 +116,7 @@ export function IntentionReview() {
     <div style={{ marginBottom: "32px" }}>
       {/* Section header */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
-        <div style={{ height: "1px", flex: 1, background: "rgba(250,178,77,0.15)" }} />
+        <div style={{ height: "1px", flex: 1, background: "rgba(214,154,45,0.15)" }} />
         <span
           style={{
             fontFamily: "Jost, sans-serif",
@@ -128,7 +128,7 @@ export function IntentionReview() {
         >
           Your Intention
         </span>
-        <div style={{ height: "1px", flex: 1, background: "rgba(250,178,77,0.15)" }} />
+        <div style={{ height: "1px", flex: 1, background: "rgba(214,154,45,0.15)" }} />
       </div>
 
       <p
@@ -181,8 +181,8 @@ export function IntentionReview() {
           marginTop: "28px",
           padding: "18px 20px",
           borderRadius: "14px",
-          border: "1px solid rgba(250,178,77,0.2)",
-          background: "rgba(250,178,77,0.04)",
+          border: "1px solid rgba(214,154,45,0.2)",
+          background: "rgba(214,154,45,0.04)",
           textAlign: "center",
         }}
       >

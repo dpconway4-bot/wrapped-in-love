@@ -93,7 +93,7 @@ export default function AnchorPage() {
           <Link href="/journey">
             <button
               className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
-              style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
+              style={{ color: "var(--color-rose)", border: "1px solid rgba(201,123,107,0.3)" }}
               data-testid="btn-journey"
             >
               Journey
@@ -102,7 +102,7 @@ export default function AnchorPage() {
           <Link href="/journal">
             <button
               className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
-              style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
+              style={{ color: "var(--color-rose)", border: "1px solid rgba(201,123,107,0.3)" }}
               data-testid="btn-journal"
             >
               My Journal
@@ -112,7 +112,7 @@ export default function AnchorPage() {
             <button
               data-testid="btn-account-menu"
               className="text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full transition-all"
-              style={{ color: "var(--color-rose)", border: "1px solid rgba(207,150,153,0.3)" }}
+              style={{ color: "var(--color-rose)", border: "1px solid rgba(201,123,107,0.3)" }}
             >
               Account
             </button>
@@ -155,7 +155,7 @@ export default function AnchorPage() {
         {/* Divider */}
         <div
           className="h-px mb-6 opacity-0-initial animate-fade-in delay-300"
-          style={{ background: "linear-gradient(to right, rgba(250,178,77,0.5), rgba(207,150,153,0.2), transparent)" }}
+          style={{ background: "linear-gradient(to right, rgba(214,154,45,0.5), rgba(201,123,107,0.2), transparent)" }}
         />
 
         {/* Day badge */}
@@ -163,9 +163,9 @@ export default function AnchorPage() {
           <span
             className="text-[10px] tracking-[0.3em] uppercase px-3 py-1 rounded-full"
             style={{
-              background: "rgba(250,178,77,0.12)",
+              background: "rgba(214,154,45,0.12)",
               color: "var(--color-gold)",
-              border: "1px solid rgba(250,178,77,0.25)",
+              border: "1px solid rgba(214,154,45,0.25)",
             }}
           >
             {todayData.type}
@@ -184,7 +184,7 @@ export default function AnchorPage() {
           className="rounded-2xl p-5 mb-8 opacity-0-initial animate-fade-up delay-500"
           style={{
             background: "var(--color-surface)",
-            border: "1px solid rgba(250,178,77,0.18)",
+            border: "1px solid rgba(214,154,45,0.18)",
             boxShadow: "0 4px 24px rgba(13,28,67,0.4)",
           }}
           data-testid="scripture-card"
@@ -209,7 +209,7 @@ export default function AnchorPage() {
                 background: "var(--color-gold)",
                 color: "var(--color-navy)",
                 fontWeight: 600,
-                boxShadow: "0 0 48px rgba(250,178,77,0.25), 0 4px 16px rgba(13,28,67,0.5)",
+                boxShadow: "0 0 48px rgba(214,154,45,0.25), 0 4px 16px rgba(13,28,67,0.5)",
               }}
               data-testid="btn-enter-anchor"
             >
@@ -242,8 +242,8 @@ export default function AnchorPage() {
                     background: d.day === TODAY_DAY
                       ? "var(--color-gold)"
                       : d.day < TODAY_DAY
-                      ? "rgba(250,178,77,0.5)"
-                      : "rgba(250,178,77,0.18)",
+                      ? "rgba(214,154,45,0.5)"
+                      : "rgba(214,154,45,0.18)",
                   }}
                 />
               </Link>
@@ -261,7 +261,7 @@ export default function AnchorPage() {
               {isIntro ? `Intro · ${TODAY_DAY + 7}/6` : `Day ${TODAY_DAY} of ${TOTAL_DAYS}`}
             </span>
           </div>
-          <div className="h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(250,178,77,0.12)" }}>
+          <div className="h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(214,154,45,0.12)" }}>
             <div
               className="h-full rounded-full"
               style={{

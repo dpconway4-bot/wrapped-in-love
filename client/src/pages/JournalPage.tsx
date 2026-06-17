@@ -154,16 +154,16 @@ export default function JournalPage() {
             <p className="font-display text-lg font-light mb-3" style={{ color: "var(--color-cream)" }}>
               Nothing written yet.
             </p>
-            <p className="text-sm mb-6" style={{ color: "rgba(207,150,153,0.7)" }}>
+            <p className="text-sm mb-6" style={{ color: "rgba(201,123,107,0.7)" }}>
               Your reflections appear here after you write on a day page. Each entry is private and saved just for you.
             </p>
             <Link href="/home">
               <button
                 className="px-6 py-2.5 rounded-full text-[11px] tracking-[0.2em] uppercase"
                 style={{
-                  background: "rgba(250,178,77,0.12)",
+                  background: "rgba(214,154,45,0.12)",
                   color: "var(--color-gold)",
-                  border: "1px solid rgba(250,178,77,0.25)",
+                  border: "1px solid rgba(214,154,45,0.25)",
                 }}
               >
                 Go to Today's Anchor
@@ -189,7 +189,7 @@ export default function JournalPage() {
             <>
               {/* Current journey entries */}
               {currentEntries.length === 0 && archivedEntries.length > 0 && (
-                <p className="text-sm text-center mb-6" style={{ color: 'rgba(207,150,153,0.5)', fontStyle: 'italic' }}>
+                <p className="text-sm text-center mb-6" style={{ color: 'rgba(201,123,107,0.5)', fontStyle: 'italic' }}>
                   No entries yet in this journey. Your past reflections are archived below.
                 </p>
               )}
@@ -228,9 +228,9 @@ export default function JournalPage() {
                         <span
                           className="text-[8px] tracking-[0.15em] uppercase px-1.5 py-0.5 rounded-full"
                           style={{
-                            background: "rgba(250,178,77,0.08)",
-                            color: "rgba(250,178,77,0.5)",
-                            border: "1px solid rgba(250,178,77,0.12)",
+                            background: "rgba(214,154,45,0.08)",
+                            color: "rgba(214,154,45,0.5)",
+                            border: "1px solid rgba(214,154,45,0.12)",
                           }}
                         >
                           {dayType}
@@ -247,8 +247,8 @@ export default function JournalPage() {
                       <button
                         className="flex-shrink-0 text-[9px] tracking-[0.15em] uppercase px-2.5 py-1 rounded-full transition-all"
                         style={{
-                          color: "rgba(207,150,153,0.6)",
-                          border: "1px solid rgba(207,150,153,0.2)",
+                          color: "rgba(201,123,107,0.6)",
+                          border: "1px solid rgba(201,123,107,0.2)",
                         }}
                       >
                         View
@@ -259,7 +259,7 @@ export default function JournalPage() {
                   {/* Divider */}
                   <div
                     className="h-px mb-3"
-                    style={{ background: "rgba(250,178,77,0.08)" }}
+                    style={{ background: "rgba(214,154,45,0.08)" }}
                   />
 
                   {/* Entry text */}
@@ -279,7 +279,7 @@ export default function JournalPage() {
                   <div className="flex items-center justify-between mt-2">
                     <span
                       className="text-[10px]"
-                      style={{ color: "rgba(207,150,153,0.4)" }}
+                      style={{ color: "rgba(201,123,107,0.4)" }}
                     >
                       {formatDate(entry.updated_at)}
                     </span>
@@ -287,7 +287,7 @@ export default function JournalPage() {
                       <button
                         onClick={() => toggleExpand(entry.id)}
                         className="text-[10px] tracking-[0.1em] uppercase transition-all"
-                        style={{ color: "rgba(250,178,77,0.55)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                        style={{ color: "rgba(214,154,45,0.55)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
                       >
                         {isOpen ? "Show less" : "Read more"}
                       </button>
@@ -307,17 +307,17 @@ export default function JournalPage() {
                     className="w-full flex items-center gap-3 mb-4"
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                   >
-                    <div className="h-px flex-1" style={{ background: 'rgba(207,150,153,0.15)' }} />
-                    <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: 'rgba(207,150,153,0.45)' }}>
+                    <div className="h-px flex-1" style={{ background: 'rgba(201,123,107,0.15)' }} />
+                    <span className="text-[10px] tracking-[0.3em] uppercase" style={{ color: 'rgba(201,123,107,0.45)' }}>
                       Journey {journeyNum} · {archiveGroups[journeyNum].length} {archiveGroups[journeyNum].length === 1 ? 'entry' : 'entries'}
                     </span>
                     <svg
                       width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                      style={{ color: 'rgba(207,150,153,0.35)', transform: archiveOpen[journeyNum] ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+                      style={{ color: 'rgba(201,123,107,0.35)', transform: archiveOpen[journeyNum] ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
                     >
                       <path d="M6 9l6 6 6-6"/>
                     </svg>
-                    <div className="h-px flex-1" style={{ background: 'rgba(207,150,153,0.15)' }} />
+                    <div className="h-px flex-1" style={{ background: 'rgba(201,123,107,0.15)' }} />
                   </button>
 
                   {archiveOpen[journeyNum] && (
@@ -332,13 +332,13 @@ export default function JournalPage() {
                             className="rounded-2xl p-5"
                             style={{
                               background: 'rgba(13,28,67,0.4)',
-                              border: '1px solid rgba(207,150,153,0.1)',
+                              border: '1px solid rgba(201,123,107,0.1)',
                               opacity: 0.8,
                             }}
                           >
                             <div className="flex items-start justify-between gap-3 mb-3">
                               <div className="flex-1 min-w-0">
-                                <span className="text-[9px] tracking-[0.25em] uppercase" style={{ color: 'rgba(207,150,153,0.5)' }}>
+                                <span className="text-[9px] tracking-[0.25em] uppercase" style={{ color: 'rgba(201,123,107,0.5)' }}>
                                   {getDayLabel(entry.day)}
                                 </span>
                                 <p className="font-display text-sm font-light" style={{ color: 'rgba(245,239,230,0.5)' }}>
@@ -346,19 +346,19 @@ export default function JournalPage() {
                                 </p>
                               </div>
                             </div>
-                            <div className="h-px mb-3" style={{ background: 'rgba(207,150,153,0.06)' }} />
+                            <div className="h-px mb-3" style={{ background: 'rgba(201,123,107,0.06)' }} />
                             <p className="text-sm leading-relaxed mb-2" style={{ color: 'rgba(245,239,230,0.55)', lineHeight: '1.75', fontFamily: 'var(--font-body)', whiteSpace: 'pre-wrap' }}>
                               {displayText}
                             </p>
                             <div className="flex items-center justify-between mt-2">
-                              <span className="text-[10px]" style={{ color: 'rgba(207,150,153,0.3)' }}>
+                              <span className="text-[10px]" style={{ color: 'rgba(201,123,107,0.3)' }}>
                                 {formatDate(entry.updated_at)}
                               </span>
                               {isLong && (
                                 <button
                                   onClick={() => toggleExpand(entry.id)}
                                   className="text-[10px] tracking-[0.1em] uppercase"
-                                  style={{ color: 'rgba(250,178,77,0.35)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                                  style={{ color: 'rgba(214,154,45,0.35)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                                 >
                                   {isOpen ? 'Show less' : 'Read more'}
                                 </button>

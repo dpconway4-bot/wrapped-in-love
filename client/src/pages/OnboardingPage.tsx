@@ -35,7 +35,7 @@ export default function OnboardingPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(170deg, #0D1C43 0%, #0a1530 60%, #0D1C43 100%)',
+      background: 'linear-gradient(170deg, #0B1F3A 0%, #091828 60%, #0B1F3A 100%)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -50,13 +50,13 @@ export default function OnboardingPage() {
         width: '52px',
         height: '52px',
         borderRadius: '50%',
-        border: '1.5px solid rgba(250,178,77,0.5)',
+        border: '1.5px solid rgba(214,154,45,0.5)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: '1.5rem',
       }}>
-        <span style={{ fontSize: '1.3rem', color: '#FAB24D' }}>♡</span>
+        <span style={{ fontSize: '1.3rem', color: '#D69A2D' }}>♡</span>
       </div>
 
       {/* Eyebrow */}
@@ -64,7 +64,7 @@ export default function OnboardingPage() {
         fontSize: '0.7rem',
         letterSpacing: '0.25em',
         textTransform: 'uppercase',
-        color: '#FAB24D',
+        color: '#D69A2D',
         marginBottom: '1rem',
         textAlign: 'center',
       }}>
@@ -87,7 +87,7 @@ export default function OnboardingPage() {
 
       <p style={{
         fontSize: '0.95rem',
-        color: '#CF9699',
+        color: '#C97B6B',
         lineHeight: 1.75,
         textAlign: 'center',
         maxWidth: '300px',
@@ -109,7 +109,7 @@ export default function OnboardingPage() {
         {/* Step 1 — Save the app */}
         <div style={{
           background: 'rgba(25,59,137,0.35)',
-          border: '1px solid rgba(250,178,77,0.2)',
+          border: '1px solid rgba(214,154,45,0.2)',
           borderRadius: '12px',
           padding: '1rem 1.25rem',
           display: 'flex',
@@ -120,23 +120,23 @@ export default function OnboardingPage() {
             minWidth: '32px',
             height: '32px',
             borderRadius: '50%',
-            background: 'rgba(250,178,77,0.15)',
-            border: '1px solid rgba(250,178,77,0.4)',
+            background: 'rgba(214,154,45,0.15)',
+            border: '1px solid rgba(214,154,45,0.4)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '0.8rem',
-            color: '#FAB24D',
+            color: '#D69A2D',
             fontWeight: 700,
           }}>1</div>
           <div>
             <p style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.3rem' }}>
               Save this app to your Home Screen
             </p>
-            <p style={{ color: '#CF9699', fontSize: '0.8rem', lineHeight: 1.6 }}>
+            <p style={{ color: '#C97B6B', fontSize: '0.8rem', lineHeight: 1.6 }}>
               <strong style={{ color: 'rgba(255,255,255,0.7)' }}>iPhone:</strong> Tap the Share icon <span style={{ fontSize: '0.75rem' }}>⬆</span> at the bottom of Safari → <em>Add to Home Screen</em>
             </p>
-            <p style={{ color: '#CF9699', fontSize: '0.8rem', lineHeight: 1.6, marginTop: '0.25rem' }}>
+            <p style={{ color: '#C97B6B', fontSize: '0.8rem', lineHeight: 1.6, marginTop: '0.25rem' }}>
               <strong style={{ color: 'rgba(255,255,255,0.7)' }}>Android:</strong> Tap the Menu icon <span style={{ fontSize: '0.75rem' }}>⋮</span> in Chrome → <em>Add to Home Screen</em>
             </p>
           </div>
@@ -145,7 +145,7 @@ export default function OnboardingPage() {
         {/* Step 2 — Complete intro */}
         <div style={{
           background: 'rgba(25,59,137,0.35)',
-          border: '1px solid rgba(250,178,77,0.2)',
+          border: '1px solid rgba(214,154,45,0.2)',
           borderRadius: '12px',
           padding: '1rem 1.25rem',
           display: 'flex',
@@ -156,20 +156,20 @@ export default function OnboardingPage() {
             minWidth: '32px',
             height: '32px',
             borderRadius: '50%',
-            background: 'rgba(250,178,77,0.15)',
-            border: '1px solid rgba(250,178,77,0.4)',
+            background: 'rgba(214,154,45,0.15)',
+            border: '1px solid rgba(214,154,45,0.4)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '0.8rem',
-            color: '#FAB24D',
+            color: '#D69A2D',
             fontWeight: 700,
           }}>2</div>
           <div>
             <p style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.3rem' }}>
               Complete the Introduction (6 pages)
             </p>
-            <p style={{ color: '#CF9699', fontSize: '0.8rem', lineHeight: 1.6 }}>
+            <p style={{ color: '#C97B6B', fontSize: '0.8rem', lineHeight: 1.6 }}>
               Six short pages that lay the foundation for everything ahead. You can read through them in one sitting.
             </p>
           </div>
@@ -178,7 +178,7 @@ export default function OnboardingPage() {
         {/* Step 3 — Badges */}
         <div style={{
           background: 'rgba(25,59,137,0.35)',
-          border: '1px solid rgba(250,178,77,0.2)',
+          border: '1px solid rgba(214,154,45,0.2)',
           borderRadius: '12px',
           padding: '1rem 1.25rem',
           display: 'flex',
@@ -189,20 +189,20 @@ export default function OnboardingPage() {
             minWidth: '32px',
             height: '32px',
             borderRadius: '50%',
-            background: 'rgba(250,178,77,0.15)',
-            border: '1px solid rgba(250,178,77,0.4)',
+            background: 'rgba(214,154,45,0.15)',
+            border: '1px solid rgba(214,154,45,0.4)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '0.8rem',
-            color: '#FAB24D',
+            color: '#D69A2D',
             fontWeight: 700,
           }}>3</div>
           <div>
             <p style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.3rem' }}>
               Earn badges along the way
             </p>
-            <p style={{ color: '#CF9699', fontSize: '0.8rem', lineHeight: 1.6 }}>
+            <p style={{ color: '#C97B6B', fontSize: '0.8rem', lineHeight: 1.6 }}>
               As you show up each day, badges mark your milestones. Check the Journey page to see your progress.
             </p>
           </div>
@@ -211,7 +211,7 @@ export default function OnboardingPage() {
         {/* Step 4 — Emails */}
         <div style={{
           background: 'rgba(25,59,137,0.35)',
-          border: '1px solid rgba(250,178,77,0.2)',
+          border: '1px solid rgba(214,154,45,0.2)',
           borderRadius: '12px',
           padding: '1rem 1.25rem',
           display: 'flex',
@@ -222,20 +222,20 @@ export default function OnboardingPage() {
             minWidth: '32px',
             height: '32px',
             borderRadius: '50%',
-            background: 'rgba(250,178,77,0.15)',
-            border: '1px solid rgba(250,178,77,0.4)',
+            background: 'rgba(214,154,45,0.15)',
+            border: '1px solid rgba(214,154,45,0.4)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '0.8rem',
-            color: '#FAB24D',
+            color: '#D69A2D',
             fontWeight: 700,
           }}>4</div>
           <div>
             <p style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.3rem' }}>
               Look out for your anchor emails
             </p>
-            <p style={{ color: '#CF9699', fontSize: '0.8rem', lineHeight: 1.6 }}>
+            <p style={{ color: '#C97B6B', fontSize: '0.8rem', lineHeight: 1.6 }}>
               Every few days we'll send a short note to encourage you and keep you on track. Check your inbox and save the sender.
             </p>
           </div>
@@ -249,8 +249,8 @@ export default function OnboardingPage() {
         style={{
           width: '100%',
           maxWidth: '360px',
-          background: '#FAB24D',
-          color: '#0D1C43',
+          background: '#D69A2D',
+          color: '#0B1F3A',
           border: 'none',
           borderRadius: '8px',
           padding: '1rem',
@@ -270,7 +270,7 @@ export default function OnboardingPage() {
         fontFamily: 'Cormorant Garamond, serif',
         fontStyle: 'italic',
         fontSize: '0.85rem',
-        color: 'rgba(207,150,153,0.5)',
+        color: 'rgba(201,123,107,0.5)',
         textAlign: 'center',
         maxWidth: '260px',
         lineHeight: 1.7,
