@@ -69,9 +69,10 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
       setSaveError(false);
       setTimeout(() => setSaved(false), 2500);
     },
-    onError: () => {
+    onError: (err: Error) => {
       setSaveError(true);
-      setTimeout(() => setSaveError(false), 3000);
+      console.error('[JournalPanel] Save error:', err.message);
+      setTimeout(() => setSaveError(false), 5000);
     },
   });
 

@@ -89,12 +89,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Update existing entry
       ({ data, error } = await supabase
         .from('journal_entries')
-        .update({ content, updated_at: new Date().toISOString() })
+        .update({ content })
         .eq('id', existing.id)
         .select()
         .single());
     } else {
-      // Insert new entry
+      // Insert new entry — only send columns we know exist
       ({ data, error } = await supabase
         .from('journal_entries')
         .insert({
@@ -102,13 +102,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           day: dayInt,
           journey_number: journeyNumber,
           content,
-          updated_at: new Date().toISOString(),
         })
         .select()
         .single());
     }
 
-    if (error) return res.status(500).json({ error: error.message });
+    if (error) {
+      console.error('[journal POST] Supabase error:', JSON.stringify(error));
+      return res.status(500).json({ error: error.message, code: error.code, details: error.details });
+    }
     return res.status(200).json(data);
   }
 
