@@ -10,7 +10,7 @@ export const week1 = {
       subtitle: "The Spoken Word",
       hasAudio: true,
       scripture: {
-        reference: "Philippians 4:6",
+        reference: "Philippians 4:6 (NLT)",
         text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.",
       },
       openingLine: "And what you need to know first is… love is patient.",
@@ -21,7 +21,7 @@ export const week1 = {
         "And what you need to know first is… love is patient.",
       ],
       closingLine: "Love… Is… Patient.",
-      prompt: "Who in your life is hardest to be patient with right now?\nYou don't have to answer. Just let the question sit.",
+      prompt: "Patience isn't passive — it's choosing to trust God's timing over your own. What would it look like to release control of the outcome in this specific relationship, even for today?",
     },
     {
       day: 2,
