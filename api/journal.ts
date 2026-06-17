@@ -84,10 +84,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let data, error;
 
     if (existing?.id) {
-      // Update existing entry
+      // Update existing entry — also stamp current journey_number
       ({ data, error } = await supabase
         .from('journal_entries')
-        .update({ content })
+        .update({ content, journey_number: journeyNumber })
         .eq('id', existing.id)
         .select()
         .single());
