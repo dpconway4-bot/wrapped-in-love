@@ -108,6 +108,18 @@ export default function AccountPage() {
             {chevron}
           </button>
 
+          {/* Getting Started */}
+          <button
+            style={{ ...menuItemStyle }}
+            onClick={() => {
+              localStorage.removeItem('wil_onboarding_complete');
+              navigate('/onboarding');
+            }}
+          >
+            <span>Getting Started</span>
+            {chevron}
+          </button>
+
           {/* Restart Journey */}
           <button
             style={{ ...menuItemStyle, color: 'var(--color-gold)', border: '1px solid rgba(214,154,45,0.2)' }}
