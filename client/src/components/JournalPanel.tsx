@@ -11,7 +11,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
   const { session } = useAuth();
   const [text, setText] = useState("");
   const [saved, setSaved] = useState(false);
-  const [saveError, setSaveError] = useState(false);
+  const [saveError, setSaveError] = useState("");
   const [initialized, setInitialized] = useState(false);
   const qc = useQueryClient();
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -32,7 +32,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
     setText("");
     setInitialized(false);
     setSaved(false);
-    setSaveError(false);
+    setSaveError("");
   }, [day]);
 
   // Sync text state when existing entry loads (cross-device restore)
@@ -56,20 +56,21 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `Save failed (${res.status})`);
+        const msg = [err.error, err.code, err.details].filter(Boolean).join(' | ');
+        throw new Error(msg || `Save failed (${res.status})`);
       }
       return res.json();
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["/api/journal", day] });
       setSaved(true);
-      setSaveError(false);
+      setSaveError("");
       setTimeout(() => setSaved(false), 2500);
     },
     onError: (err: Error) => {
-      setSaveError(true);
+      setSaveError(err.message || "Not saved — try again");
       console.error('[JournalPanel] Save error:', err.message);
-      setTimeout(() => setSaveError(false), 5000);
+      setTimeout(() => setSaveError(""), 8000);
     },
   });
 
@@ -143,7 +144,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
         )}
         {saveError && (
           <span className="text-xs mr-3 self-center" style={{ color: "#CF9699" }}>
-            Not saved — try again
+            {saveError}
           </span>
         )}
         <button
