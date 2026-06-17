@@ -74,13 +74,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const dayInt = parseInt(day);
 
-    // Check if an entry already exists for this user/day/journey
+    // Check if an entry already exists for this user/day (constraint is on user_id+day only)
     const { data: existing } = await supabase
       .from('journal_entries')
       .select('id')
       .eq('user_id', user.id)
       .eq('day', dayInt)
-      .eq('journey_number', journeyNumber)
       .single();
 
     let data, error;
