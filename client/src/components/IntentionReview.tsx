@@ -1,19 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
-
-async function getAuthHeader(): Promise<Record<string, string>> {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.access_token) return {};
-  return { Authorization: `Bearer ${session.access_token}` };
-}
-
-async function fetchEntry(day: number): Promise<string> {
-  const headers = await getAuthHeader();
-  const res = await fetch(`/api/journal?day=${day}`, { headers });
-  if (!res.ok) return "";
-  const data = await res.json();
-  return data?.content || "";
-}
+import { useAuth } from "@/context/AuthContext";
 
 interface StepProps {
   number: string;
@@ -99,17 +85,31 @@ function IntentionStep({ number, label, content, isLoading }: StepProps) {
 }
 
 export function IntentionReview() {
+  const { session } = useAuth();
+
+  const fetchEntry = async (day: number): Promise<string> => {
+    const token = session?.access_token;
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const res = await fetch(`/api/journal?day=${day}`, { headers });
+    if (!res.ok) return "";
+    const data = await res.json();
+    return data?.content || "";
+  };
+
   const { data: entry1, isLoading: l1 } = useQuery({
-    queryKey: ["/api/journal?day", -6],
+    queryKey: ["/api/journal?day", -6, !!session],
     queryFn: () => fetchEntry(-6),
+    enabled: !!session,
   });
   const { data: entry2, isLoading: l2 } = useQuery({
-    queryKey: ["/api/journal?day", -4],
+    queryKey: ["/api/journal?day", -4, !!session],
     queryFn: () => fetchEntry(-4),
+    enabled: !!session,
   });
   const { data: entry3, isLoading: l3 } = useQuery({
-    queryKey: ["/api/journal?day", -3],
+    queryKey: ["/api/journal?day", -3, !!session],
     queryFn: () => fetchEntry(-3),
+    enabled: !!session,
   });
 
   return (

@@ -1,19 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/context/AuthContext";
 
 interface JournalPanelProps {
   day: number;
   prompt: string;
 }
 
-async function getAuthHeader(): Promise<Record<string, string>> {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.access_token) return {};
-  return { Authorization: `Bearer ${session.access_token}` };
-}
-
 export function JournalPanel({ day, prompt }: JournalPanelProps) {
+  const { session } = useAuth();
   const [text, setText] = useState("");
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState(false);
@@ -24,8 +19,9 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
   const { data: existing, isLoading } = useQuery<{ day: number; content: string } | null>({
     queryKey: ["/api/journal", day],
     queryFn: async () => {
-      const headers = await getAuthHeader();
-      const res = await fetch(`/api/journal/${day}`, { headers });
+      const token = session?.access_token;
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const res = await fetch(`/api/journal?day=${day}`, { headers });
       if (!res.ok) return null;
       return res.json();
     },
@@ -51,7 +47,8 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (content: string) => {
-      const headers = await getAuthHeader();
+      const token = session?.access_token;
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const res = await fetch("/api/journal", {
         method: "POST",
         headers: { ...headers, "Content-Type": "application/json" },
