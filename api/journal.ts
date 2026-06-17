@@ -43,7 +43,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         .select('*')
         .eq('user_id', user.id)
         .eq('day', dayInt)
-        .eq('journey_number', journeyNumber)
         .single();
 
       if (error && error.code !== 'PGRST116') {
