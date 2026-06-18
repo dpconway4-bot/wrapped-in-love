@@ -1,13 +1,28 @@
 export function Logo({ size = 32, className = "" }: { size?: number; className?: string }) {
+  const padding = Math.round(size * 0.15);
+  const containerSize = size + padding * 2;
   return (
-    <img
-      src="/brand-mark.png"
-      alt="Wrapped In Love"
-      width={size}
-      height={size}
+    <div
       className={className}
-      style={{ objectFit: 'contain' }}
-    />
+      style={{
+        width: containerSize,
+        height: containerSize,
+        borderRadius: '50%',
+        backgroundColor: 'var(--color-cream)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+      }}
+    >
+      <img
+        src="/brand-mark.png"
+        alt="Wrapped In Love"
+        width={size}
+        height={size}
+        style={{ objectFit: 'contain' }}
+      />
+    </div>
   );
 }
 
