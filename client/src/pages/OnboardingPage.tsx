@@ -1,5 +1,6 @@
 import { useLocation } from 'wouter';
 import { useEffect } from 'react';
+import { Logo } from '@/components/Logo';
 
 const ONBOARDING_KEY = 'wil_onboarding_complete';
 
@@ -46,17 +47,8 @@ export default function OnboardingPage() {
     }}>
 
       {/* Logo mark */}
-      <div style={{
-        width: '52px',
-        height: '52px',
-        borderRadius: '50%',
-        border: '1.5px solid rgba(214,154,45,0.5)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '1.5rem',
-      }}>
-        <span style={{ fontSize: '1.3rem', color: '#D69A2D' }}>♡</span>
+      <div style={{ marginBottom: '1.5rem' }}>
+        <Logo size={48} />
       </div>
 
       {/* Eyebrow */}
