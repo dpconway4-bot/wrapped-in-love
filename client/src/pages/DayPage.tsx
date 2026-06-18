@@ -185,6 +185,24 @@ export default function DayPage() {
           </div>
         )}
 
+        {/* Closing scripture — if present */}
+        {(dayData as any).closingScripture && (
+          <div
+            className="rounded-2xl p-5 mb-6 opacity-0-initial animate-fade-up delay-500"
+            style={{
+              background: "rgba(11,31,58,0.6)",
+              border: "1px solid rgba(214,154,45,0.3)",
+            }}
+          >
+            <p className="text-[11px] tracking-[0.2em] uppercase mb-2" style={{ color: "var(--color-gold)" }}>
+              {(dayData as any).closingScripture.reference}
+            </p>
+            <p className="font-display text-base font-light italic" style={{ color: "var(--color-cream)" }}>
+              "{(dayData as any).closingScripture.text}"
+            </p>
+          </div>
+        )}
+
         {/* Closing line — covenant card */}
         <div
           className="rounded-2xl p-5 mb-8 opacity-0-initial animate-fade-up delay-500"
@@ -194,13 +212,20 @@ export default function DayPage() {
           }}
           data-testid="closing-line"
         >
-          <p className="font-display text-lg font-light italic text-center" style={{ color: "var(--color-gold)" }}>
-            "{dayData.closingLine}"
-          </p>
+          {dayData.closingLine.split('\n\n').map((para: string, i: number) => (
+            <p key={i} className={`font-display text-lg font-light italic text-center ${i > 0 ? 'mt-4' : ''}`} style={{ color: "var(--color-gold)" }}>
+              {i === 0 ? `"${para}"` : para}
+            </p>
+          ))}
         </div>
 
         {/* Journal */}
         <div className="opacity-0-initial animate-fade-up delay-600">
+          {(dayData as any).promptInstruction && (
+            <p className="text-sm mb-3 text-center" style={{ color: "var(--color-rose)", fontStyle: "italic" }}>
+              {(dayData as any).promptInstruction}
+            </p>
+          )}
           <JournalPanel day={dayData.day} prompt={dayData.prompt} />
         </div>
 

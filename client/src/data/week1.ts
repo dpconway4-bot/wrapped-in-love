@@ -40,8 +40,17 @@ export const week1 = {
         "But while you wait for God to move, you are still expected to love that person well.",
         "And loving them well starts with this: you cannot let your anxiety about the speed of their change take over how you treat them.",
         "If God is doing it… your desire for this person to be different cannot take over when you're interacting with them.",
+        "But here's what God doesn't leave you with — just a command.",
+        "He gives you a path through it.",
+        "Philippians 4:6 tells you exactly what to do with the anxiety you feel while you wait: choose not to worry. Take it to God in prayer — with thanksgiving in your heart — and make your request known.",
+        "That's the action. And verse 7 gives you the promise that follows.",
       ],
-      closingLine: "Don't be anxious about the speed of their growth.",
+      closingScripture: {
+        reference: "Philippians 4:6-7 (NLT)",
+        text: "Then you will experience God's peace, which exceeds anything we can understand.",
+      },
+      closingLine: "This peace is not something the world can offer you. You won't find it on a billboard. It won't show up in your social feed. No commercial is selling it.\n\nThis is a peace that only God gives — and it is activated by a simple choice: stop worrying, pray with a thankful heart, and watch what He does in you while you wait.\n\nYou can't manufacture this peace. You can't logic your way into it. It surpasses your understanding — which means it will hold you even when your mind can't make sense of the situation.\n\nThat is the promise. And patience, real patience, is learning to live inside that peace.",
+      promptInstruction: "Write it down. Bring it to God with a thankful heart. And live in the peace He provides.",
       prompt: "What am I most anxious about in a relationship right now — their growth, their change, or their removal from my life?",
     },
     {
