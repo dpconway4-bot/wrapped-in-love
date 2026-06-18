@@ -29,7 +29,7 @@ export function Logo({ size = 32, className = "" }: { size?: number; className?:
 export function LogoWordmark({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      <Logo size={28} />
+      <Logo size={48} />
       <div className="flex flex-col leading-tight">
         <span
           className="font-display text-[15px] font-light tracking-[0.18em] uppercase"
