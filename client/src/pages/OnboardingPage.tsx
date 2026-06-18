@@ -262,7 +262,7 @@ export default function OnboardingPage() {
           marginBottom: '1.5rem',
         }}
       >
-        BEGIN THE INTRODUCTION
+        GO TO TODAY'S ANCHOR
       </button>
 
       {/* Closing verse */}
