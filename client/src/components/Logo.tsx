@@ -1,5 +1,5 @@
 export function Logo({ size = 32, className = "" }: { size?: number; className?: string }) {
-  const padding = Math.round(size * 0.05);
+  const padding = Math.round(size * 0.0);
   const containerSize = size + padding * 2;
   return (
     <div
