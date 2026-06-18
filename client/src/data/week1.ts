@@ -51,7 +51,7 @@ export const week1 = {
       },
       closingLine: "This peace is not something the world can offer you. You won't find it on a billboard. It won't show up in your social feed. No commercial is selling it.\n\nThis is a peace that only God gives — and it is activated by a simple choice: stop worrying, pray with a thankful heart, and watch what He does in you while you wait.\n\nYou can't manufacture this peace. You can't logic your way into it. It surpasses your understanding — which means it will hold you even when your mind can't make sense of the situation.\n\nThat is the promise. And patience, real patience, is learning to live inside that peace.",
       promptInstruction: "Write it down. Bring it to God with a thankful heart. And live in the peace He provides.",
-      prompt: "What am I most anxious about in a relationship right now — their growth, their change, or their removal from my life?",
+      prompt: "What am I most anxious about in my relationship right now — their growth, their change, or their removal from my life?",
     },
     {
       day: 3,
