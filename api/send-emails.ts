@@ -175,7 +175,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const dayDataModule = await import('../client/src/data/index.js').catch(() => null);
       if (!dayDataModule) continue;
 
-      const dayData = dayDataModule.getDayData(currentDay);
+      const dayData = dayDataModule.getDayData(currentDay) as any;
       if (!dayData) continue;
 
       const dayLabel     = getDayLabel(currentDay);
