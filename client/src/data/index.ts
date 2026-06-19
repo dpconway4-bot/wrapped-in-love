@@ -20,7 +20,7 @@ export const TOTAL_DAYS = 100;
 export const allWeeks = [week1, week2, week3, week4, week5, week6, week7, week8, week9, week10, week11, week12, week13];
 
 // Flat list of all days across all weeks
-export const allDays = allWeeks.flatMap(w => w.days);
+export const allDays = allWeeks.flatMap(w => w.days) as any[];
 
 // Import intro + conclusion for cross-module access
 import { intro } from "./intro";
@@ -32,9 +32,9 @@ export const allConclusionDays = conclusion.days;
 
 // Get day data by day number (1-based, negative for intro, 92-100 for conclusion)
 export function getDayData(dayNum: number) {
-  if (dayNum <= 0) return allIntroDays.find(d => d.day === dayNum) ?? null;
-  if (dayNum >= 92) return allConclusionDays.find(d => d.day === dayNum) ?? null;
-  return allDays.find(d => d.day === dayNum) ?? null;
+  if (dayNum <= 0) return allIntroDays.find((d: any) => d.day === dayNum) ?? null;
+  if (dayNum >= 92) return allConclusionDays.find((d: any) => d.day === dayNum) ?? null;
+  return allDays.find((d: any) => d.day === dayNum) ?? null;
 }
 
 // Get which week a day belongs to (returns intro/conclusion for those day ranges)
