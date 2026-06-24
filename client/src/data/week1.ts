@@ -86,13 +86,13 @@ export const week1 = {
       },
       openingLine: "Imagine sitting across from someone you've been praying about for months.",
       body: [
-        "You've asked God to change them. You've asked God to remove them. And there they are — unchanged, in your seat, at your table.",
+        "You've asked God to change them. You've asked God to grow them. And there they are — unchanged, in your seat, at your table.",
         "Everything they do tonight confirms what you already believe about them. The way they talk. The way they dismiss you. The way they take up space in a room.",
         "And in that moment — before you say a word — your patience is not tested by what they do next.",
         "It's tested by what you've already decided about them before they open their mouth.",
       ],
       closingLine: "God wants to show His love to that person through you.",
-      prompt: "Is there someone I've already decided about — before they even get a chance today?",
+      prompt: "What have you already decided about the person you are carrying during this season?",
     },
     {
       day: 5,
