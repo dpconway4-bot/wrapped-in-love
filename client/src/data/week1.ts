@@ -149,7 +149,7 @@ export const week1 = {
       openingLine: null,
       body: [],
       closingLine: "Patience is not simply waiting. Patience is not being anxious while you wait.",
-      prompt: "Who will you carry this truth toward today?",
+      prompt: "What is one thing you will do differently with this person this week because of what you've learned?",
     },
   ],
 };
