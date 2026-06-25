@@ -88,7 +88,7 @@ export const week2 = {
         "He rewards those who sincerely seek Him. And part of seeking Him is becoming what He already knows you can be.",
       ],
       closingLine: "The ability is shown. Let the truth be told.",
-      prompt: "When have I shown genuine kindness that surprised even me? What does that tell me about what I'm capable of?",
+      prompt: "If you offered that one act of kindness yesterday, what did it cost you? If you didn't, what held you back? What's your next move?",
     },
     {
       day: 12,
