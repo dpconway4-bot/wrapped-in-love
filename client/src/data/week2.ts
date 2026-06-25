@@ -149,7 +149,7 @@ export const week2 = {
       openingLine: null,
       body: [],
       closingLine: "Am I kind enough to put the work in for relationship maintenance?",
-      prompt: "Who will you carry this question toward today?",
+      prompt: "After two weeks, what has changed in how you see this person — and what will you do with that shift going forward?",
     },
   ],
 };
