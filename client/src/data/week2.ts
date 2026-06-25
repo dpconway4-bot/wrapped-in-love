@@ -44,7 +44,7 @@ export const week2 = {
         "It's not a feeling. It's maintenance. And maintenance is what keeps love alive.",
       ],
       closingLine: "Am I kind enough to put the work in?",
-      prompt: "Is there a relationship in my life that needs maintenance — not just their change, but mine?",
+      prompt: "In the relationship you are carrying through this series, what needs your kind maintenance — not their change, but yours?",
     },
     {
       day: 10,
