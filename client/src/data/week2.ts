@@ -66,7 +66,7 @@ export const week2 = {
         "He asks about the foe. Because that's where love's kindness is tested. And that's where the reward lives.",
       ],
       closingLine: "There is no reward for loving only those who love you.",
-      prompt: "Who is my foe right now? Not to name them with anger — but to name them honestly before God.",
+      prompt: "Where is kindness hardest to offer this person right now? What would it look like to offer it anyway — just once today?",
     },
     {
       day: 11,
