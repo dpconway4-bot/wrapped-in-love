@@ -1,5 +1,5 @@
 import { Link, useParams, useLocation } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { advanceIntroPage, markIntroComplete, isIntroComplete, INTRO_END } from "@/lib/introProgress";
 import { advanceDay } from "@/lib/userProgress";
 import { useAuth } from "@/context/AuthContext";
@@ -7,6 +7,8 @@ import { LogoWordmark } from "@/components/Logo";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { JournalPanel } from "@/components/JournalPanel";
 import { IntentionReview } from "@/components/IntentionReview";
+import { SurveyModal } from "@/components/SurveyModal";
+import { getSurveyForDay } from "@/data/surveys";
 import { getDayData, getWeekForDay, getWeekNumber, allDays, TOTAL_DAYS } from "@/data/index";
 
 const DAY_ACCENTS: Record<string, string> = {
@@ -27,6 +29,17 @@ export default function DayPage() {
   const dayData = getDayData(dayNum);
   const week    = getWeekForDay(dayNum);
   const weekNum = getWeekNumber(dayNum);
+  const survey  = getSurveyForDay(dayNum);
+  const surveyKey = `wil_survey_done_day_${dayNum}`;
+  const [showSurvey, setShowSurvey] = useState(() => {
+    if (!survey) return false;
+    return localStorage.getItem(surveyKey) !== 'true';
+  });
+
+  function closeSurvey() {
+    localStorage.setItem(surveyKey, 'true');
+    setShowSurvey(false);
+  }
 
   // Scroll to top whenever the day changes
   useEffect(() => {
@@ -79,6 +92,7 @@ export default function DayPage() {
   const weekLabel   = weekNum === 0 ? "Intro" : weekNum === 14 ? "Conclusion" : `Week ${weekNum}`;
 
   return (
+    <>
     <div
       className="min-h-dvh flex flex-col"
       style={{ background: "var(--color-bg)", maxWidth: "500px", margin: "0 auto", width: "100%" }}
@@ -272,6 +286,12 @@ export default function DayPage() {
 
       </main>
     </div>
+
+    {/* Survey modal — shown once per qualifying day */}
+    {showSurvey && survey && (
+      <SurveyModal survey={survey} onClose={closeSurvey} />
+    )}
+    </>
   );
 }
 

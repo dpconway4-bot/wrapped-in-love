@@ -12,6 +12,7 @@ import DayPage from "@/pages/DayPage";
 import JourneyPage from "@/pages/JourneyPage";
 import JournalPage from "@/pages/JournalPage";
 import AccountPage from "@/pages/AccountPage";
+import AdminPage from "@/pages/AdminPage";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 
@@ -63,6 +64,9 @@ function AppRoutes() {
       </Route>
       <Route path="/account">
         <ProtectedRoute><AccountPage /></ProtectedRoute>
+      </Route>
+      <Route path="/admin">
+        <ProtectedRoute><AdminPage /></ProtectedRoute>
       </Route>
 
       <Route component={NotFound} />
