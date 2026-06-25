@@ -132,8 +132,8 @@ export const week2 = {
         "Give me the strength to maintain — even the relationships that cost me something. Especially those.",
         "Let your love move through me today toward friend, foe, and everyone in between.",
       ],
-      closingLine: "Amen.",
-      prompt: "Is there someone specific you want to bring before God right now — by name, honestly?",
+      closingLine: "In Jesus Name, Amen.",
+      prompt: "What is one thing you can thank God for about this person — even right now, even in the tension?",
     },
     {
       day: 14,
