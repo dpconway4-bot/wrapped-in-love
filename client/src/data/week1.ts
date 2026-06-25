@@ -133,7 +133,7 @@ export const week1 = {
         "Today I choose not to be anxious. Not because it's easy. But because You said so.",
         "Show Your love to them through me. Even today. Even now. Even through me.",
       ],
-      closingLine: "Amen.",
+      closingLine: "In Jesus Name, Amen.",
       prompt: "What would it look like to carry this prayer into your next difficult conversation?",
     },
     {
