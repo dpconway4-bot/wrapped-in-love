@@ -56,8 +56,8 @@ export const week1 = {
     {
       day: 3,
       type: "The Mirror",
-      title: "Where Does Anxiety Live In You?",
-      subtitle: "Honest self-examination",
+      title: "The Kind of Waiting You're Doing",
+      subtitle: "Growth looks different depending on where you're starting from",
       hasAudio: false,
       scripture: {
         reference: "1 Corinthians 13:4",
@@ -65,14 +65,14 @@ export const week1 = {
       },
       openingLine: "Here's the uncomfortable part.",
       body: [
-        "There are three ways anxiety shows up as impatience in our relationships:",
-        "Anxious about their growth — You want them to be better, and every interaction reminds you they're not there yet. So you pull back, shut down, or push harder than love allows.",
-        "Anxious about their change — You've prayed. You've waited. You've talked about it. And they're still the same. The frustration lives just under the surface.",
-        "Anxious about their removal — You've asked God to take them out of your life, but they're still here. Every interaction carries the weight of 'why are you still here?'",
-        "All three are real. All three are human. And all three, left unchecked, will lead to more conflict — not less.",
+        "Patience doesn't look the same in every relationship. The kind of waiting you're doing depends on where the other person is starting from.",
+        "Some people in your life are making efforts. They're trying — just not consistently enough. The growth is real, but the follow-through isn't. You see the attempt but you're waiting for it to become a pattern. That's a different kind of patience. It requires you to honor the effort without lowering the bar.",
+        "Others aren't there yet. The effort hasn't started. You're not waiting for consistency — you're waiting for the first sign that something is changing. And that can feel like you're carrying something alone.",
+        "Both are hard. Both are real. And both require you to hold love in place while God does what only He can do.",
+        "The question isn't whether they're trying. The question is whether you can love them at the pace they're growing — without losing yourself, and without letting go of hope.",
       ],
-      closingLine: "God wants to show His love to that person through you.",
-      prompt: "Which of these three is most honest for me right now?",
+      closingLine: "Love them at the pace they're growing.",
+      prompt: "Which is truer right now — you're waiting for this person's growth to become consistent, or you're waiting for it to begin? What would it look like to trust that God is already at work in them — and let His peace hold you while He does it?",
     },
     {
       day: 4,
