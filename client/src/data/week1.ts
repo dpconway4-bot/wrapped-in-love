@@ -113,7 +113,7 @@ export const week1 = {
         "One moment of stillness between their words and your response. That's where patience lives.",
       ],
       closingLine: "The pause itself is the practice.",
-      prompt: "How can I give myself permission to pause today — even once — before I react?",
+      prompt: "How can you remind yourself to pause before you react?",
     },
     {
       day: 6,
