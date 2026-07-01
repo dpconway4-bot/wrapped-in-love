@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useAuth } from '@/context/AuthContext';
 import { Logo } from '@/components/Logo';
@@ -49,10 +49,14 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export default function LoginPage() {
-  const { sendOtp, verifyOtp } = useAuth();
+  const { sendOtp, verifyOtp, session } = useAuth();
   const [, navigate] = useLocation();
-
   const [step, setStep] = useState<'email' | 'code'>('email');
+
+  // Navigate as soon as session is confirmed — don't race ahead of auth state
+  useEffect(() => {
+    if (session) navigate('/home');
+  }, [session]);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [error, setError] = useState('');
@@ -110,9 +114,8 @@ export default function LoginPage() {
     setLoading(false);
     if (error) {
       setError("That code didn't work. Check your email and try again.");
-    } else {
-      navigate('/home');
     }
+    // Navigation handled by useEffect watching session
   };
 
   const handleResend = async () => {
