@@ -71,11 +71,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Verify the 6-digit code — signs the user in on success
   const verifyOtp = async (email: string, token: string) => {
-    const { error } = await supabase.auth.verifyOtp({
+    const { data, error } = await supabase.auth.verifyOtp({
       email,
       token,
       type: 'email',
     });
+    // Eagerly set session so ProtectedRoute sees it before navigate fires
+    if (data?.session) {
+      setSession(data.session);
+      setUser({ id: data.session.user.id, email: data.session.user.email! });
+    }
     return { error: error?.message ?? null };
   };
 
