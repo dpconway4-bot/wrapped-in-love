@@ -5,6 +5,12 @@
       "runtime": "@vercel/node@3.2.22"
     }
   },
+  "crons": [
+    {
+      "path": "/api/weekly-report",
+      "schedule": "0 12 * * 1"
+    }
+  ],
   "routes": [
     { "src": "/api/webhook", "dest": "/api/webhook.ts" },
     { "src": "/api/journal/([^/]+)", "dest": "/api/journal/[day].ts" },
