@@ -14,6 +14,9 @@
   "routes": [
     { "src": "/api/webhook", "dest": "/api/webhook.ts" },
     { "src": "/api/journal/([^/]+)", "dest": "/api/journal/[day].ts" },
+    { "src": "/api/admin/post-queue", "dest": "/api/admin/post-queue.ts" },
+    { "src": "/api/admin/engagement-queue", "dest": "/api/admin/engagement-queue.ts" },
+    { "src": "/api/admin/history", "dest": "/api/admin/history.ts" },
     { "src": "/api/(.*)", "dest": "/api/$1.ts" },
     {
       "src": "/assets/(.*)",
