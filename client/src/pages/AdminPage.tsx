@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { BarChart2, MessageSquare, Clock, TrendingUp, Eye, ThumbsUp, Share2 } from 'lucide-react';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -36,7 +37,7 @@ type HistoryItem =
   | (PostQueueRow & { _type: 'post' })
   | (EngagementQueueRow & { _type: 'engagement' });
 
-type Tab = 'queue' | 'replies' | 'history';
+type Tab = 'queue' | 'replies' | 'history' | 'performance';
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -83,6 +84,36 @@ async function apiFetch<T>(
   } catch (e) {
     return { data: null, error: (e as Error).message };
   }
+}
+
+// ---------------------------------------------------------------------------
+// Performance types
+// ---------------------------------------------------------------------------
+
+interface PostMetric {
+  id: string;
+  message: string;
+  created_time: string;
+  reach: number;
+  impressions: number;
+  likes: number;
+  comments: number;
+  shares: number;
+  engagement_rate: number;
+}
+
+interface PerformanceSummary {
+  total_reach: number;
+  total_impressions: number;
+  avg_engagement_rate: number;
+  total_likes: number;
+  total_comments: number;
+  total_shares: number;
+  posts: PostMetric[];
+  page_name: string;
+  page_id: string;
+  period: string;
+  _demo?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -136,6 +167,156 @@ function LoadingSpinner() {
         className="w-8 h-8 rounded-full border-4 border-t-transparent animate-spin"
         style={{ borderColor: `${GOLD} transparent ${GOLD} ${GOLD}` }}
       />
+    </div>
+  );
+}
+
+function StatCard({
+  icon,
+  label,
+  value,
+  sub,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string | number;
+  sub?: string;
+}) {
+  return (
+    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-center gap-3">
+      <div
+        className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+        style={{ backgroundColor: `${GOLD}22` }}
+      >
+        <span style={{ color: GOLD }}>{icon}</span>
+      </div>
+      <div>
+        <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">{label}</p>
+        <p className="text-xl font-bold" style={{ color: NAVY }}>
+          {typeof value === 'number' ? value.toLocaleString() : value}
+        </p>
+        {sub && <p className="text-xs text-gray-400">{sub}</p>}
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Tab 4 — Performance Dashboard
+// ---------------------------------------------------------------------------
+
+function PerformanceTab() {
+  const [data, setData] = useState<PerformanceSummary | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const { data: d, error: e } = await apiFetch<PerformanceSummary>('/api/admin/performance');
+      setLoading(false);
+      if (e) { setError(e); return; }
+      setData(d);
+    })();
+  }, []);
+
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorBanner message={error} />;
+  if (!data) return null;
+
+  return (
+    <div>
+      {/* Demo mode banner */}
+      {data._demo && (
+        <div className="mb-4 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+          <strong>Demo mode:</strong> Showing sample data. Connect your Facebook Page Access Token to see live insights.
+        </div>
+      )}
+
+      {/* Page info */}
+      <div className="mb-5 flex items-center gap-2">
+        <div
+          className="w-2 h-2 rounded-full"
+          style={{ backgroundColor: '#16a34a' }}
+        />
+        <span className="text-sm font-semibold" style={{ color: NAVY }}>
+          {data.page_name}
+        </span>
+        <span className="text-xs text-gray-400">· {data.period}</span>
+      </div>
+
+      {/* Summary stats */}
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        <StatCard
+          icon={<Eye size={18} />}
+          label="Total Reach"
+          value={data.total_reach}
+          sub="unique accounts"
+        />
+        <StatCard
+          icon={<TrendingUp size={18} />}
+          label="Avg Engagement"
+          value={`${data.avg_engagement_rate}%`}
+          sub="per post"
+        />
+        <StatCard
+          icon={<ThumbsUp size={18} />}
+          label="Total Likes"
+          value={data.total_likes}
+        />
+        <StatCard
+          icon={<MessageSquare size={18} />}
+          label="Comments"
+          value={data.total_comments}
+        />
+        <StatCard
+          icon={<Share2 size={18} />}
+          label="Shares"
+          value={data.total_shares}
+        />
+        <StatCard
+          icon={<BarChart2 size={18} />}
+          label="Impressions"
+          value={data.total_impressions}
+          sub="total views"
+        />
+      </div>
+
+      {/* Per-post breakdown */}
+      <h3 className="text-sm font-bold mb-3" style={{ color: NAVY }}>
+        Post Performance
+      </h3>
+      <div className="space-y-3">
+        {data.posts.map((post) => (
+          <div
+            key={post.id}
+            className="bg-white rounded-xl border border-gray-100 shadow-sm p-4"
+          >
+            <p className="text-sm text-gray-700 leading-snug mb-3">
+              {post.message.length > 120
+                ? post.message.slice(0, 120) + '…'
+                : post.message}
+            </p>
+            <div className="flex items-center gap-3 flex-wrap text-xs">
+              <span className="text-gray-400">
+                {new Date(post.created_time).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </span>
+              <span
+                className="px-2 py-0.5 rounded-full font-semibold"
+                style={{ backgroundColor: `${GOLD}22`, color: NAVY }}
+              >
+                {post.engagement_rate}% engagement
+              </span>
+              <span className="text-gray-500">{post.reach.toLocaleString()} reach</span>
+              <span className="text-gray-500">👍 {post.likes}</span>
+              <span className="text-gray-500">💬 {post.comments}</span>
+              <span className="text-gray-500">↗ {post.shares}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -583,6 +764,9 @@ export default function AdminPage() {
         <TabButton active={tab === 'history'} onClick={() => setTab('history')}>
           History
         </TabButton>
+        <TabButton active={tab === 'performance'} onClick={() => setTab('performance')}>
+          Performance
+        </TabButton>
       </div>
 
       {/* Content */}
@@ -590,6 +774,7 @@ export default function AdminPage() {
         {tab === 'queue' && <PostQueueTab />}
         {tab === 'replies' && <MessageRepliesTab />}
         {tab === 'history' && <HistoryTab />}
+        {tab === 'performance' && <PerformanceTab />}
       </main>
     </div>
   );

@@ -17,6 +17,7 @@
     { "src": "/api/admin/post-queue", "dest": "/api/admin-post-queue.ts" },
     { "src": "/api/admin/engagement-queue", "dest": "/api/admin-engagement-queue.ts" },
     { "src": "/api/admin/history", "dest": "/api/admin-history.ts" },
+    { "src": "/api/admin/performance", "dest": "/api/admin-performance.ts" },
     { "src": "/api/(.*)", "dest": "/api/$1.ts" },
     {
       "src": "/assets/(.*)",
