@@ -11,8 +11,9 @@ import { week10 } from "./week10";
 import { week11 } from "./week11";
 import { week12 } from "./week12";
 import { week13 } from "./week13";
-export { intro } from "./intro";
-export { conclusion } from "./conclusion";
+import { intro } from "./intro";
+import { conclusion } from "./conclusion";
+export { intro, conclusion };
 
 export const TOTAL_DAYS = 100;
 
@@ -20,11 +21,8 @@ export const TOTAL_DAYS = 100;
 export const allWeeks = [week1, week2, week3, week4, week5, week6, week7, week8, week9, week10, week11, week12, week13];
 
 // Flat list of all days across all weeks
-export const allDays = allWeeks.flatMap(w => w.days) as any[];
-
-// Import intro + conclusion for cross-module access
-import { intro } from "./intro";
-import { conclusion } from "./conclusion";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const allDays: any[] = (allWeeks.flatMap(w => w.days) as unknown) as any[];
 
 // All intro + conclusion days (for DayPage routing)
 export const allIntroDays = intro.days;

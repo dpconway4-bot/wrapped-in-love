@@ -20,7 +20,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
     queryKey: ["/api/journal", day],
     queryFn: async () => {
       const token = session?.access_token;
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
       const res = await fetch(`/api/journal?day=${day}`, { headers });
       if (!res.ok) return null;
       return res.json();
@@ -48,7 +48,7 @@ export function JournalPanel({ day, prompt }: JournalPanelProps) {
   const { mutate, isPending } = useMutation({
     mutationFn: async (content: string) => {
       const token = session?.access_token;
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
       const res = await fetch("/api/journal", {
         method: "POST",
         headers: { ...headers, "Content-Type": "application/json" },

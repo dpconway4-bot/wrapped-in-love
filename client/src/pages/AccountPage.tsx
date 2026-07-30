@@ -167,7 +167,7 @@ export default function AccountPage() {
             padding: '24px',
           }}
         >
-          <NotificationSettings userId={user.id} onClose={() => setShowNotifSettings(false)} />
+          <NotificationSettings userId={user.id} userEmail={user.email} onClose={() => setShowNotifSettings(false)} />
         </div>
       )}
 

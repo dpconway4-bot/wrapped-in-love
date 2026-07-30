@@ -89,7 +89,7 @@ export function IntentionReview() {
 
   const fetchEntry = async (day: number): Promise<string> => {
     const token = session?.access_token;
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
     const res = await fetch(`/api/journal?day=${day}`, { headers });
     if (!res.ok) return "";
     const data = await res.json();

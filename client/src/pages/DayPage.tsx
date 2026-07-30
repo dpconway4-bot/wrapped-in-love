@@ -187,7 +187,7 @@ export default function DayPage() {
           </div>
         ) : dayData.body.length > 0 && (
           <div className="space-y-4 mb-8 opacity-0-initial animate-fade-up delay-400">
-            {dayData.body.map((para, i) => (
+            {dayData.body.map((para: string, i: number) => (
               <p
                 key={i}
                 className="text-base leading-relaxed"
