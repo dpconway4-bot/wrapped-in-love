@@ -22,7 +22,7 @@ export const allWeeks = [week1, week2, week3, week4, week5, week6, week7, week8,
 
 // Flat list of all days across all weeks
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const allDays: any[] = (allWeeks.flatMap(w => w.days) as unknown) as any[];
+export const allDays: any[] = (allWeeks as any[]).flatMap((w) => w.days as any[]);
 
 // All intro + conclusion days (for DayPage routing)
 export const allIntroDays = intro.days;

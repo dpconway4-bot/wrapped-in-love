@@ -128,13 +128,13 @@ async function fetchPageInsights(pageToken: string, pageId: string): Promise<Per
 
   const totals = metrics.reduce(
     (acc, p) => ({
-      reach: acc.reach + p.reach,
-      impressions: acc.impressions + p.impressions,
-      likes: acc.likes + p.likes,
-      comments: acc.comments + p.comments,
-      shares: acc.shares + p.shares,
+      total_reach: acc.total_reach + p.reach,
+      total_impressions: acc.total_impressions + p.impressions,
+      total_likes: acc.total_likes + p.likes,
+      total_comments: acc.total_comments + p.comments,
+      total_shares: acc.total_shares + p.shares,
     }),
-    { reach: 0, impressions: 0, likes: 0, comments: 0, shares: 0 }
+    { total_reach: 0, total_impressions: 0, total_likes: 0, total_comments: 0, total_shares: 0 }
   );
 
   const avg_engagement_rate =
@@ -217,13 +217,13 @@ function demoData(): PerformanceSummary {
 
   const totals = posts.reduce(
     (acc, p) => ({
-      reach: acc.reach + p.reach,
-      impressions: acc.impressions + p.impressions,
-      likes: acc.likes + p.likes,
-      comments: acc.comments + p.comments,
-      shares: acc.shares + p.shares,
+      total_reach: acc.total_reach + p.reach,
+      total_impressions: acc.total_impressions + p.impressions,
+      total_likes: acc.total_likes + p.likes,
+      total_comments: acc.total_comments + p.comments,
+      total_shares: acc.total_shares + p.shares,
     }),
-    { reach: 0, impressions: 0, likes: 0, comments: 0, shares: 0 }
+    { total_reach: 0, total_impressions: 0, total_likes: 0, total_comments: 0, total_shares: 0 }
   );
 
   return {
